@@ -1,0 +1,63 @@
+<robot name="magni">
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://magni_description/meshes/base2.dae"/>
+      </geometry>
+      <origin xyz="-0.15075 0 0" rpy="0 0 3.14"/>
+    </visual>
+  </link>
+
+  <link name="left_wheel">
+    <visual>
+      <geometry>
+        <mesh filename="package://magni_description/meshes/magni_wheel.dae"/>
+      </geometry>
+      <origin rpy="0 0 -1.57"/>
+    </visual>
+  </link>
+
+  <link name="right_wheel">
+    <visual>
+      <geometry>
+        <mesh filename="package://magni_description/meshes/magni_wheel.dae"/>
+      </geometry>
+      <origin rpy="0 0 -1.57"/>
+    </visual>
+  </link>
+
+  <joint name="left_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_wheel"/>
+    <origin xyz="0 -0.165 -0.057704" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+  </joint>
+
+  <joint name="right_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel"/>
+    <origin xyz="0 0.165 -0.057704" rpy="3.14 0 0" />
+    <axis xyz="0 -1 0" />
+  </joint>
+
+  <transmission name="left_wheel_trans" type="SimpleTransmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_wheel_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="left_wheel">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <transmission name="right_wheel_trans" type="SimpleTransmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_wheel_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="right_wheel">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+</robot>
