@@ -3,6 +3,10 @@ ubiquity_motor:
   serial_baud: 9600
   controller_loop_rate: 10
   serial_loop_rate: 100
+  pid_proportional: 500
+  pid_integral: 0
+  pid_derivative: 100
+  pid_denominator: 100
 
 ubiquity_joint_publisher:
   type: "joint_state_controller/JointStateController"
@@ -35,11 +39,11 @@ ubiquity_velocity_controller:
     x:
       has_velocity_limits    : true
       max_velocity           : 1.0   # m/s
-      has_acceleration_limits: true
+      has_acceleration_limits: false
       max_acceleration       : 2.0   # m/s^2
   angular:
     z:
       has_velocity_limits    : true
       max_velocity           : 2.0   # rad/s
-      has_acceleration_limits: true
+      has_acceleration_limits: false
       max_acceleration       : 25.0   # rad/s^2
