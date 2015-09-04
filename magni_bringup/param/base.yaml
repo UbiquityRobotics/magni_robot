@@ -3,10 +3,17 @@ ubiquity_motor:
   serial_baud: 9600
   controller_loop_rate: 10
   serial_loop_rate: 100
+<<<<<<< HEAD
   pid_proportional: 500
   pid_integral: 0
   pid_derivative: 0
   pid_denominator: 100
+=======
+  pid_proportional: 450
+  pid_integral: 120
+  pid_derivative: 70
+  pid_denominator: 1000
+>>>>>>> 31b4323a85ce7d3cb5c881646bf068c09762bd62
 
 ubiquity_joint_publisher:
   type: "joint_state_controller/JointStateController"
