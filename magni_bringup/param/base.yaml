@@ -5,7 +5,7 @@ ubiquity_motor:
   serial_loop_rate: 100
   pid_proportional: 500
   pid_integral: 0
-  pid_derivative: 100
+  pid_derivative: 0
   pid_denominator: 100
 
 ubiquity_joint_publisher:
