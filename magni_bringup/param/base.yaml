@@ -3,9 +3,9 @@ ubiquity_motor:
   serial_baud: 9600
   controller_loop_rate: 10
   serial_loop_rate: 100
-  pid_proportional: 500
-  pid_integral: 0
-  pid_derivative: 0
+  pid_proportional: 300
+  pid_integral: 10
+  pid_derivative: 300
   pid_denominator: 100
 
 ubiquity_joint_publisher:
