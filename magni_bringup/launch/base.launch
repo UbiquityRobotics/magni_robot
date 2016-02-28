@@ -10,7 +10,7 @@
   <node name="controller_spawner" pkg="controller_manager" type="spawner"
         args="ubiquity_velocity_controller ubiquity_joint_publisher --shutdown-timeout 3" output="screen" />
 
-  <node name="motor_node" pkg="ubiquity_motor" type="motor_node" />
+  <node name="motor_node" pkg="ubiquity_motor" type="motor_node" output="screen"/>
 
 
 </launch>
