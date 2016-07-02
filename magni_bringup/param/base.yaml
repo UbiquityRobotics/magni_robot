@@ -1,12 +1,12 @@
 ubiquity_motor:
-  serial_port: "/dev/ttyUSB0"
-  serial_baud: 9600
-  controller_loop_rate: 10
-  serial_loop_rate: 100
-  pid_proportional: 300
-  pid_integral: 10
-  pid_derivative: 300
-  pid_denominator: 100
+  serial_port: "/dev/ttyAMA0"
+  serial_baud: 38400
+  controller_loop_rate: 20
+  serial_loop_rate: 200
+  pid_proportional: 5000
+  pid_integral: 0
+  pid_derivative: 0
+  pid_denominator: 1000
 
 ubiquity_joint_publisher:
   type: "joint_state_controller/JointStateController"
@@ -21,7 +21,7 @@ ubiquity_velocity_controller:
   twist_covariance_diagonal: [0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
   cmd_vel_timeout: 0.25
 
-#  enable_odom_tf: true
+  enable_odom_tf: true
 
   wheel_separation : 0.33
   wheel_radius : 0.1015
