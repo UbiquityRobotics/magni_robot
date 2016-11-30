@@ -5,15 +5,13 @@
   <arg name="mapping_mode" default="false"/>
 
   <!-- camera -->
-  <include file="$(find raspicam_node)/launch/camerav2_1280x720.launch"/>
-
+  <include file="$(find raspicam_node)/launch/camerav2_1280x720.launch" />
   
   <!-- Fiducial detection -->
-  <include file="$(find fiducial_detect)/launch/fiducial_detect.launch">
+  <include file="$(find aruco_detect)/launch/aruco_detect.launch">
     <arg name="camera" value="/raspicam_node"/>
     <arg name="image" value="image"/>
     <arg name="transport" value="compressed"/>
-    <arg name="undistort_points" value="true"/>
     
     <!-- fiducial_len -->
     <arg name="fiducial_len" value="$(optenv FIDUCIAL_LEN 0.145)" />
