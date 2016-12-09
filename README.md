@@ -25,5 +25,5 @@ For more information, see [fiducials](https://github.com/UbiquityRobotics/fiduci
 ### magni_nav move_base.launch
 
 This launch file runs navigation.
-For more information, see [fiducials](http://wiki.ros.org/move_base)
+For more information, see [move_base](http://wiki.ros.org/move_base)
 
