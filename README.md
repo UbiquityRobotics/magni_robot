@@ -5,7 +5,7 @@ This package contains launch files and configuration files for the magni robot.
 
 ## Launch files
 
-### magni_bringup base.laucnh
+### magni_bringup base.launch
 
 This launch file runs the nodes needed to run a magni robot.
 For more information, see [ubiquity_motor](https://github.com/UbiquityRobotics/ubiquity_motor)
