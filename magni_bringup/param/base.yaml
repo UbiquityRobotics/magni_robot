@@ -37,13 +37,13 @@ ubiquity_velocity_controller:
   # Whenever a min_* is unspecified, default to -max_*
   linear:
     x:
-      has_velocity_limits    : true
+      has_velocity_limits    : false
       max_velocity           : 1.0   # m/s
       has_acceleration_limits: false
       max_acceleration       : 2.0   # m/s^2
   angular:
     z:
-      has_velocity_limits    : true
+      has_velocity_limits    : false
       max_velocity           : 2.0   # rad/s
       has_acceleration_limits: false
       max_acceleration       : 25.0   # rad/s^2
