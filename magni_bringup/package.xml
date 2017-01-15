@@ -30,6 +30,7 @@
   <buildtool_depend>catkin</buildtool_depend>
   <depend>magni_description</depend>
   <depend>ubiquity_motor</depend>
+  <depend>robot_state_publisher</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
