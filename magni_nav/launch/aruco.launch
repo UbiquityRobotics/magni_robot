@@ -5,7 +5,7 @@
   <arg name="mapping_mode" default="false"/>
 
   <!-- camera -->
-  <include file="$(find raspicam_node)/launch/camerav2_1280x720.launch" />
+  <include file="$(find raspicam_node)/launch/camerav2_1280x960_10fps.launch" />
   
   <!-- Fiducial detection -->
   <include file="$(find aruco_detect)/launch/aruco_detect.launch">
@@ -14,7 +14,7 @@
     <arg name="transport" value="compressed"/>
     
     <!-- fiducial_len -->
-    <arg name="fiducial_len" value="$(optenv FIDUCIAL_LEN 0.145)" />
+    <arg name="fiducial_len" value="0.140)" />
   </include>
 
   <!-- Fiducial slam -->
