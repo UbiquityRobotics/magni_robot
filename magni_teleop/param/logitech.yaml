@@ -1,0 +1,9 @@
+axis_linear: 1  # Left thumb stick vertical
+scale_linear: 0.3
+scale_linear_turbo: 0.75
+
+axis_angular: 0  # Left thumb stick horizontal
+scale_angular: 1.0
+
+enable_button: 4  # Left top trigger
+enable_turbo_button: 6  # left bottom trigger
