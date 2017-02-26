@@ -1,2 +1,1 @@
 - git: {local-name: 'magni_robot', uri: 'https://github.com/UbiquityRobotics/magni_robot.git'}
-- git: {local-name: 'raspicam_node', uri: 'https://github.com/UbiquityRobotics/raspicam_node.git'}
