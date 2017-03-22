@@ -14,7 +14,7 @@
     <arg name="transport" value="compressed"/>
     
     <!-- fiducial_len -->
-    <arg name="fiducial_len" value="0.140)" />
+    <arg name="fiducial_len" value="0.140" />
   </include>
 
   <!-- Fiducial slam -->
