@@ -19,9 +19,8 @@
 
   <!-- Fiducial slam -->
   <include file="$(find fiducial_slam)/launch/fiducial_slam.launch">
-    <arg name="mapping_mode" value="$(arg mapping_mode)"/>
     <arg name="map_frame" value="map"/>
     <arg name="odom_frame" value="odom"/>
-    <arg name="pose_frame" value="base_link"/>
+    <arg name="base_frame" value="base_link"/>
   </include>
 </launch>
