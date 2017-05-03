@@ -20,10 +20,8 @@
   <!-- Fiducial slam -->
   <include file="$(find fiducial_slam)/launch/fiducial_slam.launch">
     <arg name="map_frame" value="map"/>
-    <arg name="odom_frame" value=""/>
+    <arg name="odom_frame" value="odom"/>
     <arg name="base_frame" value="base_link"/>
-<!--
     <arg name="future_date_transforms" value="0.5"/>
--->
   </include>
 </launch>
