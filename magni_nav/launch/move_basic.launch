@@ -1,3 +1,3 @@
 <launch>
-    <node pkg="move_basic" type="move_basic" name="move_basic" output="screen">  
-</launch
+    <node pkg="move_basic" type="move_basic" name="move_basic" output="screen"/>  
+</launch>
