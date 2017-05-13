@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find magni_bringup)/launch/base.launch" />
+  <include file="$(find magni_teleop)/launch/logitech.launch" />
+</launch>
