@@ -30,7 +30,7 @@
   <joint name="raspicam_joint" type="fixed">
     <parent link="base_link"/>
     <child link="raspicam"/>
-    <origin xyz="0.035 0.145 0.14" rpy="0 0 0" /> 
+    <origin xyz="0.035 0.145 0.14" rpy="0 0 3.1416"/>
   </joint>
 
   <joint name="left_wheel_joint" type="continuous">
