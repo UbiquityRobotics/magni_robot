@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package>
+<package format="2">
   <name>magni_nav</name>
   <version>0.0.0</version>
   <description>The magni_nav package</description>
@@ -12,6 +12,7 @@
 
   <depend>navigation</depend>
   <depend>fiducials</depend>
+  <depend>move_basic</depend>
 
   <!-- We implicitly depend on raspicam_node too -->
 
