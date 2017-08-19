@@ -2,6 +2,9 @@
 Changelog for package magni_teleop
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 0.1.1 (2017-07-04)
 ------------------
 * Install launch/param dirs

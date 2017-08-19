@@ -2,6 +2,11 @@
 Changelog for package magni_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* use remap instead of republish and remove topic_tools dep
+* Contributors: Rohan Agrawal
+
 0.1.1 (2017-07-04)
 ------------------
 * Install launch/param dirs

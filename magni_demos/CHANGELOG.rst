@@ -2,6 +2,11 @@
 Changelog for package magni_demos
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* add teleop launch that starts rosbridge. replaces joystick launch
+* Contributors: Rohan Agrawal
+
 0.1.1 (2017-07-04)
 ------------------
 * Install launch/param dirs
