@@ -1,0 +1,11 @@
+<launch>
+  <include file="$(find magni_bringup)/launch/base.launch" />
+  <include file="$(find magni_teleop)/launch/logitech.launch" />
+  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+<!-- Parameters for SSL support
+    <arg name="ssl" value="true" />
+    <arg name="certfile" value="/etc/letsencrypt/live/robot.ubiquityrobotics.com/fullchain.pem" />
+    <arg name="keyfile" value="/etc/letsencrypt/live/robot.ubiquityrobotics.com/privkey.pem" />
+-->
+  </include>
+</launch>
