@@ -13,7 +13,6 @@
   <depend>magni_description</depend>
   <depend>ubiquity_motor</depend>
   <depend>robot_state_publisher</depend>
-  <depend>topic_tools</depend>
   <depend>controller_manager</depend>
   <depend>joint_state_controller</depend>
   <depend>diff_drive_controller</depend>

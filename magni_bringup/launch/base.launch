@@ -4,13 +4,11 @@
 
   <rosparam command="load" file="$(find magni_bringup)/param/base.yaml" />
 
-  <node pkg="topic_tools" type="relay" name="cmd_vel_relay"
-        args="/cmd_vel /ubiquity_velocity_controller/cmd_vel" />
-
   <node name="controller_spawner" pkg="controller_manager" type="spawner"
-        args="ubiquity_velocity_controller ubiquity_joint_publisher --shutdown-timeout 3" output="screen" />
+        args="ubiquity_velocity_controller ubiquity_joint_publisher --shutdown-timeout 3" output="screen"/>
 
-  <node name="motor_node" pkg="ubiquity_motor" type="motor_node" output="screen"/>
-
+  <node name="motor_node" pkg="ubiquity_motor" type="motor_node" output="screen">
+        <remap from="/ubiquity_velocity_controller/cmd_vel" to="/cmd_vel"/>
+  </node>
 
 </launch>
