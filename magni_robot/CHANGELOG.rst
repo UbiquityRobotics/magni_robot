@@ -2,8 +2,8 @@
 Changelog for package magni_robot
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.0 (2017-08-19)
+------------------
 * have exec dep on sub-packages so they are installed
 * Contributors: Rohan Agrawal
 
