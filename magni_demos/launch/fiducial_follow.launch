@@ -1,8 +1,9 @@
 <!--
-   Run the 3d fiducial localization for a raspi
+   Run the fiducial follow demo
 -->
 <launch>
- <arg name="fiducial_len" default="0.14"/>
+ <arg name="fiducial_len" default="0.05"/>
+ <arg name="target_fiducial" default="fid49"/>
 
   <!-- camera -->
   <include file="$(find raspicam_node)/launch/camerav2_1280x960_10fps.launch" />
@@ -16,5 +17,7 @@
   </include>
   
   <!-- Follow -->
-  <node name="fiducial_follow" pkg="fiducial_follow" type="follow.py"/>
+  <node name="fiducial_follow" pkg="fiducial_follow" type="follow.py" output="screen">
+    <param name="target_fiducial" value="$(arg target_fiducial)"/>
+  </node>
 </launch>
