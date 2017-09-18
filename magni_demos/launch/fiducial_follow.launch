@@ -2,19 +2,38 @@
    Run the fiducial follow demo
 -->
 <launch>
- <arg name="fiducial_len" default="0.05"/>
+ <arg name="fiducial_len" default="0.0982"/>
  <arg name="target_fiducial" default="fid49"/>
 
-  <!-- camera -->
+  <include file="$(find magni_demos)/launch/teleop.launch" />
+ 
+<!-- camera -->
   <include file="$(find raspicam_node)/launch/camerav2_1280x960_10fps.launch" />
 
-  <!-- Fiducial detection -->
+  <arg name="do_pose_estimation" default="true"/>
+
+  <node pkg="aruco_detect" name="aruco_detect"
+    type="aruco_detect" output="screen" respawn="false">
+    <param name="image_transport" value="compressed"/>
+    <param name="publish_images" value="true" />
+    <param name="fiducial_len" value="$(arg fiducial_len)"/>
+    <param name="do_pose_estimation" value="$(arg do_pose_estimation)"/>
+    <param name="adaptiveThreshWinSizeStep" value="8" />
+    <param name="adaptiveThreshWinSizeMin" value="10" />
+    <param name="adaptiveThreshWinSizeMax" value="50" />
+    <param name="doCornerRefinement" value="False" />
+    <remap from="/camera/compressed" 
+        to="/raspicam_node/image/compressed"/>
+    <remap from="/camera_info" to="/raspicam_node/camera_info"/>
+  </node>
+
+  <!-- Fiducial detection 
   <include file="$(find aruco_detect)/launch/aruco_detect.launch">
     <arg name="camera" value="/raspicam_node"/>
     <arg name="image" value="image"/>
     <arg name="transport" value="compressed"/>
     <arg name="fiducial_len" value="$(arg fiducial_len)" />
-  </include>
+  </include> -->
   
   <!-- Follow -->
   <node name="fiducial_follow" pkg="fiducial_follow" type="follow.py" output="screen">
