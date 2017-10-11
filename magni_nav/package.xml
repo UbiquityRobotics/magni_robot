@@ -10,9 +10,11 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <depend>navigation</depend>
-  <depend>fiducials</depend>
+  <depend>fiducial_slam</depend>
+  <depend>fiducial_detect</depend>
+  <depend>aruco_detect</depend>
   <depend>move_basic</depend>
+  <depend>move_base</depend>
 
   <!-- We implicitly depend on raspicam_node too -->
 
