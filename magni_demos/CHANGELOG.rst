@@ -2,8 +2,8 @@
 Changelog for package magni_demos
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.1 (2017-10-28)
+------------------
 * Add launch file for fiducial_follow (`#40 <https://github.com/UbiquityRobotics/magni_robot/issues/40>`_)
   * Add launch file for fiducial_follow
   * Update camera for front facing
