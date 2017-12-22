@@ -1,11 +1,20 @@
 <launch>
-  <include file="$(find magni_bringup)/launch/base.launch" />
+  <include file="$(find magni_bringup)/launch/base.launch" /> 
   <include file="$(find magni_teleop)/launch/logitech.launch" />
-  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
-<!-- Parameters for SSL support
-    <arg name="ssl" value="true" />
-    <arg name="certfile" value="/etc/letsencrypt/live/robot.ubiquityrobotics.com/fullchain.pem" />
-    <arg name="keyfile" value="/etc/letsencrypt/live/robot.ubiquityrobotics.com/privkey.pem" />
--->
-  </include>
+  <group ns="rosbridge_ws"> 
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+      <arg name="ssl" value="false" />
+      <arg name="port" value="9090" />
+    </include>
+  </group>
+  <group ns="rosbridge_wss"> 
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+      <arg name="ssl" value="true" />
+      <arg name="port" value="9443" />
+      <arg name="certfile" value="/etc/ssl/certs/ssl-cert-snakeoil.pem" />
+      <arg name="keyfile" value="/etc/ssl/private/ssl-cert-snakeoil.key" />
+    </include>
+  </group>
+  
+  <node name="tf2_web_republisher" pkg="tf2_web_republisher" type="tf2_web_republisher"/>
 </launch>
