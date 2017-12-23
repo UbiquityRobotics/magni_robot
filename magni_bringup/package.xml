@@ -4,18 +4,17 @@
   <version>0.2.2</version>
   <description>The magni_bringup package</description>
 
-  <maintainer email="rohan@aleopile.com">Rohan Agrawal</maintainer>
-
+  <maintainer email="send2arohan@gmail.com">Rohan Agrawal</maintainer>
   <license>BSD</license>
 
 
   <buildtool_depend>catkin</buildtool_depend>
-  <depend>magni_description</depend>
-  <depend>ubiquity_motor</depend>
-  <depend>robot_state_publisher</depend>
-  <depend>controller_manager</depend>
-  <depend>joint_state_controller</depend>
-  <depend>diff_drive_controller</depend>
+  <exec_depend>magni_description</exec_depend>
+  <exec_depend>ubiquity_motor</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>controller_manager</exec_depend>
+  <exec_depend>joint_state_controller</exec_depend>
+  <exec_depend>diff_drive_controller</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

@@ -8,13 +8,11 @@
   <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>
-  <depend>magni_bringup</depend>
-  <depend>magni_nav</depend>
-  <depend>magni_teleop</depend>
-  <depend>rosbridge_server</depend>
-  <depend>tf2_web_republisher</depend>
-
-
+  <exec_depend>magni_bringup</exec_depend>
+  <exec_depend>magni_nav</exec_depend>
+  <exec_depend>magni_teleop</exec_depend>
+  <exec_depend>rosbridge_server</exec_depend>
+  <exec_depend>tf2_web_republisher</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->
