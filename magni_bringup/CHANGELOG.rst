@@ -2,8 +2,8 @@
 Changelog for package magni_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.3 (2017-12-23)
+------------------
 * Only exec_depend to avoid pulling in unnecessary dependencies at build-time   (`#46 <https://github.com/UbiquityRobotics/magni_robot/issues/46>`_)
   * only exec_depend, cleanup package.xmls
 * Contributors: Rohan Agrawal
