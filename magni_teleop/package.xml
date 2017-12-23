@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>magni_nav</name>
+  <name>magni_teleop</name>
   <version>0.2.2</version>
-  <description>The magni_nav package</description>
+  <description>The magni_teleop package</description>
 
   <maintainer email="send2arohan@gmail.com">Rohan Agrawal</maintainer>
   <license>BSD</license>
