@@ -2,6 +2,11 @@
 Changelog for package magni_nav
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* fix magni_nav metapackage dep warnings
+* Contributors: Rohan Agrawal
+
 0.2.1 (2017-10-28)
 ------------------
 

@@ -2,6 +2,14 @@
 Changelog for package magni_demos
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Have both ssl and non-ssl version of rosbridge (`#39 <https://github.com/UbiquityRobotics/magni_robot/issues/39>`_)
+  * have both ssl and non-ssl version of rosbridge
+  * added tf2 web publisher to launch file
+  * fix the base launch being commented out
+* Contributors: Rohan Agrawal
+
 0.2.1 (2017-10-28)
 ------------------
 * Add launch file for fiducial_follow (`#40 <https://github.com/UbiquityRobotics/magni_robot/issues/40>`_)
