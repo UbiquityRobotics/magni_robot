@@ -2,8 +2,8 @@
 Changelog for package magni_demos
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.2 (2017-12-22)
+------------------
 * Have both ssl and non-ssl version of rosbridge (`#39 <https://github.com/UbiquityRobotics/magni_robot/issues/39>`_)
   * have both ssl and non-ssl version of rosbridge
   * added tf2 web publisher to launch file
