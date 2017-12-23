@@ -2,6 +2,12 @@
 Changelog for package magni_teleop
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Only exec_depend to avoid pulling in unnecessary dependencies at build-time   (`#46 <https://github.com/UbiquityRobotics/magni_robot/issues/46>`_)
+  * only exec_depend, cleanup package.xmls
+* Contributors: Rohan Agrawal
+
 0.2.2 (2017-12-22)
 ------------------
 
