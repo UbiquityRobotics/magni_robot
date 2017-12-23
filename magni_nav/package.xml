@@ -5,16 +5,14 @@
   <description>The magni_nav package</description>
 
   <maintainer email="send2arohan@gmail.com">Rohan Agrawal</maintainer>
-
   <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>
-
-  <depend>fiducial_slam</depend>
-  <depend>fiducial_detect</depend>
-  <depend>aruco_detect</depend>
-  <depend>move_basic</depend>
-  <depend>move_base</depend>
+  <exec_depend>fiducial_slam</exec_depend>
+  <exec_depend>fiducial_detect</exec_depend>
+  <exec_depend>aruco_detect</exec_depend>
+  <exec_depend>move_basic</exec_depend>
+  <exec_depend>move_base</exec_depend>
 
   <!-- We implicitly depend on raspicam_node too -->
 

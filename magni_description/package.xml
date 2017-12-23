@@ -5,14 +5,13 @@
   <description>The magni_description package</description>
 
   <maintainer email="send2arohan@gmail.com">Rohan Agrawal</maintainer>
-
   <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>
-  <depend>urdf</depend>
-  <depend>xacro</depend>
-  <depend>robot_state_publisher</depend>
-  <depend>joint_state_publisher</depend>
+  <exec_depend>urdf</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>joint_state_publisher</exec_depend>
 
   <export></export>
 </package>
