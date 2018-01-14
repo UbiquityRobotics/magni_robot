@@ -9,7 +9,6 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   <exec_depend>fiducial_slam</exec_depend>
-  <exec_depend>fiducial_detect</exec_depend>
   <exec_depend>aruco_detect</exec_depend>
   <exec_depend>move_basic</exec_depend>
   <exec_depend>move_base</exec_depend>
