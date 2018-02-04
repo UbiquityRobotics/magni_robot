@@ -1,3 +1,8 @@
 <launch>
-    <node pkg="move_basic" type="move_basic" name="move_basic" output="screen"/>  
+    <node pkg="move_basic" type="move_basic" name="move_basic" output="screen">  
+        <!-- Footprint for obstacle detection -->
+        <param name="robot_width" value="0.20"/>
+        <param name="robot_front_length" value="0.1"/>
+        <param name="robot_back_length" value="0.32"/>
+    </node>
 </launch>
