@@ -13,6 +13,7 @@
   <exec_depend>magni_description</exec_depend>
   <exec_depend>magni_nav</exec_depend>
   <exec_depend>magni_teleop</exec_depend>
+  <exec_depend>magni_viz</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
