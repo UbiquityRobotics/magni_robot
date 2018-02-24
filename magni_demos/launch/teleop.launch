@@ -2,7 +2,6 @@
   <param name="enable_statistics" type="bool" value="true"/>
   <include file="$(find magni_bringup)/launch/base.launch" /> 
   <include file="$(find magni_teleop)/launch/logitech.launch" />
-  <include file="$(find magni_demos)/launch/roshub.launch" />
   <group ns="rosbridge_ws"> 
     <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
       <arg name="ssl" value="false" />
