@@ -1,0 +1,23 @@
+<!-- 
+    This launch file brings up a simple navigation system using fiducials [1]
+    and move_basic [2].
+
+    [1] http://wiki.ros.org/fiducials
+    [2] http://wiki.ros.org/move_basic
+-->
+<launch>
+    <!-- 
+        This parameter is used to specify what level of capabilites
+        the robot should have after this launch file.
+
+        Possible values are 'core', 'teleop', and 'navigation'
+
+        Since this launch brings up enough to do navigation, 
+        we set it to 'navigation'.
+    -->
+    <param name="ubiquity_robot_mode" type="string" value="navigation"/> 
+
+    <include file="$(find magni_nav)/launch/move_basic.launch" />
+    <include file="$(find magni_nav)/launch/aruco.launch" />
+</launch>
+
