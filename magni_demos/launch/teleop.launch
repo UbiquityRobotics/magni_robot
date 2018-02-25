@@ -1,0 +1,6 @@
+<!-- 
+    This launch file is DEPRECATED!
+-->
+<launch>
+    <include file="$(find magni_bringup)/launch/base.launch" />
+</launch>
