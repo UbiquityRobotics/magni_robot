@@ -30,7 +30,7 @@
     <rosparam command="load" file="$(find magni_bringup)/param/base.yaml" />
     <!-- Launch the roscontrol controllers needed -->
     <node name="controller_spawner" pkg="controller_manager" type="spawner"
-        args="ubiquity_velocity_controller ubiquity_joint_publisher --shutdown-timeout 1"/>
+        args="ubiquity_velocity_controller ubiquity_joint_publisher"/>
     <!-- Launch the motor node with the topic remapped to standard names -->
     <node name="motor_node" pkg="ubiquity_motor" type="motor_node">
         <remap from="/ubiquity_velocity_controller/cmd_vel" to="/cmd_vel"/>
