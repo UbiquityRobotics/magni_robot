@@ -1,0 +1,26 @@
+<!-- 
+    This launch file brings up rosbridge server. It run 2 instances
+    of it, one on port 9090 without ssl, and one with ssl on
+    port 9443 with a self-signed ssl certificate.
+-->
+<launch>
+    <!-- Because the rosbridge launch file always uses the same node name,
+         we need to launch in namespaces so that the 2 nodes don't conflict.
+    -->
+    <group ns="rosbridge_ws"> 
+        <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+            <arg name="ssl" value="false" />
+            <arg name="port" value="9090" />
+        </include>
+    </group>
+    <group ns="rosbridge_wss"> 
+        <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+            <arg name="ssl" value="true" />
+            <arg name="port" value="9443" />
+            <arg name="certfile" value="/etc/ssl/certs/ssl-cert-snakeoil.pem" />
+            <arg name="keyfile" value="/etc/ssl/private/ssl-cert-snakeoil.key" />
+        </include>
+    </group>
+
+    <node name="tf2_web_republisher" pkg="tf2_web_republisher" type="tf2_web_republisher"/>
+</launch>

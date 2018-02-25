@@ -1,14 +1,22 @@
+<!-- 
+    This is the launch file that is launched on boot of the Magni.
+
+    It brings up the nodes needed for moving the robot around by joystick
+    or Robot Commander.
+-->
 <launch>
+    <!-- 
+        This parameter is used to specify what level of capabilites
+        the robot should have after this launch file.
 
-  <include file="$(find magni_description)/launch/description.launch"/>
+        Possible values are 'core', 'teleop', and 'navigation'
 
-  <rosparam command="load" file="$(find magni_bringup)/param/base.yaml" />
+        Since this launch brings up everything we expect 
+        for teleop, it is set to 'teleop'.
+    -->
+    <param name="ubiquity_robot_mode" type="string" value="teleop"/>
 
-  <node name="controller_spawner" pkg="controller_manager" type="spawner"
-        args="ubiquity_velocity_controller ubiquity_joint_publisher --shutdown-timeout 3" output="screen"/>
-
-  <node name="motor_node" pkg="ubiquity_motor" type="motor_node" output="screen">
-        <remap from="/ubiquity_velocity_controller/cmd_vel" to="/cmd_vel"/>
-  </node>
-
+    <node name="magni_launch_core" pkg="magni_bringup" type="launch_core.py"/>
+    <include file="$(find magni_teleop)/launch/logitech.launch" />
+    <include file="$(find magni_teleop)/launch/rosbridge.launch" />
 </launch>
