@@ -6,60 +6,53 @@ This package contains launch files and configuration files for the magni robot.
 ## Launch files
 
 ### magni_bringup base.launch
+This brings up the essential nodes for communicating with the motor node, after launch, teleop_twist_keyboard should work.
 
-This launch file runs the nodes needed to run a magni robot.
-For more information, see [ubiquity_motor](https://github.com/UbiquityRobotics/ubiquity_motor)
+Generally you should not have to run this launch file directly.
 
-    $ roslaunch magni_bringup base.launch
+### magni_demos fiducial_follow.launch
 
-Once this is run, then the robot can be driven with teleop commands, for example:
+Runs everything for the fiducial follow demo. 
 
-    $ rosrun teleop_twist_keyboard teleop_twist_keyboard.py
+### magni_demos speech_control.launch
+
+Runs everything for the robot commander demo, including fiducial based navigation. 
+
+### magni_demos teleop.launch
+
+Runs everything needed for teleop, including robot_commander based teleop (no navigation) runs on robot boot.
+
+### magni_demos joystick.launch
+
+Deprecated, now aliased to teleop.launch
+
+### magni_description description.launch
+Internal launch file for making the URDF load and robot_state_publisher work.
+
+Generally you should not have to run this launch file directly.
 
 ### magni_nav aruco.launch
 
-This launch file runs the fiducial marker based localization system using Raspberry Pi
-camera.
+This launch file runs the fiducial marker based localization system using Raspberry Pi camera, configured to run on Magni.
 For more information, see [fiducials](http://wiki.ros.org/fiducials) and
 [raspicam_node](https://github.com/UbiquityRobotics/raspicam_node)
 
-### magni_nav move_base.launch
+### magni_nav move_basic.launch
 
-This launch file runs navigation.
-For more information, see [move_base](http://wiki.ros.org/move_base)
+This launch file runs the [move_basic](https://github.com/UbiquityRobotics/move_basic) simple navigation system with the parameters needed for Magni.
 
-# Software contents of the Magni robot:
+### magni_viz view_nav.launch
 
-Repositories containing this software are listed below.
-A list of packages is not available yet.
+To be run on a workstation, not the pi. This brings up rviz in a way suitable to visualize fiducial based navigation. 
 
-## Software that enables core hardware functionality:
+### magni_viz view_robot.launch
+
+To be run on a workstation, not the pi. This brings up rviz in a way suitable to visualize just the state of the robot and sensors, without a navigation stack.
+
+## Software that enables core hardware functionality on Magni:
 
     https://github.com/UbiquityRobotics/ubiquity_motor     - Makes the Motors work; Package; no UI; no documentation
 
     https://github.com/UbiquityRobotics/raspicam_node      - Makes the Cameras work; Package; Calibration UI (documented)--is this exposed to User? 
 
     Motor controller firmware -- not to be released.
-
-## Software that enables core system functionality
-
-    https://github.com/UbiquityRobotics/magni_robot         - Launch files and other core software functionality; several packages; no UI; no documentation
-
-    https://github.com/UbiquityRobotics/fiducials           - Enables fiducial localization; several packages; no intrinsic UI; UI via Rviz, which is documented in wiki 
-
-    https://github.com/UbiquityRobotics/move_basic          - Simple path planner; Package; no intrinsic UI; some UI via Rviz; external documentation
-    
-    https://github.com/rohbotics/pifi                       Wifi provisioning tools for Robots with Raspberry Pis; UI; documented
-
-## Robot Commander
-
-    https://github.com/UbiquityRobotics/speech_commands        Provides voice and screen UI; web page; documented
-
-    https://github.com/UbiquityRobotics/Robot_Commander        Provides voice and screen UI; android app; documented
-
-    https://github.com/UbiquityRobotics/paramdump            Provides persistence for waypoints; Package; no documentation
-
-
-## Applications Software
-
-    https://github.com/UbiquityRobotics/demos             - fiducial_follow and partybot; former is a package, latter not; Both are UIs; no documentation
