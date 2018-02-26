@@ -12,6 +12,7 @@
   <exec_depend>magni_nav</exec_depend>
   <exec_depend>magni_teleop</exec_depend>
   <exec_depend>rosbridge_server</exec_depend>
+  <exec_depend>dnn_detect</exec_depend>
   <exec_depend>tf2_web_republisher</exec_depend>
 
 
