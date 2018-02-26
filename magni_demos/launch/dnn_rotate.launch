@@ -6,9 +6,12 @@
   <arg name="image" default="image"/>
   <arg name="transport" default="compressed"/>
 
-  <!-- assume base nodes, motor, move_basic are already launched -->
+  <!-- assume motor node is already launched -->
  
   <include file="$(find raspicam_node)/launch/camerav2_410x308_30fps.launch" />
+
+  <!-- Movement -->
+  <include file="$(find magni_nav)/launch/move_basic.launch" />`
   
   <!-- Detect -->
   <node name="dnn_detect" pkg="dnn_detect" type="dnn_detect" output="screen">
