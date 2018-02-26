@@ -1,0 +1,31 @@
+<!--
+   Run the rotation  demo
+-->
+<launch>
+  <arg name="camera" default="raspicam_node"/>
+  <arg name="image" default="image"/>
+  <arg name="transport" default="compressed"/>
+
+  <!-- assume motor node is already launched -->
+ 
+  <include file="$(find raspicam_node)/launch/camerav2_410x308_30fps.launch" />
+
+  <!-- Movement -->
+  <include file="$(find magni_nav)/launch/move_basic.launch" />`
+  
+  <!-- Detect -->
+  <node name="dnn_detect" pkg="dnn_detect" type="dnn_detect" output="screen">
+    <param name="image_transport" value="$(arg transport)"/>
+    <param name="publish_images" value="true" />
+    <param name="data_dir" value="$(find dnn_detect)/model"/>
+    <param name="rotate_flag" value="1"/>
+    <param name="single_shot" value="true"/>
+
+    <remap from="/camera/compressed" 
+        to="$(arg camera)/$(arg image)/$(arg transport)"/>
+    <remap from="/camera_info" to="$(arg camera)/camera_info"/>
+  </node>
+
+  <!-- dnn_rotate -->
+  <node name="dnn_rotate" pkg="dnn_rotate" type="rotate.py" output="screen"/>
+</launch>
