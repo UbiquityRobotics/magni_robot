@@ -5,5 +5,5 @@
 # 3DTOF, etc, if they are installed.
 ###
 
-from subprocess import call
-call(["roslaunch", "magni_bringup", "core.launch"])
+import roslaunch
+roslaunch.main(argv=["roslaunch", "magni_bringup", "core.launch"])
