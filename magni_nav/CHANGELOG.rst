@@ -2,6 +2,11 @@
 Changelog for package magni_nav
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* remove fiducials stuff
+* Contributors: Rohan Agrawal
+
 0.2.4 (2017-12-23)
 ------------------
 

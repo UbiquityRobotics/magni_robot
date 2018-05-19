@@ -2,6 +2,9 @@
 Changelog for package magni_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 0.2.4 (2017-12-23)
 ------------------
 * remove unneeded CMake requires
