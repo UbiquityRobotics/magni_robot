@@ -1,7 +1,15 @@
 <launch>
-  <arg name="gui" default="False" />
+  <arg name="raspicam_mount" default="forward"/>
+  <arg name="sonars_installed" default="True"/>
+
+  <arg name="gui" default="False"/>
   <param name="use_gui" value="$(arg gui)"/>
-  <param name="robot_description" textfile="$(find magni_description)/urdf/basic_magni.urdf" />
+  <param name="robot_description" 
+      command="$(find xacro)/xacro --inorder
+        '$(find magni_description)/urdf/magni.urdf.xacro' 
+        raspicam_mount:=$(arg raspicam_mount)
+        sonars_installed:=$(arg sonars_installed)"
+  />
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
-  <!--- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" /> -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
 </launch>

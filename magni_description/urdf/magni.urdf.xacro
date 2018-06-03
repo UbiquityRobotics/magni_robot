@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="magni">
+  <xacro:arg name="raspicam_mount" default="forward"/>
+  <xacro:property name="raspicam_mount" value="$(arg raspicam_mount)"/>
+
+  <xacro:arg name="sonars_installed" default="true"/>
+  <xacro:property name="sonars_installed" value="$(arg sonars_installed)"/>
+
+  <!-- base links for the urdf -->
+  <link name="base_link"/>
+  <link name="base_footprint"/>
+
+  <!-- Fixed offset from the floor to the center of the wheels -->
+  <joint name="base_footprint_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_footprint"/>
+    <origin xyz="0 0 -0.1" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Macro for defining wheels -->
+  <xacro:macro name="wheel" params="name">
+    <link name="${name}_wheel"/>
+    <joint name="${name}_wheel_joint" type="continuous">
+      <parent link="base_link"/>
+      <child link="${name}_wheel"/>
+      <xacro:if value="${name == 'left'}">
+        <origin xyz="0 0.165 0" rpy="0 0 0" />
+        <axis xyz="0 1 0" />
+      </xacro:if>
+      <xacro:if value="${name == 'right'}">
+        <origin xyz="0 -0.165 0" rpy="${pi} 0 0" />
+        <axis xyz="0 -1 0" />
+      </xacro:if>
+    </joint>
+  </xacro:macro>
+
+  <xacro:wheel name="left"/>
+  <xacro:wheel name="right"/>
+
+  <!-- Macro for defining sonars -->
+  <xacro:macro name="sonar" params="name *origin">
+    <link name="${name}"/>
+    <joint name="${name}" type="fixed">
+      <parent link="base_link"/>
+      <child link="${name}"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+  </xacro:macro>
+
+  <!-- Define all sonars, if sonars_installed set to 1 -->
+  <xacro:if value="${sonars_installed}">
+    <xacro:sonar name="sonar_0">
+      <origin xyz="0.01 -0.14 0.15" rpy="0 0 ${-pi/2}"/>
+    </xacro:sonar>
+    <xacro:sonar name="sonar_1">
+      <origin xyz="0.08 -0.07 0.15" rpy="0 0 0.785"/>
+    </xacro:sonar>
+    <xacro:sonar name="sonar_2">
+      <origin xyz="0.08 -0.01 0.15" rpy="0 0 -0.785"/>
+    </xacro:sonar>
+    <xacro:sonar name="sonar_3">
+      <origin xyz="0.08 0.04 0.15" rpy="0 0 0"/>
+    </xacro:sonar>
+    <xacro:sonar name="sonar_4">
+      <origin xyz="0.01 0.14 0.15" rpy="0 0 ${pi/2}"/>
+    </xacro:sonar>
+  </xacro:if>
+
+  <!-- Macro for defining raspicam -->
+  <xacro:macro name="raspicam" params="*origin">
+    <link name="raspicam"/>
+    <joint name="raspicam" type="fixed">
+      <parent link="base_link"/>
+      <child link="raspicam"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+  </xacro:macro>
+
+  <!-- Define raspicam based on the raspicam_mount argument -->
+  <xacro:if value="${raspicam_mount == 'forward'}">
+    <xacro:raspicam>
+      <origin xyz="0.035 0.085 0.14" rpy="1.15191731 0 1.5707"/>
+    </xacro:raspicam>
+  </xacro:if>
+  <xacro:if value="${raspicam_mount == 'upward'}">
+    <xacro:raspicam>
+      <origin xyz="0.035 0.15 0.14" rpy="0 0 -1.5707"/>
+    </xacro:raspicam>
+  </xacro:if>
+
+</robot>
