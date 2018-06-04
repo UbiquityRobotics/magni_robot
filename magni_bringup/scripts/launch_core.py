@@ -5,5 +5,51 @@
 # 3DTOF, etc, if they are installed.
 ###
 
+import sys, os, subprocess
 import roslaunch
-roslaunch.main(argv=["roslaunch", "magni_bringup", "core.launch"])
+import yaml
+
+conf_path = "/etc/ubiquity/robot.yaml"
+
+default_conf = \
+{
+    'raspicam' : {'position' : 'forward'},
+    'sonars' : True
+}
+
+def get_conf():
+    try:
+        with open(conf_path) as conf_file:
+            conf = yaml.load(conf_file)
+            if (conf is None):
+                print('WARN /etc/ubiquity/robot.yaml is empty, using default configuration')
+                return default_conf
+
+            for key, value in default_conf.items():
+                if key not in conf:
+                    conf[key] = value
+
+            return conf
+    except IOError:
+        print("WARN /etc/ubiquity/robot.yaml doesn't exist, using default configuration")
+        return default_conf
+    except yaml.parser.ParserError:
+        print("WARN failed to parse /etc/ubiquity/robot.yaml, using default configuration")
+        return default_conf
+
+conf = get_conf()
+
+if conf['sonars']:
+    conf['sonars'] = 'true'
+else:
+    conf['sonars'] = 'false'
+
+print conf
+
+# Ugly, but works 
+# just passing argv doesn't work with arguments
+sys.argv = ["roslaunch", "magni_bringup", "core.launch", 
+                     "raspicam_mount:=%s" % conf['raspicam']['position'],
+                     "sonars_installed:=%s" % conf['sonars']]
+
+roslaunch.main(sys.argv)

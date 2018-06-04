@@ -1,6 +1,6 @@
 <launch>
   <arg name="raspicam_mount" default="forward"/>
-  <arg name="sonars_installed" default="True"/>
+  <arg name="sonars_installed" default="true"/>
 
   <arg name="gui" default="False"/>
   <param name="use_gui" value="$(arg gui)"/>
