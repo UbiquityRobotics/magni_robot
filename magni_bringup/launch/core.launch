@@ -24,8 +24,30 @@
     -->
     <param name="enable_statistics" type="bool" value="true"/>
 
+    <!-- 
+        This parameter specifies the mounting location
+        of the raspberry pi. This can be set to 'forward'
+        or 'upward'
+    -->
+    <arg name="raspicam_mount" default="forward"/>
+    <!-- 
+        This parameter specifies wheter the sonars are
+        installed or not.
+
+        This can be true or false
+    -->
+    <arg name="sonars_installed" default="true"/>
+
     <!-- Launch the URDF for magni -->
-    <include file="$(find magni_description)/launch/description.launch"/>
+    <include file="$(find magni_description)/launch/description.launch">
+        <arg name="raspicam_mount" value="$(arg raspicam_mount)"/>
+        <arg name="sonars_installed" value="$(arg sonars_installed)"/>
+    </include>
+
+    <group if="$(arg sonars_installed)">
+        <!-- TODO: LAUNCH SONAR STUFF -->
+    </group>
+
     <!-- Load the parameters used by the following nodes -->
     <rosparam command="load" file="$(find magni_bringup)/param/base.yaml" />
     <!-- Launch the roscontrol controllers needed -->
