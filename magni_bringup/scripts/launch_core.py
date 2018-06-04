@@ -37,19 +37,20 @@ def get_conf():
         print("WARN failed to parse /etc/ubiquity/robot.yaml, using default configuration")
         return default_conf
 
-conf = get_conf()
+if __name__ == "__main__":
+    conf = get_conf()
 
-if conf['sonars']:
-    conf['sonars'] = 'true'
-else:
-    conf['sonars'] = 'false'
+    if conf['sonars']:
+        conf['sonars'] = 'true'
+    else:
+        conf['sonars'] = 'false'
 
-print conf
+    print conf
 
-# Ugly, but works 
-# just passing argv doesn't work with arguments
-sys.argv = ["roslaunch", "magni_bringup", "core.launch", 
-                     "raspicam_mount:=%s" % conf['raspicam']['position'],
-                     "sonars_installed:=%s" % conf['sonars']]
+    # Ugly, but works 
+    # just passing argv doesn't work with launch arguments, so we assign sys.argv
+    sys.argv = ["roslaunch", "magni_bringup", "core.launch", 
+                         "raspicam_mount:=%s" % conf['raspicam']['position'],
+                         "sonars_installed:=%s" % conf['sonars']]
 
-roslaunch.main(sys.argv)
+    roslaunch.main(sys.argv)
