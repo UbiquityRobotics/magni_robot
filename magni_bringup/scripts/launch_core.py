@@ -14,7 +14,7 @@ conf_path = "/etc/ubiquity/robot.yaml"
 default_conf = \
 {
     'raspicam' : {'position' : 'forward'},
-    'sonars' : True
+    'sonars' : False
 }
 
 def get_conf():

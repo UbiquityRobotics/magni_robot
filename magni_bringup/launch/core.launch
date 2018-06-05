@@ -36,7 +36,7 @@
 
         This can be true or false
     -->
-    <arg name="sonars_installed" default="true"/>
+    <arg name="sonars_installed" default="false"/>
 
     <!-- Launch the URDF for magni -->
     <include file="$(find magni_description)/launch/description.launch">
@@ -45,7 +45,7 @@
     </include>
 
     <group if="$(arg sonars_installed)">
-        <!-- TODO: LAUNCH SONAR STUFF -->
+          <node pkg="pi_sonar" type="pi_sonar" name="pi_sonar"/>
     </group>
 
     <!-- Load the parameters used by the following nodes -->
