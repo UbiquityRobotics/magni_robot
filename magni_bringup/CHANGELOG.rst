@@ -2,6 +2,11 @@
 Changelog for package magni_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* new pid params
+* Contributors: Rohan Agrawal
+
 0.2.5 (2018-05-19)
 ------------------
 
