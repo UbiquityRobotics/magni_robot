@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>magni_robot</name>
-  <version>0.3.0</version>
+  <version>0.3.1</version>
   <description>The magni_robot package</description>
   
   <maintainer email="send2arohan@gmail.com">Rohan Agrawal</maintainer>
