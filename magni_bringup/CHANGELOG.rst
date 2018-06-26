@@ -2,6 +2,11 @@
 Changelog for package magni_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* use no sonars by default
+* Contributors: Rohan Agrawal
+
 0.3.0 (2018-06-25)
 ------------------
 * Launch sonars if 'installed', but not by default (`#58 <https://github.com/UbiquityRobotics/magni_robot/issues/58>`_)

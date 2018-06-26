@@ -2,6 +2,9 @@
 Changelog for package magni_demos
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 0.3.0 (2018-06-25)
 ------------------
 * Add dnn_rotate demo (`#52 <https://github.com/UbiquityRobotics/magni_robot/issues/52>`_)

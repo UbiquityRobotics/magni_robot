@@ -2,6 +2,9 @@
 Changelog for package magni_viz
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 0.3.0 (2018-06-25)
 ------------------
 * Add magni_viz package (`#49 <https://github.com/UbiquityRobotics/magni_robot/issues/49>`_)
