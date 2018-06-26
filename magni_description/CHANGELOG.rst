@@ -2,6 +2,12 @@
 Changelog for package magni_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Support getting robot configuration from a file in etc  (`#57 <https://github.com/UbiquityRobotics/magni_robot/issues/57>`_)
+* move to a xacro based magni model
+* Contributors: Rohan Agrawal
+
 0.2.4 (2017-12-23)
 ------------------
 * remove unneeded CMake requires

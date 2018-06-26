@@ -2,6 +2,16 @@
 Changelog for package magni_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Launch sonars if 'installed', but not by default (`#58 <https://github.com/UbiquityRobotics/magni_robot/issues/58>`_)
+* Support getting robot configuration from a file in etc  (`#57 <https://github.com/UbiquityRobotics/magni_robot/issues/57>`_)
+* Refactor Launch Files (and fix `#50 <https://github.com/UbiquityRobotics/magni_robot/issues/50>`_)
+* launch the core launch from a python script that can do something smart
+* start to re-organize the launch files, with base.launch being the boot up launch
+  Also move the rosbridge stuff out to magni_teleop to be more modular.
+* Contributors: Jim Vaughan, Rohan Agrawal
+
 0.2.4 (2017-12-23)
 ------------------
 * remove unneeded CMake requires

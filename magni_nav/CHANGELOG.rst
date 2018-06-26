@@ -2,6 +2,14 @@
 Changelog for package magni_nav
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add footprint (`#48 <https://github.com/UbiquityRobotics/magni_robot/issues/48>`_)
+* Remove launch file for old fiducials. (`#47 <https://github.com/UbiquityRobotics/magni_robot/issues/47>`_)
+  * Remove launch file for old fiducials.
+  * Remove fiducial_detect exec_depend
+* Contributors: Jim Vaughan
+
 0.2.4 (2017-12-23)
 ------------------
 

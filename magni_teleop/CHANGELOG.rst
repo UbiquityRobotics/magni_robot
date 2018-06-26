@@ -2,6 +2,14 @@
 Changelog for package magni_teleop
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge pull request `#51 <https://github.com/UbiquityRobotics/magni_robot/issues/51>`_ from rohbotics/launch_file_refactor
+  Refactor Launch Files (and fix `#50 <https://github.com/UbiquityRobotics/magni_robot/issues/50>`_)
+* start to re-organize the launch files, with base.launch being the boot up launch
+  Also move the rosbridge stuff out to magni_teleop to be more modular.
+* Contributors: Rohan Agrawal
+
 0.2.4 (2017-12-23)
 ------------------
 

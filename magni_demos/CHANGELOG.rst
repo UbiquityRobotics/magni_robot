@@ -2,6 +2,19 @@
 Changelog for package magni_demos
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add dnn_rotate demo (`#52 <https://github.com/UbiquityRobotics/magni_robot/issues/52>`_)
+* Merge pull request `#51 <https://github.com/UbiquityRobotics/magni_robot/issues/51>`_ from rohbotics/launch_file_refactor
+  Refactor Launch Files (and fix `#50 <https://github.com/UbiquityRobotics/magni_robot/issues/50>`_)
+* make joystick and teleop launch aliaises again
+* cleanup other demo launch files
+* remove old demo launches
+* renamed speech commands to simple_navigation
+* remove roshub from default launch, make joystick a symlink again
+* added roshub stuff
+* Contributors: Jim Vaughan, Rohan Agrawal
+
 0.2.4 (2017-12-23)
 ------------------
 
