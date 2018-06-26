@@ -2,8 +2,8 @@
 Changelog for package magni_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.0 (2018-06-25)
+------------------
 * Launch sonars if 'installed', but not by default (`#58 <https://github.com/UbiquityRobotics/magni_robot/issues/58>`_)
 * Support getting robot configuration from a file in etc  (`#57 <https://github.com/UbiquityRobotics/magni_robot/issues/57>`_)
 * Refactor Launch Files (and fix `#50 <https://github.com/UbiquityRobotics/magni_robot/issues/50>`_)
