@@ -2,6 +2,11 @@
 Changelog for package magni_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* install core launch
+* Contributors: Rohan Agrawal
+
 0.3.1 (2018-06-26)
 ------------------
 * use no sonars by default
