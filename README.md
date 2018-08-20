@@ -22,14 +22,6 @@ Runs everything for the fiducial follow demo.
 
 Runs a simple fiducial based navigation demo using fiducials and move_basic. Controllable using Robot Commander.
 
-### magni_demos teleop.launch
-
-Deprecated, now aliased to magni_bringup base.launch
-
-### magni_demos joystick.launch
-
-Deprecated, now aliased to magni_bringup base.launch
-
 ### magni_description description.launch
 Internal launch file for making the URDF load and robot_state_publisher work.
 
@@ -52,6 +44,14 @@ To be run on a workstation, not the pi. This brings up rviz in a way suitable to
 ### magni_viz view_robot.launch
 
 To be run on a workstation, not the pi. This brings up rviz in a way suitable to visualize just the state of the robot and sensors, without a navigation stack.
+
+### magni_demos teleop.launch
+
+Deprecated, now aliased to magni_bringup base.launch
+
+### magni_demos joystick.launch
+
+Deprecated, now aliased to magni_bringup base.launch
 
 ## Software that enables core hardware functionality on Magni:
 
