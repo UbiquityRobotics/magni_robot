@@ -1,18 +1,9 @@
 
 # Overview
 
-This package contains launch files and configuration files for the magni robot.
+This package contains launch files and configuration files for the Magni robot.
 
 ## Launch files
-
-### magni_bringup core.launch
-This brings up the essential nodes for communicating with the motor node. After launch, teleop_twist_keyboard should work.
-
-You should not have to run this launch file directly.
-
-### magni_bringup base.launch
-
-Runs everything needed for teleop, including Robot Commander based teleop (no navigation). Runs on robot boot. 
 
 ### magni_demos fiducial_follow.launch
 
@@ -20,12 +11,7 @@ Runs everything for the fiducial follow demo.
 
 ### magni_demos simple_navigation.launch
 
-Runs a simple fiducial based navigation demo using fiducials and move_basic. Controllable using Robot Commander.
-
-### magni_description description.launch
-Internal launch file for making the URDF load and robot_state_publisher work.
-
-You should not have to run this launch file directly.
+Runs a simple fiducial based navigation demo using fiducials and move_basic. The robot is controllable using Robot Commander.
 
 ### magni_nav aruco.launch
 
@@ -44,6 +30,24 @@ To be run on a workstation, not the pi. This brings up rviz in a way suitable to
 ### magni_viz view_robot.launch
 
 To be run on a workstation, not the pi. This brings up rviz in a way suitable to visualize just the state of the robot and sensors, without a navigation stack.
+
+## Internal
+
+### magni_bringup core.launch
+This brings up the essential nodes for communicating with the motor node. After launch, teleop_twist_keyboard should work.
+
+You should not have to run this launch file directly.
+
+### magni_bringup base.launch
+
+Runs everything needed for teleop, including Robot Commander based teleop (no navigation). Runs on robot boot. 
+
+### magni_description description.launch
+Internal launch file for making the URDF load and robot_state_publisher work.
+
+You should not have to run this launch file directly.
+
+## Deprecated
 
 ### magni_demos teleop.launch
 
