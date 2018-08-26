@@ -5,7 +5,7 @@
 # 3DTOF, etc, if they are installed.
 ###
 
-import sys, os, subprocess
+import sys, os, subprocess, time
 import roslaunch
 import yaml
 
@@ -46,6 +46,27 @@ if __name__ == "__main__":
         conf['sonars'] = 'false'
 
     print conf
+
+    time.sleep(5) # pifi doesn't like being called early in boot
+    try:
+        timeout = time.time() + 40 # up to 40 seconds
+        while (1):
+            if (time.time() > timeout): 
+                print "Timed out"
+                raise RuntimeError # go to error handling
+            output = subprocess.check_output(["pifi", "status"])
+            if "not activated" in output:
+                time.sleep(5)
+            if "acting as an Access Point" in output:
+                print "we are in AP mode, don't wait for time"
+                break # dont bother with chrony in AP mode
+            if "is connected to" in output:
+                print "we are connected to a network, wait for time"
+                subprocess.call(["chronyc", "waitsync", "20"]) # Wait for chrony sync
+                break
+    except (RuntimeError, OSError, subprocess.CalledProcessError) as e:
+        print "Error calling pifi"
+        subprocess.call(["chronyc", "waitsync", "6"]) # Wait up to 60 seconds for chrony
 
     # Ugly, but works 
     # just passing argv doesn't work with launch arguments, so we assign sys.argv
