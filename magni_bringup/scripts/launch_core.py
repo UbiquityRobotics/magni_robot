@@ -53,20 +53,20 @@ if __name__ == "__main__":
         while (1):
             if (time.time() > timeout): 
                 print "Timed out"
-                raise RuntimeError # go to default handling
+                raise RuntimeError # go to error handling
             output = subprocess.check_output(["pifi", "status"])
             if "not activated" in output:
                 time.sleep(5)
             if "acting as an Access Point" in output:
+                print "we are in AP mode, don't wait for time"
                 break # dont bother with chrony in AP mode
             if "is connected to" in output:
-                # we are connected to a network
-                subprocess.call(["chronyc", "waitsync", "6"]) # Wait for chrony sync
+                print "we are connected to a network, wait for time"
+                subprocess.call(["chronyc", "waitsync", "20"]) # Wait for chrony sync
                 break
     except (RuntimeError, OSError, subprocess.CalledProcessError) as e:
         print "Error calling pifi"
-        if (time.time() < 1530403200): # If date before July 1, 2018
-            subprocess.call(["chronyc", "waitsync", "6"]) # Wait for chrony sync
+        subprocess.call(["chronyc", "waitsync", "6"]) # Wait up to 60 seconds for chrony
 
     # Ugly, but works 
     # just passing argv doesn't work with launch arguments, so we assign sys.argv
