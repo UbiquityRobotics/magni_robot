@@ -2,6 +2,13 @@
 Changelog for package magni_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Wait for NTP before launching in Infrastructure mode
+	- added postinst for chrony conf
+	- do a smart wait for chrony
+* Contributors: Rohan Agrawal
+
 0.3.2 (2018-06-27)
 ------------------
 * install core launch
