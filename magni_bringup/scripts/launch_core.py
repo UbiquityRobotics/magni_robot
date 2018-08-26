@@ -62,6 +62,7 @@ if __name__ == "__main__":
             if "is connected to" in output:
                 # we are connected to a network
                 subprocess.call(["chronyc", "waitsync", "6"]) # Wait for chrony sync
+                break
     except (RuntimeError, OSError, subprocess.CalledProcessError) as e:
         print "Error calling pifi"
         if (time.time() < 1530403200): # If date before July 1, 2018
