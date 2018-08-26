@@ -1,0 +1,6 @@
+#!/bin/sh
+if ! grep -q "makestep" "/etc/chrony/chrony.conf"; then
+  echo "" >> /etc/chrony/chrony.conf
+  echo "# Added by magni_bringup" >> /etc/chrony/chrony.conf
+  echo "makestep 5 1 # Allows chrony to make a step correction once for >5s" >> /etc/chrony/chrony.conf
+fi

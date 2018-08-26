@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
     print conf
 
-    time.sleep(5)
+    time.sleep(5) # pifi doesn't like being called early in boot
     try:
         timeout = time.time() + 40 # up to 40 seconds
         while (1):
