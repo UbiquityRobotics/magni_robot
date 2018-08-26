@@ -2,6 +2,11 @@
 Changelog for package magni_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* made postinst executable
+* Contributors: Rohan Agrawal
+
 0.4.0 (2018-08-26)
 ------------------
 * Wait for NTP before launching in Infrastructure mode
