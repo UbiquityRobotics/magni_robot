@@ -2,8 +2,8 @@
 Changelog for package magni_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.4.3 (2018-08-30)
+------------------
 * fixed upward raspicam transform
 * Contributors: Rohan Agrawal
 
