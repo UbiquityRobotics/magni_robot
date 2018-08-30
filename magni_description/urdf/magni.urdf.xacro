@@ -84,7 +84,7 @@
   </xacro:if>
   <xacro:if value="${raspicam_mount == 'upward'}">
     <xacro:raspicam>
-      <origin xyz="0.035 0.15 0.14" rpy="0 0 -1.5707"/>
+      <origin xyz="0.035 0.15 0.14" rpy="0 0 ${pi}"/>
     </xacro:raspicam>
   </xacro:if>
 
