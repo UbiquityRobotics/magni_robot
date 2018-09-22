@@ -40,7 +40,7 @@ ubiquity_velocity_controller:
       has_velocity_limits    : false
       max_velocity           : 1.0   # m/s
       has_acceleration_limits: true
-      max_acceleration       : 0.5   # m/s^2
+      max_acceleration       : 1.1   # m/s^2
   angular:
     z:
       has_velocity_limits    : false
