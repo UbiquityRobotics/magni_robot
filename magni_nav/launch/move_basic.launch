@@ -4,5 +4,8 @@
         <param name="robot_width" value="0.20"/>
         <param name="robot_front_length" value="0.1"/>
         <param name="robot_back_length" value="0.32"/>
+        
+        <!-- Frame to navigate in -->
+	<param name="base_frame" value="base_footprint"/>
     </node>
 </launch>
