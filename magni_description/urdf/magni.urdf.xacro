@@ -89,7 +89,7 @@
         </geometry>
       </collision>
       <collision>
-        <origin xyz="0.033 0 0" rpy="0 ${pi/2} 0" />
+        <origin xyz="${0.033*reflect} 0 0" rpy="0 ${pi/2} 0" />
         <geometry>
           <cylinder radius="0.064" length="0.016"/>
         </geometry>

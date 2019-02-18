@@ -9,6 +9,7 @@
         <arg name="sonars_installed" value="$(arg sonars_installed)" />
     </include>>
 
+
     <node name="magni_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
           args="-urdf -param robot_description -model magni" />
 
@@ -18,5 +19,11 @@
     <!-- Launch the roscontrol controllers needed -->
     <node name="controller_spawner" pkg="controller_manager" type="spawner"
           args="ubiquity_velocity_controller ubiquity_joint_publisher"/>
+
+
+    <!-- Topic redirection for compatibility with real robot configuration (core.launch) -->
+    <!-- 'topic_tools relay' is used to redirect topics, because remap doesn't work in Gazebo. -->
+    <node name="cmd_vel_relay" type="relay" pkg="topic_tools" args="/cmd_vel /ubiquity_velocity_controller/cmd_vel" />
+    <node name="odom_relay" type="relay" pkg="topic_tools" args="/ubiquity_velocity_controller/odom /odom" />
 
 </launch>

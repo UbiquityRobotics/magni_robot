@@ -8,8 +8,8 @@ ubiquity_velocity_controller:
   left_wheel  : 'left_wheel_joint'
   right_wheel : 'right_wheel_joint'
   publish_rate: 50.0
-  pose_covariance_diagonal : [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
-  twist_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+  pose_covariance_diagonal: [0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
+  twist_covariance_diagonal: [0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
 
   cmd_vel_timeout: 0.25
   enable_odom_tf: true
