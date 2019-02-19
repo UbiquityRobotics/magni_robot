@@ -322,14 +322,10 @@
 			<profile_COMMON>
 				<technique sid="standard">
 					<phong>
-						<emission><color>0 0 0 1</color></emission>
-						<ambient><color>0 0 0 1</color></ambient>
 						<diffuse>
 							<color>0 0 0.376471 1</color>
 						</diffuse>
 						<specular><color>0 0 0.376471 1</color></specular>
-						<transparent opaque="A_ONE"><color>1.0 1.0 1.0 1.0</color></transparent>
-						<transparency><float>1</float></transparency>
 					</phong>
 				</technique>
 			</profile_COMMON>
@@ -338,14 +334,10 @@
 			<profile_COMMON>
 				<technique sid="standard">
 					<phong>
-						<emission><color>0 0 0 1</color></emission>
-						<ambient><color>0 0 0 1</color></ambient>
 						<diffuse>
 							<color>0.792157 0.819608 0.933333 1</color>
 						</diffuse>
 						<specular><color>0.396078 0.409804 0.466667 1</color></specular>
-						<transparent opaque="A_ONE"><color>1.0 1.0 1.0 1.0</color></transparent>
-						<transparency><float>1</float></transparency>
 					</phong>
 				</technique>
 			</profile_COMMON>

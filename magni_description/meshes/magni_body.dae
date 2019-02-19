@@ -281,14 +281,9 @@
 			<profile_COMMON>
 				<technique sid="standard">
 					<phong>
-						<emission><color>0 0 0 1</color></emission>
-						<ambient><color>0 0 0 1</color></ambient>
 						<diffuse>
 							<color>0.00392157 0.129412 0.227451 1</color>
-						</diffuse>
-						<specular><color>0.00196078 0.0647059 0.113725 1</color></specular>
-						<transparent opaque="A_ONE"><color>1.0 1.0 1.0 1.0</color></transparent>
-						<transparency><float>1</float></transparency>
+						</diffuse>Z
 					</phong>
 				</technique>
 			</profile_COMMON>
@@ -297,14 +292,9 @@
 			<profile_COMMON>
 				<technique sid="standard">
 					<phong>
-						<emission><color>0 0 0 1</color></emission>
-						<ambient><color>0 0 0 1</color></ambient>
 						<diffuse>
 							<color>0.00392157 0.121569 0.419608 1</color>
 						</diffuse>
-						<specular><color>0.00196078 0.0607843 0.209804 1</color></specular>
-						<transparent opaque="A_ONE"><color>1.0 1.0 1.0 1.0</color></transparent>
-						<transparency><float>1</float></transparency>
 					</phong>
 				</technique>
 			</profile_COMMON>
@@ -313,14 +303,10 @@
 			<profile_COMMON>
 				<technique sid="standard">
 					<phong>
-						<emission><color>0 0 0 1</color></emission>
-						<ambient><color>0 0 0 1</color></ambient>
 						<diffuse>
 							<color>0.0588235 0.0588235 0.0862745 1</color>
 						</diffuse>
 						<specular><color>0.0294118 0.0294118 0.0431373 1</color></specular>
-						<transparent opaque="A_ONE"><color>1.0 1.0 1.0 1.0</color></transparent>
-						<transparency><float>1</float></transparency>
 					</phong>
 				</technique>
 			</profile_COMMON>
