@@ -1,6 +1,6 @@
 <launch>
 
-    <arg name="rviz_config" default="false" />
+    <arg name="rviz_config" default="true" />
 
     <!-- load empty world -->
     <arg name="gui" default="true"/>

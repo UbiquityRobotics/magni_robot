@@ -86,6 +86,11 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: true
+        raspicam_sensor:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         right_caster_wheel:
           Alpha: 1
           Show Axes: false
@@ -100,22 +105,27 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: true
         sonar_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: true
         sonar_2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: true
         sonar_3:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: true
         sonar_4:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: true
       Name: RobotModel
       Robot Description: robot_description
       TF Prefix: ""
@@ -135,6 +145,68 @@ Visualization Manager:
       Tree:
         {}
       Update Interval: 0
+      Value: false
+    - Alpha: 0.5
+      Buffer Length: 1
+      Class: rviz/Range
+      Color: 255; 255; 255
+      Enabled: true
+      Name: Sonar_0
+      Queue Size: 100
+      Topic: /ubiquity_sonar/sonar_0
+      Unreliable: false
+      Value: true
+    - Alpha: 0.5
+      Buffer Length: 1
+      Class: rviz/Range
+      Color: 255; 255; 255
+      Enabled: true
+      Name: Sonar_1
+      Queue Size: 100
+      Topic: /ubiquity_sonar/sonar_1
+      Unreliable: false
+      Value: true
+    - Alpha: 0.5
+      Buffer Length: 1
+      Class: rviz/Range
+      Color: 255; 255; 255
+      Enabled: true
+      Name: Sonar_2
+      Queue Size: 100
+      Topic: /ubiquity_sonar/sonar_2
+      Unreliable: false
+      Value: true
+    - Alpha: 0.5
+      Buffer Length: 1
+      Class: rviz/Range
+      Color: 255; 255; 255
+      Enabled: true
+      Name: Sonar_3
+      Queue Size: 100
+      Topic: /ubiquity_sonar/sonar_3
+      Unreliable: false
+      Value: true
+    - Alpha: 0.5
+      Buffer Length: 1
+      Class: rviz/Range
+      Color: 255; 255; 255
+      Enabled: true
+      Name: Sonar_5
+      Queue Size: 100
+      Topic: /ubiquity_sonar/sonar_4
+      Unreliable: false
+      Value: true
+    - Class: rviz/Image
+      Enabled: false
+      Image Topic: /raspicam_node/image/compressed
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Image
+      Normalize Range: true
+      Queue Size: 2
+      Transport Hint: compressed
+      Unreliable: false
       Value: false
   Enabled: true
   Global Options:
@@ -161,25 +233,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.357055187225342
+      Distance: 0.7949069738388062
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 2.0887227058410645
-        Y: 0.4060455560684204
-        Z: 0.3944712281227112
+        X: -0.006741150747984648
+        Y: 0.14449401199817657
+        Z: 0.2124275118112564
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.3247963786125183
+      Pitch: 0.9547948241233826
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.870406627655029
+      Yaw: 0.31222203373908997
     Saved: ~
 Window Geometry:
   Displays:
@@ -187,7 +259,9 @@ Window Geometry:
   Height: 1685
   Hide Left Dock: false
   Hide Right Dock: true
-  QMainWindow State: 000000ff00000000fd0000000400000000000001f700000593fc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b000000b000fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000006e000005930000018200fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000015f00000597fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000006e000005970000013200fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000075a0000005afc0100000002fb0000000800540069006d006501000000000000075a0000057100fffffffb0000000800540069006d00650100000000000004500000000000000000000005570000059300000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Image:
+    collapsed: false
+  QMainWindow State: 000000ff00000000fd0000000400000000000002d700000593fc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b000000b000fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000006e000005930000018200fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000a0049006d00610067006500000004870000017a0000002600ffffff000000010000015f00000597fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000006e000005970000013200fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000075a0000005afc0100000002fb0000000800540069006d006501000000000000075a0000057100fffffffb0000000800540069006d00650100000000000004500000000000000000000004770000059300000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -197,5 +271,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1882
-  X: 134
+  X: 150
   Y: 55
