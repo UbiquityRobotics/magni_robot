@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="magni">
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="magni">
 
   <xacro:arg name="raspicam_mount" default="forward"/>
   <xacro:property name="raspicam_mount" value="$(arg raspicam_mount)"/>
@@ -7,18 +7,13 @@
   <xacro:arg name="sonars_installed" default="true"/>
   <xacro:property name="sonars_installed" value="$(arg sonars_installed)"/>
 
-
   <xacro:property name="wheel_r" value="0.1" />
   <xacro:property name="wheel_xpos" value="0.11" />
 
 
-  <!-- Inertia macro -->
-  <xacro:macro name="default_inertial" params="mass">
-    <inertial>
-      <mass value="${mass}" />
-      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
-    </inertial>
-  </xacro:macro>
+  <xacro:include filename="$(find magni_description)/urdf/magni.transmission.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/magni.gazebo.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/inertial.xacro" />
 
 
   <!-- Robot base_link -->
@@ -65,34 +60,24 @@
         <box size="0.1 0.07 0.07"/>
       </geometry>
     </collision>
-    <collision>
-      <origin xyz="${-wheel_xpos-0.19} 0.169 ${-wheel_r+0.04}" rpy="0 0 0" />
-      <geometry>
-        <sphere radius="0.04"/>
-      </geometry>
-    </collision>
-    <collision>
-      <origin xyz="${-wheel_xpos-0.19} -0.169 ${-wheel_r+0.04}" rpy="0 0 0" />
-      <geometry>
-        <sphere radius="0.04"/>
-      </geometry>
-    </collision>
-    <xacro:default_inertial mass="10"/>
+    <xacro:box_inertial_with_origin  x="0.398" y="0.221" z="0.150" mass="10.0">
+      <origin xyz="-0.15 0 0.03" rpy="0 0 0" />
+    </xacro:box_inertial_with_origin>
   </link>
 
   <!-- Fixed offset from the floor to the center of the wheels -->
   <link name="base_footprint"/>
   <joint name="base_footprint_joint" type="fixed">
-    <parent link="base_link"/>
-    <child link="base_footprint"/>
-    <origin xyz="0 0 ${-wheel_r}" rpy="0 0 0"/>
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 ${wheel_r}" rpy="0 0 0"/>
   </joint>
 
   <!-- Macro for defining wheels -->
   <xacro:macro name="wheel" params="prefix reflect">
     <link name="${prefix}_wheel">
       <visual>
-        <origin xyz="-0.071 0 0" rpy="0 0 0" />
+        <origin xyz="${-0.071*reflect} 0 0" rpy="0 ${(reflect-1)*pi/2} 0" />
         <geometry>
           <mesh filename="package://magni_description/meshes/front_wheel.dae" />
         </geometry>
@@ -104,23 +89,47 @@
         </geometry>
       </collision>
       <collision>
-        <origin xyz="0.033 0 0" rpy="0 ${pi/2} 0" />
+        <origin xyz="${0.033*reflect} 0 0" rpy="0 ${pi/2} 0" />
         <geometry>
           <cylinder radius="0.064" length="0.016"/>
         </geometry>
       </collision>
-      <xacro:default_inertial mass="2"/>
+      <xacro:cylinder_inertial_with_origin radius="${wheel_r}" length="0.05" mass="3.34">
+        <origin xyz="0 0 0" rpy="0 ${pi/2} 0" />
+      </xacro:cylinder_inertial_with_origin>
     </link>
     <joint name="${prefix}_wheel_joint" type="continuous">
-      <axis xyz="${1 * reflect } 0 0" rpy="0 0 0" />
+      <axis xyz="1 0 0" rpy="0 0 0" />
       <parent link="base_link"/>
       <child link="${prefix}_wheel"/>
-      <origin xyz="0 ${0.163*reflect} 0" rpy="0 0 ${pi/2 * reflect}"/>
+      <origin xyz="0 ${0.163*reflect} 0" rpy="0 0 ${pi/2}"/>
     </joint>
   </xacro:macro>
 
   <xacro:wheel prefix="left" reflect="1"/>
   <xacro:wheel prefix="right" reflect="-1"/>
+
+
+
+  <!-- Macro for defining caster wheels -->
+  <xacro:macro name="caster_wheel" params="prefix reflect">
+    <link name="${prefix}_caster_wheel">
+      <collision>
+        <origin xyz="${-wheel_xpos-0.19} ${reflect*0.169} ${-wheel_r+0.04}" rpy="0 0 0" />
+        <geometry>
+          <sphere radius="0.04"/>
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${prefix}_caster_wheel_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="${prefix}_caster_wheel"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:caster_wheel prefix="left" reflect="1"/>
+  <xacro:caster_wheel prefix="right" reflect="-1"/>
+
 
 
   <!-- Macro for defining sonars -->
