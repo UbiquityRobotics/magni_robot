@@ -13,13 +13,13 @@
 
     <link name="${name}">
       <visual>
-        <origin xyz="-0.005 0 0" rpy="${pi/2} 0 ${pi/2}" />
+        <origin xyz="-0.006 0 0" rpy="${pi/2} 0 ${pi/2}" />
         <geometry>
           <mesh filename="package://magni_description/meshes/sensors/sonar_hc-sr04.dae" />
         </geometry>
       </visual>
       <collision>
-        <origin xyz="0.0075 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
           <box size="0.02 0.044 0.021"/>
         </geometry>
@@ -55,7 +55,7 @@
         </ray>
         <!-- Gazebo-ROS interface plugin -->
         <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
-          <gaussianNoise>0.005</gaussianNoise>
+          <gaussianNoise>0.015</gaussianNoise>
           <alwaysOn>true</alwaysOn>
           <updateRate>5</updateRate>
           <topicName>/ubiquity_sonar/${name}</topicName>

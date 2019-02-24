@@ -19,9 +19,9 @@
         </geometry>
       </visual>
       <collision>
-        <origin xyz="0.01 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
         <geometry>
-          <box size="0.02 0.04 0.04"/>
+          <box size="0.03 0.026 0.016"/>
         </geometry>
       </collision>
     </link>
@@ -31,16 +31,16 @@
     <joint name="${name}_sensor_joint" type="fixed">
       <parent link="${name}"/>
       <child link="${name}_sensor"/>
-      <origin xyz="0 0 0" rpy="${pi/2} ${-pi/2} 0" />
+      <origin xyz="0 0 0.012" rpy="${pi/2} ${-pi/2} 0" />
     </joint>
 
     <!-- Gazebo sensor plugin -->
     <gazebo reference="${name}_sensor">
       <sensor type="camera" name="camera1">
-        <visualize>false</visualize>
+        <visualize>true</visualize>
         <update_rate>30.0</update_rate>
-        <camera name="head">
-          <horizontal_fov>1.3962634</horizontal_fov>
+        <camera name="raspi_camera">
+          <horizontal_fov>1.086</horizontal_fov>
           <image>
             <width>640</width>
             <height>480</height>

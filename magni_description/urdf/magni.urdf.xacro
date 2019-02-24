@@ -153,15 +153,6 @@
     </xacro:sonar_hc-sr04>
   </xacro:if>
 
-  <!--&lt;!&ndash; Macro for defining raspicam &ndash;&gt;-->
-  <!--<xacro:macro name="raspicam" params="*origin">-->
-    <!--<link name="raspicam"/>-->
-    <!--<joint name="raspicam" type="fixed">-->
-      <!--<parent link="base_link"/>-->
-      <!--<child link="raspicam"/>-->
-      <!--<xacro:insert_block name="origin"/>-->
-    <!--</joint>-->
-  <!--</xacro:macro>-->
 
   <!-- Define raspicam based on the raspicam_mount argument -->
   <xacro:if value="${raspicam_mount == 'forward'}">
