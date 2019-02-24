@@ -37,7 +37,7 @@
     <!-- Gazebo sensor plugin -->
     <gazebo reference="${name}_sensor">
       <sensor type="camera" name="camera1">
-        <visualize>true</visualize>
+        <visualize>false</visualize>
         <update_rate>30.0</update_rate>
         <camera name="raspi_camera">
           <horizontal_fov>1.086</horizontal_fov>
