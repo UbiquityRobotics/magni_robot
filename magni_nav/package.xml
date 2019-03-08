@@ -12,6 +12,8 @@
   <exec_depend>aruco_detect</exec_depend>
   <exec_depend>move_basic</exec_depend>
   <exec_depend>move_base</exec_depend>
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>rospy</exec_depend>
 
   <!-- We implicitly depend on raspicam_node too -->
 

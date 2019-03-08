@@ -5,7 +5,7 @@
   <arg name="mapping_mode" default="false"/>
 
   <!-- camera -->
-  <include file="$(find raspicam_node)/launch/camerav2_1280x960_10fps.launch" />
+  <!--<include file="$(find raspicam_node)/launch/camerav2_1280x960_10fps.launch" />-->
   
   <!-- Fiducial detection -->
   <include file="$(find aruco_detect)/launch/aruco_detect.launch">
@@ -21,7 +21,7 @@
   <include file="$(find fiducial_slam)/launch/fiducial_slam.launch">
     <arg name="map_frame" value="map"/>
     <arg name="odom_frame" value="odom"/>
-    <arg name="base_frame" value="base_footprint"/>
+    <arg name="base_frame" value="base_link"/>
     <arg name="future_date_transforms" value="0.5"/>
   </include>
 </launch>
