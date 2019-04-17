@@ -1,13 +1,6 @@
 <launch>
   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
     <rosparam command="load" file="$(find magni_nav)/param/ekf.yaml" />
-
-    <!--  Placeholder for output topic remapping
-    <remap from="odometry/filtered" to=""/>
-    <remap from="accel/filtered" to=""/>
-    -->
-
   </node>
-  <node pkg="bno055_usb_stick" type="bno055_usb_stick_node" name="bno055_node" />
 </launch>
 
