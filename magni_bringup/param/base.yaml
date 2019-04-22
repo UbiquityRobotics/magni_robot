@@ -3,7 +3,7 @@ ubiquity_motor:
   serial_baud: 38400
   controller_loop_rate: 20
   serial_loop_rate: 200
-  pid_proportional: 5000
+  pid_proportional: 8000
   pid_integral: 0
   pid_derivative: 0
   pid_denominator: 1000
@@ -21,7 +21,7 @@ ubiquity_velocity_controller:
   twist_covariance_diagonal: [0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
   cmd_vel_timeout: 0.25
 
-  enable_odom_tf: true
+  enable_odom_tf: false
 
   wheel_separation : 0.33
   wheel_radius : 0.1015
