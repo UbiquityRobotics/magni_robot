@@ -29,15 +29,3 @@ ubiquity_velocity_controller:
       max_velocity           : 2.0   # rad/s
       has_acceleration_limits: true
       max_acceleration       : 5.0   # rad/s^2
-
-
-#/gazebo_ros_control:
-#  pid_gains:
-#    left_wheel_joint:
-#      p: 100.0
-#      i: 0.01
-#      d: 10.0
-#    right_wheel_joint:
-#      p: 100.0
-#      i: 0.01
-#      d: 10.0

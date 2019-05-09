@@ -48,6 +48,11 @@
           <node pkg="pi_sonar" type="pi_sonar" name="pi_sonar"/>
     </group>
 
+    <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostics_agg">
+        <!-- Load the file you made above -->
+        <rosparam command="load" file="$(find magni_bringup)/param/diagnostics_agg.yaml"/>
+    </node>
+
     <!-- Load the parameters used by the following nodes -->
     <rosparam command="load" file="$(find magni_bringup)/param/base.yaml" />
     <!-- Launch the roscontrol controllers needed -->

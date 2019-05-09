@@ -1,0 +1,6 @@
+analyzers:
+      Raspicam:
+        type: GenericAnalyzer
+        path: Motors
+        startswith: 'motor_node:'
+

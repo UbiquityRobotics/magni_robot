@@ -1,6 +1,6 @@
 global_costmap:
   global_frame: map
-  robot_base_frame: base_link
+  robot_base_frame: base_footprint
   static_map: true
   inflation_radius: 0.5
   plugins:
