@@ -17,4 +17,8 @@
   <exec_depend>rostopic</exec_depend>
   <exec_depend>controller_manager</exec_depend>
 
+  <export>
+    <gazebo_ros gazebo_media_path="${prefix}"/>
+  </export>
+
 </package>

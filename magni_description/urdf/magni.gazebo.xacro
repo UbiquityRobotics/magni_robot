@@ -7,6 +7,15 @@
         </plugin>
     </gazebo>
 
+    <gazebo>
+        <plugin name="gazebo_ros_p3d" filename="libgazebo_ros_p3d.so">
+            <bodyName>base_footprint</bodyName>
+            <topicName>exact_pose</topicName>
+            <frameName>map</frameName>
+        </plugin>
+    </gazebo>
+
+
     <gazebo reference="left_wheel">
         <mu1>1.0</mu1>
         <mu2>1.0</mu2>
