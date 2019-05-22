@@ -281,9 +281,12 @@
 			<profile_COMMON>
 				<technique sid="standard">
 					<phong>
+						<ambient>
+							<color>0.00392157 0.129412 0.227451 1</color>
+						</ambient>
 						<diffuse>
 							<color>0.00392157 0.129412 0.227451 1</color>
-						</diffuse>Z
+						</diffuse>
 					</phong>
 				</technique>
 			</profile_COMMON>
@@ -292,6 +295,9 @@
 			<profile_COMMON>
 				<technique sid="standard">
 					<phong>
+						<ambient>
+							<color>0.00392157 0.121569 0.419608 1</color>
+						</ambient>
 						<diffuse>
 							<color>0.00392157 0.121569 0.419608 1</color>
 						</diffuse>
@@ -303,6 +309,9 @@
 			<profile_COMMON>
 				<technique sid="standard">
 					<phong>
+						<ambient>
+							<color>0.0588235 0.0588235 0.0862745 1</color>
+						</ambient>
 						<diffuse>
 							<color>0.0588235 0.0588235 0.0862745 1</color>
 						</diffuse>

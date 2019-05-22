@@ -17,7 +17,7 @@
             </inertial>
             <visual>
                 <geometry>
-                    <box size="0.14 0.14 0.001"/>
+                    <box size="0.14 0.14 0.003"/>
                 </geometry>
             </visual>
         </link>
@@ -25,6 +25,24 @@
         <gazebo reference="${prefix}${marker_id}base_link">
             <material>ArucoVisualMarker${marker_id}/Marker</material>
             <turnGravityOff>true</turnGravityOff>
+        </gazebo>
+
+
+        <joint name="${prefix}${marker_id}paper_joint" type="fixed">
+            <parent link="${prefix}${marker_id}base_link"/>
+            <child link="${prefix}${marker_id}paper_link"/>
+        </joint>
+
+        <link name="${prefix}${marker_id}paper_link">
+            <visual>
+                <geometry>
+                    <box size="0.297 0.21 0.001"/>
+                </geometry>
+            </visual>
+        </link>
+
+        <gazebo reference="${prefix}${marker_id}paper_link">
+            <material>MagniWorld/White</material>
         </gazebo>
 
     </xacro:macro>

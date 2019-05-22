@@ -322,6 +322,9 @@
 			<profile_COMMON>
 				<technique sid="standard">
 					<phong>
+						<ambient>
+							<color>0 0 0.376471 1</color>
+						</ambient>
 						<diffuse>
 							<color>0 0 0.376471 1</color>
 						</diffuse>
@@ -334,6 +337,9 @@
 			<profile_COMMON>
 				<technique sid="standard">
 					<phong>
+						<ambient>
+							<color>0.792157 0.819608 0.933333 1</color>
+						</ambient>
 						<diffuse>
 							<color>0.792157 0.819608 0.933333 1</color>
 						</diffuse>
