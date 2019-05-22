@@ -1,0 +1,21 @@
+<launch>
+
+    <include file="$(find magni_gazebo)/launch/empty_world.launch">
+        <arg name="raspicam_mount" value="upward"/>
+        <arg name="sonars_installed" value="false"/>
+    </include>
+
+    <include file="$(find magni_gazebo)/launch/fiducials/fiducial_grid_spawn.launch"/>
+
+
+    <include file="$(find aruco_detect)/launch/aruco_detect.launch">
+        <arg name="camera" value="/raspicam_node"/>
+        <arg name="image" default="image/compressed"/>
+        <arg name="dictionary" value="16"/>
+    </include>
+
+    <include file="$(find fiducial_slam)/launch/fiducial_slam.launch">
+        <arg name="camera" value="/raspicam_node"/>
+    </include>
+
+</launch>
