@@ -46,7 +46,7 @@ def update_monitor():
     rospy.loginfo('-------------')
     rospy.loginfo('\nSLAM pose: ' + str(slam_pose))
 
-    # get exact pose from exact Odometry topic
+    # global vars
     lock.acquire()
 
     global exact_pose
@@ -69,9 +69,9 @@ def update_monitor():
     global data_dev_z
     global data_dev_magnitude
     global data_dev_yaw
+    global next_plot_time
 
-
-
+    # get exact pose from exact Odometry topic
     exact_roll,exact_pitch,exact_yaw = tf.transformations.euler_from_quaternion(
         [exact_pose.orientation.x, exact_pose.orientation.y, exact_pose.orientation.z, exact_pose.orientation.w])
     rospy.loginfo('\nExact pose: ' + str(exact_pose))
@@ -84,7 +84,6 @@ def update_monitor():
     error_roll = slam_roll - exact_roll
     error_pitch = slam_pitch - exact_pitch
     error_yaw = slam_yaw - exact_yaw
-
 
     # calculate standard deviations
     samples += 1
@@ -102,7 +101,7 @@ def update_monitor():
 
     lock.release()
 
-    # plot data
+    # errors data
     data_time = np.append(data_time, rospy.Time.now().to_sec())
     data_error_x = np.append(data_error_x, error_x)
     data_error_y = np.append(data_error_y, error_y)
@@ -119,29 +118,36 @@ def update_monitor():
     data_dev_magnitude = np.append(data_dev_magnitude, sdev_magnitude)
     data_dev_yaw = np.append(data_dev_yaw, sdev_yaw)
 
-    # draw plots
-    error_pos_plot.plot(data_time, data_error_x, 'r-')
-    error_pos_plot.plot(data_time, data_error_y, 'g-')
-    error_pos_plot.plot(data_time, data_error_z, 'b-')
-    error_pos_plot.plot(data_time, data_error_magnitude, 'm-')
-    error_angle_plot.plot(data_time, data_error_roll, 'r-')
-    error_angle_plot.plot(data_time, data_error_pitch, 'g-')
-    error_angle_plot.plot(data_time, data_error_yaw, 'b-')
-    deviation_plot.plot(data_time, data_dev_x, 'r-')
-    deviation_plot.plot(data_time, data_dev_y, 'g-')
-    deviation_plot.plot(data_time, data_dev_z, 'b-')
-    deviation_plot.plot(data_time, data_dev_magnitude, 'm-')
+    if samples == 1 or rospy.Time.now() >= next_plot_time:
+        next_plot_time = rospy.Time.now() + rospy.Duration(1)
+        # draw plots
+        error_pos_plot.clear()
+        error_pos_plot.title.set_text("Positin errors: X, Y, Z, Magnitude")
+        error_pos_plot.plot(data_time, data_error_x, 'r-')
+        error_pos_plot.plot(data_time, data_error_y, 'g-')
+        error_pos_plot.plot(data_time, data_error_z, 'b-')
+        error_pos_plot.plot(data_time, data_error_magnitude, 'm-')
+        error_angle_plot.clear()
+        error_angle_plot.title.set_text("Rotation errors: Roll, Pitch, Yaw")
+        error_angle_plot.plot(data_time, data_error_roll, 'r-')
+        error_angle_plot.plot(data_time, data_error_pitch, 'g-')
+        error_angle_plot.plot(data_time, data_error_yaw, 'b-')
+        deviation_plot.clear()
+        deviation_plot.title.set_text("Standard deviations: X, Y, Z, Magnitude")
+        deviation_plot.plot(data_time, data_dev_x, 'r-')
+        deviation_plot.plot(data_time, data_dev_y, 'g-')
+        deviation_plot.plot(data_time, data_dev_z, 'b-')
+        deviation_plot.plot(data_time, data_dev_magnitude, 'm-')
+        # histograms
+        pos_hist.clear()
+        pos_hist.title.set_text("Position error: X")
+        pos_hist.hist(data_error_x, bins='auto')
+        pos_magnitude_hist.clear()
+        pos_magnitude_hist.title.set_text("Position error: Magnitude")
+        pos_magnitude_hist.hist(data_error_magnitude, bins='auto')
 
-    pos_hist.clear()
-    pos_hist.title.set_text("Position error: X")
-    pos_hist.hist(data_error_x, bins='auto')
-    pos_magnitude_hist.clear()
-    pos_magnitude_hist.title.set_text("Position error: Magnitude")
-    pos_magnitude_hist.hist(data_error_magnitude, bins='auto')
-
-    fig.canvas.draw()
-    fig.canvas.flush_events()
-
+        fig.canvas.draw()
+        fig.canvas.flush_events()
 
 
 if __name__ == '__main__':
@@ -202,18 +208,16 @@ if __name__ == '__main__':
     tf_listener = tf.TransformListener()
     rospy.Subscriber('/exact_pose', Odometry, odom_callback)
 
+    plt.ion()
     fig = plt.figure()
     error_pos_plot = fig.add_subplot(321)
-    error_pos_plot.title.set_text("Positin errors: X, Y, Z, Magnitude")
     error_angle_plot = fig.add_subplot(323)
-    error_angle_plot.title.set_text("Rotation errors: Roll, Pitch, Yaw")
     deviation_plot = fig.add_subplot(325)
-    deviation_plot.title.set_text("Standard deviations: X, Y, Z, Magnitude")
     pos_hist = fig.add_subplot(322)
     pos_magnitude_hist = fig.add_subplot(324)
     fig.show()
 
-    r = rospy.Rate(1)  # 10hz
+    r = rospy.Rate(5)  # 5hz
     while not rospy.is_shutdown():
         update_monitor()
         r.sleep()
