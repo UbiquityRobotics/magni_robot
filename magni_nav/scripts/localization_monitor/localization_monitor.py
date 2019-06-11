@@ -43,7 +43,7 @@ def update_monitor():
     slam_pose.orientation.z = slam_rot[2]
     slam_pose.orientation.w = slam_rot[3]
     slam_roll,slam_pitch,slam_yaw = tf.transformations.euler_from_quaternion(slam_rot)
-    rospy.loginfo('-------------')
+    rospy.loginfo('\n---------------------------------------------')
     rospy.loginfo('\nSLAM pose: ' + str(slam_pose))
 
     # global vars
@@ -120,6 +120,8 @@ def update_monitor():
 
     if samples == 1 or rospy.Time.now() >= next_plot_time:
         next_plot_time = rospy.Time.now() + rospy.Duration(1)
+        # print results
+        printErrorData()
         # draw plots
         error_pos_plot.clear()
         error_pos_plot.title.set_text("Positin errors: X, Y, Z, Magnitude")
@@ -150,6 +152,17 @@ def update_monitor():
         fig.canvas.flush_events()
 
 
+def printErrorData():
+    rospy.loginfo("\n====================\nLocalization data:" +
+            "\nPosition errors - Magnitude: " + str(data_error_magnitude[-1]) + ", X: " + str(data_error_x[-1]) +
+                  ", Y: " + str(data_error_y[-1]) + ", Z: " + str(data_error_z[-1]) +
+            "\nRotation errors - Roll: " + str(data_error_roll[-1]) + ", Pitch: " + str(data_error_pitch[-1]) +
+                  ", Yaw: " + str(data_error_yaw[-1]) +
+            "\nStandard deviations - Magnitude: " + str(data_dev_magnitude[-1]) + ", X: " + str(data_dev_x[-1]) +
+                  ", Y: " + str(data_dev_y[-1]) + ", Z: " + str(data_dev_z[-1]) +
+            "\n====================")
+
+
 if __name__ == '__main__':
 
     global exact_pose
@@ -174,9 +187,7 @@ if __name__ == '__main__':
     global data_dev_magnitude
     global data_dev_yaw
 
-
     lock = threading.Lock()
-
     exact_pose = Odometry()
     is_exact_init = False
 
@@ -201,15 +212,13 @@ if __name__ == '__main__':
     data_dev_magnitude = np.array([])
     data_dev_yaw = np.array([])
 
-
-
     rospy.init_node('localization_monitor', anonymous=True)
-
     tf_listener = tf.TransformListener()
     rospy.Subscriber('/exact_pose', Odometry, odom_callback)
 
     plt.ion()
     fig = plt.figure()
+    fig.canvas.set_window_title('Localization monitor')
     error_pos_plot = fig.add_subplot(321)
     error_angle_plot = fig.add_subplot(323)
     deviation_plot = fig.add_subplot(325)
@@ -217,6 +226,9 @@ if __name__ == '__main__':
     pos_magnitude_hist = fig.add_subplot(324)
     fig.show()
 
+    # print errors data on exit
+    rospy.on_shutdown(printErrorData)
+    # run update loop
     r = rospy.Rate(5)  # 5hz
     while not rospy.is_shutdown():
         update_monitor()
