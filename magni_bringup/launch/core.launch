@@ -31,12 +31,14 @@
     -->
     <arg name="raspicam_mount" default="forward"/>
     <!-- 
-        This parameter specifies wheter the sonars are
+        This parameter specifies whether the sonars are
         installed or not.
 
         This can be true or false
     -->
     <arg name="sonars_installed" default="false"/>
+
+    <arg name="controller_board_version" default="0"/>
 
     <!-- Launch the URDF for magni -->
     <include file="$(find magni_description)/launch/description.launch">
@@ -55,12 +57,19 @@
 
     <!-- Load the parameters used by the following nodes -->
     <rosparam command="load" file="$(find magni_bringup)/param/base.yaml" />
+    
+    <!-- If a board version was passed in, use it -->
+    <group if="$(eval controller_board_version != 0)">
+	<param name="/ubiquity_motor/controller_board_version" value="$(arg controller_board_version)"/>
+    </group>
+    
     <!-- Launch the roscontrol controllers needed -->
     <node name="controller_spawner" pkg="controller_manager" type="spawner"
         args="ubiquity_velocity_controller ubiquity_joint_publisher"/>
     <!-- Launch the motor node with the topic remapped to standard names -->
     <node name="motor_node" pkg="ubiquity_motor" type="motor_node">
         <remap from="/ubiquity_velocity_controller/cmd_vel" to="/cmd_vel"/>
-        <remap from="/ubiquity_velocity_controller/odom" to="/odom"/>
+	<remap from="/ubiquity_velocity_controller/odom" to="/odom"/>
+
     </node>
 </launch>
