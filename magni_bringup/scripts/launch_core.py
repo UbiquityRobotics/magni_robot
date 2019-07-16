@@ -83,7 +83,7 @@ if __name__ == "__main__":
             boardRev = 49 + (15 - (inputPortBits & 0x0F))
             print "Got board rev: %d" % boardRev
         except: 
-            print "Error reading board version from i2c"
+            print "Error reading motor controller board version from i2c"
 
     # Ugly, but works 
     # just passing argv doesn't work with launch arguments, so we assign sys.argv
