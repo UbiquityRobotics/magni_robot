@@ -8,13 +8,15 @@
 import sys, os, subprocess, time
 import roslaunch
 import yaml
+import smbus # used for the hw rev stuff
 
 conf_path = "/etc/ubiquity/robot.yaml"
 
 default_conf = \
 {
     'raspicam' : {'position' : 'forward'},
-    'sonars' : 'None'
+    'sonars' : 'None',
+    'motor_controller' : {'board_version' : None}
 }
 
 def get_conf():
@@ -68,10 +70,26 @@ if __name__ == "__main__":
         print "Error calling pifi"
         subprocess.call(["chronyc", "waitsync", "6"]) # Wait up to 60 seconds for chrony
 
+    boardRev = 0
+
+    if conf['motor_controller']['board_version'] == None: 
+        # Code to read board version from I2C
+        # The I2C chip is only present on 5.0 and newer boards
+        try:
+            i2cbus = smbus.SMBus(1)
+            i2cbus.write_byte(0x20, 0xFF)
+            time.sleep(0.2)
+            inputPortBits = i2cbus.read_byte(0x20)
+            boardRev = 49 + (15 - (inputPortBits & 0x0F))
+            print "Got board rev: %d" % boardRev
+        except: 
+            print "Error reading motor controller board version from i2c"
+
     # Ugly, but works 
     # just passing argv doesn't work with launch arguments, so we assign sys.argv
     sys.argv = ["roslaunch", "magni_bringup", "core.launch", 
                          "raspicam_mount:=%s" % conf['raspicam']['position'],
-                         "sonars_installed:=%s" % conf['sonars']]
+                         "sonars_installed:=%s" % conf['sonars'],
+                         "controller_board_version:=%d" % boardRev]
 
     roslaunch.main(sys.argv)
