@@ -165,6 +165,11 @@
       <origin xyz="0.035 0.15 0.14" rpy="0 0 ${pi}"/>
     </xacro:raspi_camera>
   </xacro:if>
+  <xacro:if value="${raspicam_mount == 'true_forward'}">
+    <xacro:raspi_camera name="raspicam" connected_to="base_link">
+	<origin xyz="0.10 0.06 0.095" rpy="-${7*pi/12} 0 -${pi/2}"/>
+    </xacro:raspi_camera>
+  </xacro:if>
 
 
 </robot>

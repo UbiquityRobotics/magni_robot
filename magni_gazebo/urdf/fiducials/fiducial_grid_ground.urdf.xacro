@@ -1,0 +1,44 @@
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="aruco_marker">
+
+    <xacro:arg name="prefix" default="aruco_marker_" />
+    <xacro:arg name="grid_size" default="0.75" />
+    <xacro:arg name="height" default="0.0" />
+
+
+    <xacro:property name="grid_size" value="$(arg grid_size)" />
+    <xacro:property name="height" value="$(arg height)" />
+
+    <xacro:include filename="$(find magni_gazebo)/urdf/fiducials/aruco_marker.xacro"/>
+
+    <link name="world"/>
+
+
+    <xacro:aruco_marker prefix="$(arg prefix)" marker_id="0" parent="world">
+        <origin xyz="${1*grid_size} 0 ${height}" rpy="${pi} 0 0"/>
+    </xacro:aruco_marker>
+
+    <xacro:aruco_marker prefix="$(arg prefix)" marker_id="1" parent="world">
+        <origin xyz="${2*grid_size} 0 ${height}" rpy="${pi} 0 0"/>
+    </xacro:aruco_marker>
+
+    <xacro:aruco_marker prefix="$(arg prefix)" marker_id="2" parent="world">
+        <origin xyz="${3*grid_size} 0 ${height}" rpy="${pi} 0 0"/>
+    </xacro:aruco_marker>
+
+    <xacro:aruco_marker prefix="$(arg prefix)" marker_id="3" parent="world">
+        <origin xyz="${4*grid_size} 0 ${height}" rpy="${pi} 0 0"/>
+    </xacro:aruco_marker>
+
+    <xacro:aruco_marker prefix="$(arg prefix)" marker_id="4" parent="world">
+        <origin xyz="${5*grid_size} 0 ${height}" rpy="${pi} 0 0"/>
+    </xacro:aruco_marker>
+
+    <xacro:aruco_marker prefix="$(arg prefix)" marker_id="5" parent="world">
+        <origin xyz="${6*grid_size} 0 ${height}" rpy="${pi} 0 0"/>
+    </xacro:aruco_marker>
+
+    <xacro:aruco_marker prefix="$(arg prefix)" marker_id="6" parent="world">
+        <origin xyz="${7*grid_size} 0 ${height}" rpy="${pi} 0 0"/>
+    </xacro:aruco_marker>
+
+</robot>
