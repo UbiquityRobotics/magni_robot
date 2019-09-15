@@ -153,18 +153,32 @@
     </xacro:sonar_hc-sr04>
   </xacro:if>
 
-
   <!-- Define raspicam based on the raspicam_mount argument -->
+  <!-- forward  Legacy tilted slightly upwards              -->
+  <!-- upward   Legacy pointing straight up                 -->
+  <!-- downward Forward and tilted 20 deg downward          -->
+  <!-- ahead    Directly facing forward with no tilt        -->
   <xacro:if value="${raspicam_mount == 'forward'}">
-    <xacro:raspi_camera name="raspicam" connected_to="base_link">
-      <origin xyz="0.035 0.085 0.14" rpy="1.15191731 0 1.5707"/>
-    </xacro:raspi_camera>
+    <xacro:raspicam>
+      <origin xyz="0.050 0.085 0.145" rpy="1.1519 0 1.5707"/>
+    </xacro:raspicam>
   </xacro:if>
   <xacro:if value="${raspicam_mount == 'upward'}">
-    <xacro:raspi_camera name="raspicam" connected_to="base_link">
-      <origin xyz="0.035 0.15 0.14" rpy="0 0 ${pi}"/>
-    </xacro:raspi_camera>
+    <xacro:raspicam>
+      <origin xyz="0.020 0.13 0.160" rpy="0 0 ${pi}"/>
+    </xacro:raspicam>
   </xacro:if>
+  <xacro:if value="${raspicam_mount == 'downward'}">
+    <xacro:raspicam>
+      <origin xyz="0.092 0.073 0.13" rpy="0.00 1.80 0.0"/>
+    </xacro:raspicam>
+  </xacro:if>
+  <xacro:if value="${raspicam_mount == 'ahead'}">
+    <xacro:raspicam>
+      <origin xyz="0.095 0.061 0.10" rpy="0 1.5707 0"/>
+    </xacro:raspicam>
+  </xacro:if>
+
 
 
 </robot>
