@@ -158,6 +158,7 @@
   <!-- upward   Legacy pointing straight up                 -->
   <!-- downward Forward and tilted 20 deg downward          -->
   <!-- ahead    Directly facing forward with no tilt        -->
+  <!--          It is best to maintain legacy forward name  -->
   <xacro:if value="${raspicam_mount == 'forward'}">
     <xacro:raspicam>
       <origin xyz="0.050 0.085 0.145" rpy="1.1519 0 1.5707"/>
