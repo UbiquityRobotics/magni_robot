@@ -1,6 +1,7 @@
 <launch>
   <arg name="raspicam_mount" default="forward"/>
   <arg name="sonars_installed" default="true"/>
+  <arg name="camera_extrinsics_file" default="-"/>
 
   <arg name="gui" default="False"/>
   <param name="use_gui" value="$(arg gui)"/>
@@ -8,7 +9,8 @@
       command="$(find xacro)/xacro --inorder
         '$(find magni_description)/urdf/magni.urdf.xacro' 
         raspicam_mount:=$(arg raspicam_mount)
-        sonars_installed:=$(arg sonars_installed)"
+        sonars_installed:=$(arg sonars_installed)
+        camera_extrinsics_file:=$(arg camera_extrinsics_file)"
   />
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
