@@ -85,11 +85,18 @@ if __name__ == "__main__":
         except: 
             print "Error reading motor controller board version from i2c"
 
+    extrinsics_file = '~/.ros/camera_info/extrinsics_%s.yaml' % conf['raspicam']['position']
+    extrinsics_file = os.path.expanduser(extrinsics_file)
+    if not os.path.isfile(extrinsics_file):
+        extrinsics_file = '-'
+
     # Ugly, but works 
     # just passing argv doesn't work with launch arguments, so we assign sys.argv
     sys.argv = ["roslaunch", "magni_bringup", "core.launch", 
                          "raspicam_mount:=%s" % conf['raspicam']['position'],
                          "sonars_installed:=%s" % conf['sonars'],
-                         "controller_board_version:=%d" % boardRev]
+                         "controller_board_version:=%d" % boardRev,
+                         "camera_extrinsics_file:=%s" % extrinsics_file]
 
     roslaunch.main(sys.argv)
+
