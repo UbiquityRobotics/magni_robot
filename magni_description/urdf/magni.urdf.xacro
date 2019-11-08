@@ -7,9 +7,11 @@
   <xacro:arg name="sonars_installed" default="true"/>
   <xacro:property name="sonars_installed" value="$(arg sonars_installed)"/>
 
+  <xacro:arg name="camera_extrinsics_file" default="-"/>
+  <xacro:property name="camera_extrinsics_file" value="$(arg camera_extrinsics_file)"/>
+
   <xacro:property name="wheel_r" value="0.1" />
   <xacro:property name="wheel_xpos" value="0.11" />
-
 
   <xacro:include filename="$(find magni_description)/urdf/magni.transmission.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/magni.gazebo.xacro" />
@@ -26,20 +28,20 @@
         <mesh filename="package://magni_description/meshes/magni_body.dae" />
       </geometry>
     </visual>
-	<visual>
+        <visual>
       <origin xyz="${-wheel_xpos-0.169} 0.17 ${-wheel_r+0.09}" rpy="0 0 ${pi}" />
       <geometry>
         <mesh filename="package://magni_description/meshes/caster_wheel.dae" />
       </geometry>
     </visual>
-	<visual>
+        <visual>
       <origin xyz="${-wheel_xpos-0.169} -0.17 ${-wheel_r+0.09}" rpy="0 0 ${pi}" />
       <geometry>
         <mesh filename="package://magni_description/meshes/caster_wheel.dae" />
       </geometry>
     </visual>
     <collision>
-	  <origin xyz="${-wheel_xpos} 0 ${-wheel_r+0.151}" rpy="0 0 0" />
+          <origin xyz="${-wheel_xpos} 0 ${-wheel_r+0.151}" rpy="0 0 0" />
       <geometry>
         <box size="0.398 0.268 0.160"/>
       </geometry>
@@ -153,30 +155,45 @@
     </xacro:sonar_hc-sr04>
   </xacro:if>
 
-  <!-- Define raspicam based on the raspicam_mount argument -->
-  <!-- forward  Forward and tilted slightly upwards         -->
-  <!-- upward   Pointing straight up                        -->
-  <!-- downward Forward and tilted slightly downward        -->
-  <!-- ahead    Directly facing forward with no tilt        -->
-  <xacro:if value="${raspicam_mount == 'forward'}">
-    <xacro:raspicam>
-      <origin xyz="0.050 0.085 0.145" rpy="1.1519 0 1.5707"/>
-    </xacro:raspicam>
+  <!-- If we are given an extrinsics calibration use that instead of the pre-configured pose -->
+  <xacro:if value="${camera_extrinsics_file != '-'}">
+    <xacro:property name="cam_extrinsics" value="${load_yaml(camera_extrinsics_file)}"/>
+    <xacro:property name="cam_position" value="${cam_extrinsics['position']}"/>
+    <xacro:property name="cam_orientation" value="${cam_extrinsics['orientation']}"/>
+
+    <xacro:raspi_camera name="raspicam" connected_to="base_link">
+      <origin xyz="${cam_position['x']} ${cam_position['y']} ${cam_position['z']}"
+        rpy="${cam_orientation['r']} ${cam_orientation['p']} ${cam_orientation['y']}"/>
+    </xacro:raspi_camera>
   </xacro:if>
-  <xacro:if value="${raspicam_mount == 'upward'}">
-    <xacro:raspicam>
-      <origin xyz="0.020 0.115 0.160" rpy="0 0 ${pi}"/>
-    </xacro:raspicam>
+  <xacro:if value="${camera_extrinsics_file == '-'}">
+    <!-- Define raspicam based on the raspicam_mount argument -->
+    <!-- forward  Forward and tilted slightly upwards         -->
+    <!-- upward   Pointing straight up                        -->
+    <!-- downward Forward and tilted slightly downward        -->
+    <!-- ahead    Directly facing forward with no tilt        -->
+    <xacro:if value="${raspicam_mount == 'forward'}">
+      <xacro:raspi_camera name="raspicam" connected_to="base_link">
+        <origin xyz="0.050 0.085 0.145" rpy="1.1519 0 1.5707"/>
+      </xacro:raspi_camera>
+    </xacro:if>
+    <xacro:if value="${raspicam_mount == 'upward'}">
+      <xacro:raspi_camera name="raspicam" connected_to="base_link">
+        <origin xyz="0.020 0.115 0.160" rpy="0 0 ${pi}"/>
+      </xacro:raspi_camera>
+    </xacro:if>
+    <xacro:if value="${raspicam_mount == 'downward'}">
+      <xacro:raspi_camera name="raspicam" connected_to="base_link">
+        <origin xyz="0.092 0.073 0.13" rpy="0.00 1.80 0.0"/>
+      </xacro:raspi_camera>
+    </xacro:if>
+    <xacro:if value="${raspicam_mount == 'ahead'}">
+      <xacro:raspi_camera name="raspicam" connected_to="base_link">
+        <origin xyz="0.095 0.061 0.10" rpy="0 1.5707 0"/>
+      </xacro:raspi_camera>
+    </xacro:if>
   </xacro:if>
-  <xacro:if value="${raspicam_mount == 'downward'}">
-    <xacro:raspicam>
-      <origin xyz="0.092 0.073 0.13" rpy="0.00 1.80 0.0"/>
-    </xacro:raspicam>
-  </xacro:if>
-  <xacro:if value="${raspicam_mount == 'ahead'}">
-    <xacro:raspicam>
-      <origin xyz="0.095 0.061 0.10" rpy="0 1.5707 0"/>
-    </xacro:raspicam>
-  </xacro:if>
+
+
 
 </robot>
