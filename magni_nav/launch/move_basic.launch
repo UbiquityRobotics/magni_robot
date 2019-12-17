@@ -5,6 +5,14 @@
         <param name="robot_front_length" value="0.1"/>
         <param name="robot_back_length" value="0.32"/>
 
+	<!-- speed   controls -->
+        <param name="max_linear_velocity" value="0.5"/>
+        <param name="max_angular_velocity" value="1.0"/>
+
+	<!-- End position tolerance -->
+        <param name="linear_tolerance" value="0.03"/>
+        <param name="angular_tolerance" value="0.01"/>
+
 	<!-- lateral control -->
         <param name="min_side_dist" value="0.3"/>
         <param name="max_side_dist" value="2"/>
