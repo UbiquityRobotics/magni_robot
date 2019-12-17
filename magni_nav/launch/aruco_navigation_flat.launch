@@ -1,34 +1,32 @@
 <!--
-   Run the 3d fiducial localization for a raspi
+   Run the 3d fiducial localization for Nav2D flat floor navigation method
+   This navigation method treats the map.txt file as read only so cannot grow fiducial map.
 -->
 <launch>
   <arg name="mapping_mode" default="false"/>
   <arg name="fiducial_len" default="0.14"/>
-  <arg name="verbose_info" default="false"/>
+  <arg name="verbose_info" default="true"/>
 
   <!-- camera -->
   <include file="$(find raspicam_node)/launch/camerav2_1280x960_10fps.launch" />
-  
+
   <!-- Fiducial detection -->
   <include file="$(find aruco_detect)/launch/aruco_detect.launch">
     <arg name="camera" value="/raspicam_node"/>
     <arg name="image" value="image"/>
     <arg name="transport" value="compressed"/>
-    <arg name="verbose_info" value="$(arg verbose_info)"/>
-
-    <!-- fiducial_len -->
     <arg name="fiducial_len" value="$(arg fiducial_len)"/>
+    <arg name="verbose_info" value="$(arg verbose_info)"/>
   </include>
 
-  <!-- Fiducial slam -->
+  <!-- Fiducial Navigation For Flat Floor -->
   <include file="$(find fiducial_slam)/launch/fiducial_slam.launch">
     <arg name="map_frame" value="map"/>
     <arg name="odom_frame" value="odom"/>
-    <arg name="base_frame" value="base_footprint"/>
-    <arg name="future_date_transforms" value="0.5"/>
-    <arg name="verbose_info" value="$(arg verbose_info)"/>
-
-    <!-- fiducial_len -->
+    <arg name="base_frame" value="base_link"/>
     <arg name="fiducial_len" value="$(arg fiducial_len)"/>
+    <arg name="verbose_info" value="$(arg verbose_info)"/>
+    <arg name="read_only_map" value="true"/>
+    <arg name="navigate_flat" value="true"/>
   </include>
 </launch>
