@@ -37,6 +37,11 @@
         This can be true or false
     -->
     <arg name="sonars_installed" default="false"/>
+    <!--
+    	This parameter specifices the location of the extrinsics
+	calibration for the camera (if it exists).
+    -->
+    <arg name="camera_extrinsics_file" default="-"/>
 
     <arg name="controller_board_version" default="0"/>
 
@@ -44,6 +49,7 @@
     <include file="$(find magni_description)/launch/description.launch">
         <arg name="raspicam_mount" value="$(arg raspicam_mount)"/>
         <arg name="sonars_installed" value="$(arg sonars_installed)"/>
+        <arg name="camera_extrinsics_file" value="$(arg camera_extrinsics_file)"/>
     </include>
 
     <group if="$(arg sonars_installed)">

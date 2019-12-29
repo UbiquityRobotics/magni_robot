@@ -174,7 +174,7 @@
     <!-- ahead    Directly facing forward with no tilt        -->
     <xacro:if value="${raspicam_mount == 'forward'}">
       <xacro:raspi_camera name="raspicam" connected_to="base_link">
-        <origin xyz="0.050 0.085 0.145" rpy="1.1519 0 1.5707"/>
+        <origin xyz="0.050 0.085 0.145" rpy="1.15191731 0 1.5707"/>
       </xacro:raspi_camera>
     </xacro:if>
     <xacro:if value="${raspicam_mount == 'upward'}">
@@ -194,7 +194,5 @@
       </xacro:raspi_camera>
     </xacro:if>
   </xacro:if>
-
-
 
 </robot>
