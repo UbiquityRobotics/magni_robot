@@ -170,7 +170,7 @@
     <!-- Define raspicam based on the raspicam_mount argument -->
     <!-- forward  Forward and tilted slightly upwards         -->
     <!-- upward   Pointing straight up                        -->
-    <!-- downward Forward and tilted slightly downward        -->
+    <!-- downward High up and tilted slightly down            -->
     <!-- ahead    Directly facing forward with no tilt        -->
     <xacro:if value="${raspicam_mount == 'forward'}">
       <xacro:raspi_camera name="raspicam" connected_to="base_link">
@@ -184,7 +184,8 @@
     </xacro:if>
     <xacro:if value="${raspicam_mount == 'downward'}">
       <xacro:raspi_camera name="raspicam" connected_to="base_link">
-        <origin xyz="0.092 0.073 0.13" rpy="0.00 1.80 0.0"/>
+        <!-- downward High up and tilted 35 degrees downward  -->
+        <origin xyz="0.100 0.095 0.48" rpy=" -2.1800 -0.0004562 -1.57014"/>
       </xacro:raspi_camera>
     </xacro:if>
     <xacro:if value="${raspicam_mount == 'ahead'}">

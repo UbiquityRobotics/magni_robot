@@ -11,6 +11,10 @@
         <param name="max_follow_dist_without_wall" value="1"/>
         <param name="max_angular_deviation" value="0.25"/>
 
+	<!-- accuracy of final pose -->
+        <param name="linear_tolerance" value="0.03"/>
+        <param name="angular_tolerance" value="0.01"/>
+
         <param name="lateral_kp" value="5.0"/>
         <param name="lateral_ki" value="0.0"/>
         <param name="lateral_kd" value="60.0"/>
