@@ -1,0 +1,76 @@
+<!--
+   Run the fiducial floor follow demo
+
+   Intended for use of downward facing camera configured per learn pages on camera setup
+   Expects the magni_bringup base.launch to already be running.
+
+   This launch file is experimental as of 9/2019. 
+   It is like fiducial_follow.launch but is setup to support following floor fiducials
+   A higher camera resolution is used and some options new as of late 2019 added
+
+   Be sure to set the fiducial_len and target_fiducial and target_search for your own usage
+-->
+<launch>
+    <!-- We feel a 0.11 meter fiducial is best for floor following -->
+    <!-- Set it back to 0.14 if you feel that is required         -->
+    <arg name="fiducial_len" default="0.11"/>
+    <arg name="target_fiducial" default="fid101"/>
+
+    <!-- Turn off the auto-search for fiducial missing from view  -->
+    <arg name="target_search" value="0"/>
+
+    <!-- Minimal debug is when debug_follow is 1  -->
+    <param name="debug_follow" value="1" />
+
+    <!-- Get closer to fiducials on floor and set new drive and rotate rates -->
+    <arg name="drive_rate" default="0.25"/>
+    <arg name="rotate_rate" default="0.5"/>
+    <arg name="min_dist" default="0.4"/>
+    <arg name="max_dist" default="3.0"/>
+    <arg name="linear_rate" default="0.5"/>
+    <arg name="max_linear_rate" default="0.8"/>
+    <arg name="angular_rate" default="0.4"/>
+    <arg name="max_angular_rate" default="0.6"/>
+
+    <!-- Use higher resolution camera so fiducials are easier to see on the floor         -->
+    <!-- This is not available on the June 2019 Raspberry Pi  image                       -->
+    <!-- To experiment with floor fiducials use the 410x308 raspicam and 0.14mm fiducials -->
+    <!-- Original follow used camerav2_410x308_30fps  try camerav2_1640x1232_10fps        -->
+    <include file="$(find raspicam_node)/launch/camerav2_1640x1232_10fps.launch" />
+
+    <!-- We want aruco detect to give us the 6DOF pose, 
+    not just the pixel coordinates of the vertices -->
+    <arg name="do_pose_estimation" default="true"/>
+
+    <!-- Run aruco_detect with special parameters to optimize for speed -->
+    <node pkg="aruco_detect" name="aruco_detect"
+        type="aruco_detect" output="screen" respawn="false">
+        <param name="image_transport" value="compressed"/>
+        <param name="publish_images" value="true" />
+        <param name="fiducial_len" value="$(arg fiducial_len)"/>
+        <param name="do_pose_estimation" value="$(arg do_pose_estimation)"/>
+        <param name="adaptiveThreshWinSizeStep" value="8" />
+        <param name="adaptiveThreshWinSizeMin" value="10" />
+        <param name="adaptiveThreshWinSizeMax" value="50" />
+        <param name="doCornerRefinement" value="False" />
+        <param name="do_tracking" value="false" />
+        <param name="num_threads" value="3" />
+        <remap from="/camera/compressed" 
+            to="/raspicam_node/image/compressed"/>
+        <remap from="/camera_info" to="/raspicam_node/camera_info"/>
+    </node>
+
+    <!-- Launch the actual follow node -->
+    <node name="fiducial_follow" pkg="fiducial_follow" type="follow.py" output="screen">
+        <param name="target_fiducial" value="$(arg target_fiducial)"/>
+        <param name="target_search" value="$(arg target_search)"/>
+        <param name="drive_rate" value="$(arg drive_rate)"/>
+        <param name="rotate_rate" value="$(arg rotate_rate)"/>
+        <param name="min_dist" value="$(arg min_dist)"/>
+        <param name="max_dist" value="$(arg max_dist)"/>
+        <param name="linear_rate" value="$(arg linear_rate)"/>
+        <param name="max_linear_rate" value="$(arg max_linear_rate)"/>
+        <param name="angular_rate" value="$(arg angular_rate)"/>
+        <param name="max_angular_rate" value="$(arg max_angular_rate)"/>
+    </node>
+</launch>
