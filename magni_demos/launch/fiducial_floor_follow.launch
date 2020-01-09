@@ -25,7 +25,7 @@
     <!-- Get closer to fiducials on floor and set new drive and rotate rates -->
     <arg name="drive_rate" default="0.25"/>
     <arg name="rotate_rate" default="0.5"/>
-    <arg name="min_dist" default="0.4"/>
+    <arg name="min_dist" default="0.5"/>
     <arg name="max_dist" default="3.0"/>
     <arg name="linear_rate" default="0.5"/>
     <arg name="max_linear_rate" default="0.8"/>
@@ -36,7 +36,7 @@
     <!-- This is not available on the June 2019 Raspberry Pi  image                       -->
     <!-- To experiment with floor fiducials use the 410x308 raspicam and 0.14mm fiducials -->
     <!-- Original follow used camerav2_410x308_30fps  try camerav2_1640x1232_10fps        -->
-    <include file="$(find raspicam_node)/launch/camerav2_1640x1232_10fps.launch" />
+    <include file="$(find raspicam_node)/launch/camerav2_1280x960_10fps.launch" />
 
     <!-- We want aruco detect to give us the 6DOF pose, 
     not just the pixel coordinates of the vertices -->
