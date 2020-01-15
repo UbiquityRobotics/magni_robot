@@ -185,14 +185,14 @@
       </xacro:raspi_camera>
     </xacro:if>
     <xacro:if value="${raspicam_mount == 'downward'}">
-      <xacro:raspicam>
+      <xacro:raspi_camera name="raspicam" connected_to="base_link">
         <origin xyz="0.110 0.090 0.455" rpy="3.14159 -0.7854 0.0"/>
-      </xacro:raspicam>
+      </xacro:raspi_camera>
     </xacro:if>
     <xacro:if value="${raspicam_mount == 'ahead'}">
-      <xacro:raspicam>
+      <xacro:raspi_camera name="raspicam" connected_to="base_link">
         <origin xyz="0.095 0.061 0.10" rpy="0 1.5707 0"/>
-      </xacro:raspicam>
+      </xacro:raspi_camera>
     </xacro:if>
   </xacro:if>
 
