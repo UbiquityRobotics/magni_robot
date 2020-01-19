@@ -172,28 +172,28 @@
     <!-- Define raspicam based on the raspicam_mount argument -->
     <!-- forward  Forward and tilted slightly upwards         -->
     <!-- upward   Pointing straight up                        -->
-    <!-- downward Forward and tilted slightly downward        -->
+    <!-- downward High on post and pointing 45 degree down    -->
     <!-- ahead    Directly facing forward with no tilt        -->
     <xacro:if value="${raspicam_mount == 'forward'}">
       <xacro:raspi_camera name="raspicam" connected_to="base_link">
-        <origin xyz="0.050 0.085 0.145" rpy="1.15191731 0 1.5707"/>
+        <origin xyz="0.050 0.085 0.135" rpy="1.15191731 0 1.5707"/>
       </xacro:raspi_camera>
     </xacro:if>
     <xacro:if value="${raspicam_mount == 'upward'}">
       <xacro:raspi_camera name="raspicam" connected_to="base_link">
-        <origin xyz="0.020 0.115 0.160" rpy="0 0 ${pi}"/>
+        <origin xyz="0.020 0.115 0.155" rpy="0 0 ${pi}"/>
       </xacro:raspi_camera>
     </xacro:if>
-      <xacro:if value="${raspicam_mount == 'downward'}">
-        <xacro:raspicam>
-          <origin xyz="0.092 0.073 0.13" rpy="0.00 1.80 0.0"/>
-        </xacro:raspicam>
-      </xacro:if>
-      <xacro:if value="${raspicam_mount == 'ahead'}">
-        <xacro:raspicam>
-          <origin xyz="0.095 0.061 0.10" rpy="0 1.5707 0"/>
-        </xacro:raspicam>
-      </xacro:if>
+    <xacro:if value="${raspicam_mount == 'downward'}">
+      <xacro:raspi_camera name="raspicam" connected_to="base_link">
+        <origin xyz="0.110 0.090 0.455" rpy="3.14159 -0.7854 0.0"/>
+      </xacro:raspi_camera>
+    </xacro:if>
+    <xacro:if value="${raspicam_mount == 'ahead'}">
+      <xacro:raspi_camera name="raspicam" connected_to="base_link">
+        <origin xyz="0.095 0.061 0.10" rpy="0 1.5707 0"/>
+      </xacro:raspi_camera>
+    </xacro:if>
   </xacro:if>
 
 </robot>
