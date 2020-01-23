@@ -25,10 +25,10 @@
     <!-- Get closer to fiducials on floor and set new drive and rotate rates -->
     <arg name="drive_rate" default="0.25"/>
     <arg name="rotate_rate" default="0.5"/>
-    <arg name="min_dist" default="0.5"/>
+    <arg name="min_dist" default="0.40"/>
     <arg name="max_dist" default="3.0"/>
-    <arg name="linear_rate" default="0.5"/>
-    <arg name="max_linear_rate" default="0.8"/>
+    <arg name="linear_rate" default="0.3"/>
+    <arg name="max_linear_rate" default="0.5"/>
     <arg name="angular_rate" default="0.4"/>
     <arg name="max_angular_rate" default="0.6"/>
 
@@ -49,9 +49,9 @@
         <param name="publish_images" value="true" />
         <param name="fiducial_len" value="$(arg fiducial_len)"/>
         <param name="do_pose_estimation" value="$(arg do_pose_estimation)"/>
-        <param name="adaptiveThreshWinSizeStep" value="8" />
+        <param name="adaptiveThreshWinSizeStep" value="4" />
         <param name="adaptiveThreshWinSizeMin" value="10" />
-        <param name="adaptiveThreshWinSizeMax" value="50" />
+        <param name="adaptiveThreshWinSizeMax" value="100" />
         <param name="doCornerRefinement" value="False" />
         <param name="do_tracking" value="false" />
         <param name="num_threads" value="3" />
