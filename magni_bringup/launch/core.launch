@@ -44,6 +44,8 @@
     <arg name="camera_extrinsics_file" default="-"/>
 
     <arg name="controller_board_version" default="0"/>
+    <arg name="controller_serial_port" default="/dev/ttyAMA0"/>
+    <arg name="controller_serial_baud" default="38400"/>
 
     <!-- Launch the URDF for magni -->
     <include file="$(find magni_description)/launch/description.launch">
@@ -68,6 +70,9 @@
     <group if="$(eval controller_board_version != 0)">
 	<param name="/ubiquity_motor/controller_board_version" value="$(arg controller_board_version)"/>
     </group>
+
+    <param name="/ubiquity_motor/serial_port" value="$(arg controller_serial_port)"/>
+    <param name="/ubiquity_motor/serial_baud" value="$(arg controller_serial_baud)"/>
     
     <!-- Launch the roscontrol controllers needed -->
     <node name="controller_spawner" pkg="controller_manager" type="spawner"
@@ -76,6 +81,6 @@
     <node name="motor_node" pkg="ubiquity_motor" type="motor_node">
         <remap from="/ubiquity_velocity_controller/cmd_vel" to="/cmd_vel"/>
 	<remap from="/ubiquity_velocity_controller/odom" to="/odom"/>
-
     </node>
+
 </launch>
