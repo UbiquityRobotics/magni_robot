@@ -13,6 +13,7 @@
   <xacro:property name="wheel_r" value="0.1" />
   <xacro:property name="wheel_xpos" value="0.11" />
 
+
   <xacro:include filename="$(find magni_description)/urdf/magni.transmission.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/magni.gazebo.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/inertial.xacro" />

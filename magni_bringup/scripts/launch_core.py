@@ -16,7 +16,11 @@ default_conf = \
 {
     'raspicam' : {'position' : 'forward'},
     'sonars' : 'None',
-    'motor_controller' : {'board_version' : None}
+    'motor_controller' : {
+        'board_version' : None,   
+        'serial_port': "/dev/ttyAMA0",
+        'serial_baud': 38400
+    }
 }
 
 def get_conf():
@@ -96,7 +100,10 @@ if __name__ == "__main__":
                          "raspicam_mount:=%s" % conf['raspicam']['position'],
                          "sonars_installed:=%s" % conf['sonars'],
                          "controller_board_version:=%d" % boardRev,
-                         "camera_extrinsics_file:=%s" % extrinsics_file]
+                         "camera_extrinsics_file:=%s" % extrinsics_file,
+                         "controller_serial_port:=%s" % conf['motor_controller']['serial_port'],
+                         "controller_serial_baud:=%s" % conf['motor_controller']['serial_baud']
+               ]
 
     roslaunch.main(sys.argv)
 
