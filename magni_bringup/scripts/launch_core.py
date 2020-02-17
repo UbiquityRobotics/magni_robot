@@ -20,7 +20,8 @@ default_conf = \
         'board_version' : None,   
         'serial_port': "/dev/ttyAMA0",
         'serial_baud': 38400
-    }
+    },
+    'force_time_sync' : 'True'
 }
 
 def get_conf():
@@ -53,26 +54,29 @@ if __name__ == "__main__":
 
     print conf
 
-    time.sleep(5) # pifi doesn't like being called early in boot
-    try:
-        timeout = time.time() + 40 # up to 40 seconds
-        while (1):
-            if (time.time() > timeout): 
-                print "Timed out"
-                raise RuntimeError # go to error handling
-            output = subprocess.check_output(["pifi", "status"])
-            if "not activated" in output:
-                time.sleep(5)
-            if "acting as an Access Point" in output:
-                print "we are in AP mode, don't wait for time"
-                break # dont bother with chrony in AP mode
-            if "is connected to" in output:
-                print "we are connected to a network, wait for time"
-                subprocess.call(["chronyc", "waitsync", "20"]) # Wait for chrony sync
-                break
-    except (RuntimeError, OSError, subprocess.CalledProcessError) as e:
-        print "Error calling pifi"
-        subprocess.call(["chronyc", "waitsync", "6"]) # Wait up to 60 seconds for chrony
+    if conf['force_time_sync']:
+        time.sleep(5) # pifi doesn't like being called early in boot
+        try:
+            timeout = time.time() + 40 # up to 40 seconds
+            while (1):
+                if (time.time() > timeout): 
+                    print "Timed out"
+                    raise RuntimeError # go to error handling
+                output = subprocess.check_output(["pifi", "status"])
+                if "not activated" in output:
+                    time.sleep(5)
+                if "acting as an Access Point" in output:
+                    print "we are in AP mode, don't wait for time"
+                    break # dont bother with chrony in AP mode
+                if "is connected to" in output:
+                    print "we are connected to a network, wait for time"
+                    subprocess.call(["chronyc", "waitsync", "20"]) # Wait for chrony sync
+                    break
+        except (RuntimeError, OSError, subprocess.CalledProcessError) as e:
+            print "Error calling pifi"
+            subprocess.call(["chronyc", "waitsync", "6"]) # Wait up to 60 seconds for chrony
+    else:
+        print "Skipping time sync steps due to configuration" 
 
     boardRev = 0
 
