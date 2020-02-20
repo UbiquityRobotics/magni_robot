@@ -4,7 +4,7 @@
    Intended for use of downward facing camera configured per learn pages on camera setup
    Expects the magni_bringup base.launch to already be running.
 
-   This launch file is experimental as of 9/2019. 
+   This launch file is experimental as of 1/2020. 
    It is like fiducial_follow.launch but is setup to support following floor fiducials
    A higher camera resolution is used and some options new as of late 2019 added
 
@@ -13,7 +13,7 @@
 <launch>
     <!-- We feel a 0.11 meter fiducial is best for floor following -->
     <!-- Set it back to 0.14 if you feel that is required         -->
-    <arg name="fiducial_len" default="0.11"/>
+    <arg name="fiducial_len" default="0.110"/>
     <arg name="target_fiducial" default="fid101"/>
 
     <!-- Turn off the auto-search for fiducial missing from view  -->
@@ -61,7 +61,7 @@
     </node>
 
     <!-- Launch the actual follow node -->
-    <node name="fiducial_follow" pkg="fiducial_follow" type="follow.py" output="screen">
+    <node name="floor_follow" pkg="floor_follow" type="floor_follow.py" output="screen">
         <param name="target_fiducial" value="$(arg target_fiducial)"/>
         <param name="target_search" value="$(arg target_search)"/>
         <param name="drive_rate" value="$(arg drive_rate)"/>
