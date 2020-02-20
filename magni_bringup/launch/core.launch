@@ -37,6 +37,14 @@
         This can be true or false
     -->
     <arg name="sonars_installed" default="false"/>
+    <!-- 
+        This parameter specifies whether the oled display is
+        installed or not.
+
+        This can be true or false
+    -->
+    <arg name="oled_display" default="false"/>
+
     <!--
     	This parameter specifices the location of the extrinsics
 	calibration for the camera (if it exists).
@@ -55,7 +63,11 @@
     </include>
 
     <group if="$(arg sonars_installed)">
-          <node pkg="pi_sonar" type="pi_sonar" name="pi_sonar"/>
+        <node pkg="pi_sonar" type="pi_sonar" name="pi_sonar"/>
+    </group>
+
+    <group if="$(arg oled_display)">
+        <node pkg="oled_display_node" type="oled_display_node" name="oled_display"/>
     </group>
 
     <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostics_agg">

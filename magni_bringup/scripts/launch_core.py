@@ -21,6 +21,9 @@ default_conf = \
         'serial_port': "/dev/ttyAMA0",
         'serial_baud': 38400
     },
+    'oled_display' : {
+        'controller' : 'None',
+    },
     'force_time_sync' : 'True'
 }
 
@@ -47,10 +50,16 @@ def get_conf():
 if __name__ == "__main__":
     conf = get_conf()
 
+    # We only support 1 version of the Sonars right now
     if conf['sonars'] == 'pi_sonar_v1':
         conf['sonars'] = 'true'
     else:
         conf['sonars'] = 'false'
+
+    # We only support 1 display type right now
+    oled_display_installed = 'false'
+    if conf['oled_display']['controller'] == 'SH1106':
+        oled_display_installed = 'true'
 
     print conf
 
@@ -107,6 +116,7 @@ if __name__ == "__main__":
                          "camera_extrinsics_file:=%s" % extrinsics_file,
                          "controller_serial_port:=%s" % conf['motor_controller']['serial_port'],
                          "controller_serial_baud:=%s" % conf['motor_controller']['serial_baud']
+                         "oled_display:=%s" % oled_display_installed
                ]
 
     roslaunch.main(sys.argv)
