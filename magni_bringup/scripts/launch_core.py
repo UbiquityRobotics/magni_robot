@@ -19,10 +19,13 @@ default_conf = \
     'motor_controller' : {
         'board_version' : None,   
         'serial_port': "/dev/ttyAMA0",
-        'serial_baud': 38400
-    },
-    'oled_display' : {
-        'controller' : 'None',
+        'serial_baud': 38400,
+        'pid_proportional': 5000,
+        'pid_integral' 7,
+        'pid_derivative': -110,
+        'pid_denominator': 1000,
+        'pid_moving_buffer_size': 70,
+        'pid_velocity': 1500
     },
     'force_time_sync' : 'True'
 }
@@ -107,6 +110,7 @@ if __name__ == "__main__":
     if not os.path.isfile(extrinsics_file):
         extrinsics_file = '-'
 
+    controller = conf['motor_controller'] # make it easier to access elements
     # Ugly, but works 
     # just passing argv doesn't work with launch arguments, so we assign sys.argv
     sys.argv = ["roslaunch", "magni_bringup", "core.launch", 
@@ -114,8 +118,14 @@ if __name__ == "__main__":
                          "sonars_installed:=%s" % conf['sonars'],
                          "controller_board_version:=%d" % boardRev,
                          "camera_extrinsics_file:=%s" % extrinsics_file,
-                         "controller_serial_port:=%s" % conf['motor_controller']['serial_port'],
-                         "controller_serial_baud:=%s" % conf['motor_controller']['serial_baud']
+                         "controller_serial_port:=%s" % controller['serial_port'],
+                         "controller_serial_baud:=%s" % controller['serial_baud'],
+                         "controller_pid_proportional:=%s" % controller['pid_proportional'],
+                         "controller_pid_integral:=%s" % controller['pid_integral'],
+                         "controller_pid_derivative:=%s" % controller['pid_derivative'],
+                         "controller_pid_derivative:=%s" % controller['pid_denominator'],
+                         "controller_pid_moving_buffer_size:=%s" % controller['pid_moving_buffer_size'],
+                         "controller_pid_velocity:=%s" % controller['pid_velocity'],
                          "oled_display:=%s" % oled_display_installed
                ]
 

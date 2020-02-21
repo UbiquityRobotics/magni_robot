@@ -54,6 +54,14 @@
     <arg name="controller_board_version" default="0"/>
     <arg name="controller_serial_port" default="/dev/ttyAMA0"/>
     <arg name="controller_serial_baud" default="38400"/>
+    
+    <!-- PID Params -->
+    <arg name="controller_pid_proportional" default="5000"/>
+    <arg name="controller_pid_integral" default="7"/>
+    <arg name="controller_pid_derivative" default="-110"/>
+    <arg name="controller_pid_denominator" default="1000"/>
+    <arg name="controller_pid_moving_buffer_size" default="70"/>
+    <arg name="controller_pid_velocity" default="1500"/>
 
     <!-- Launch the URDF for magni -->
     <include file="$(find magni_description)/launch/description.launch">
@@ -85,6 +93,14 @@
 
     <param name="/ubiquity_motor/serial_port" value="$(arg controller_serial_port)"/>
     <param name="/ubiquity_motor/serial_baud" value="$(arg controller_serial_baud)"/>
+    
+    <!-- PID Params -->
+    <param name="/ubiquity_motor/pid_proportional" value="$(arg controller_pid_proportional)"/>
+    <param name="/ubiquity_motor/pid_integral" value="$(arg controller_pid_integral)"/>
+    <param name="/ubiquity_motor/pid_derivative" value="$(arg controller_pid_derivative)"/>
+    <param name="/ubiquity_motor/pid_denominator" value="$(arg controller_pid_denominator)"/>
+    <param name="/ubiquity_motor/pid_moving_buffer_size" value="$(arg controller_pid_moving_buffer_size)"/>
+    <param name="/ubiquity_motor/pid_velocity" value="$(arg controller_pid_velocity)"/>
     
     <!-- Launch the roscontrol controllers needed -->
     <node name="controller_spawner" pkg="controller_manager" type="spawner"
