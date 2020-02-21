@@ -1,10 +1,12 @@
 ubiquity_motor:
   controller_loop_rate: 20
   serial_loop_rate: 200
-  pid_proportional: 8000
-  pid_integral: 0
-  pid_derivative: 0
+  pid_proportional: 5000
+  pid_integral: 7
+  pid_derivative: -110
   pid_denominator: 1000
+  pid_moving_buffer_size: 70
+  pid_velocity: 15000
 
 ubiquity_joint_publisher:
   type: "joint_state_controller/JointStateController"
