@@ -83,15 +83,31 @@ if __name__ == "__main__":
     if conf['motor_controller']['board_version'] == None: 
         # Code to read board version from I2C
         # The I2C chip is only present on 5.0 and newer boards
+        ioExpanderFound = 0
         try:
             i2cbus = smbus.SMBus(1)
             i2cbus.write_byte(0x20, 0xFF)
             time.sleep(0.2)
             inputPortBits = i2cbus.read_byte(0x20)
-            boardRev = 49 + (15 - (inputPortBits & 0x0F))
-            print "Got board rev: %d" % boardRev
+            boardRev = 50 + (15 - (inputPortBits & 0x0F))
+            print "Got board rev: %d from I2C expander at addr 0x20" % boardRev
+            ioExpanderFound = 1
         except: 
-            print "Error reading motor controller board version from i2c"
+            print "Error reading motor controller board version from i2c addr 0x20"
+
+        if ioExpanderFound == 0:
+            # An easy mistake of parts procurement is to use PCF8574A at different I2C addr
+            # We will therefore harden our code by trying for the alternate address
+            try:
+                i2cbus = smbus.SMBus(1)
+                i2cbus.write_byte(0x38, 0xFF)
+                time.sleep(0.2)
+                inputPortBits = i2cbus.read_byte(0x38)
+                boardRev = 50 + (15 - (inputPortBits & 0x0F))
+                print "Got board rev: %d from I2C expander at addr 0x38" % boardRev
+                ioExpanderFound = 1
+            except: 
+                print "Error reading motor controller board version from alternate i2c addr 0x38"
 
     extrinsics_file = '~/.ros/camera_info/extrinsics_%s.yaml' % conf['raspicam']['position']
     extrinsics_file = os.path.expanduser(extrinsics_file)
