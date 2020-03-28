@@ -14,9 +14,8 @@
         Since this launch brings up everything we expect 
         for teleop, it is set to 'teleop'.
     -->
-    <param name="ubiquity_robot_mode" type="string" value="teleop"/>
+    <param name="ubiquity_robot_mode" type="string" value="core"/>
 
     <node name="magni_launch_core" pkg="magni_bringup" type="launch_core.py" output="screen"/>
-    <include file="$(find magni_teleop)/launch/logitech.launch" />
-    <include file="$(find magni_teleop)/launch/rosbridge.launch" />
+
 </launch>
