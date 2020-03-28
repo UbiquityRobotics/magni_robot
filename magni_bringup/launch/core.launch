@@ -63,13 +63,6 @@
     <arg name="controller_pid_moving_buffer_size" default="70"/>
     <arg name="controller_pid_velocity" default="1500"/>
 
-    <!-- Launch the URDF for magni -->
-    <include file="$(find magni_description)/launch/description.launch">
-        <arg name="raspicam_mount" value="$(arg raspicam_mount)"/>
-        <arg name="sonars_installed" value="$(arg sonars_installed)"/>
-        <arg name="camera_extrinsics_file" value="$(arg camera_extrinsics_file)"/>
-    </include>
-
     <group if="$(arg sonars_installed)">
         <node pkg="pi_sonar" type="pi_sonar" name="pi_sonar"/>
     </group>
@@ -105,10 +98,15 @@
     <!-- Launch the roscontrol controllers needed -->
     <node name="controller_spawner" pkg="controller_manager" type="spawner"
         args="ubiquity_velocity_controller ubiquity_joint_publisher"/>
+	
     <!-- Launch the motor node with the topic remapped to standard names -->
-    <node name="motor_node" pkg="ubiquity_motor" type="motor_node">
-        <remap from="/ubiquity_velocity_controller/cmd_vel" to="/cmd_vel"/>
-	<remap from="/ubiquity_velocity_controller/odom" to="/odom"/>
+    <node name="motor_node_rear" pkg="ubiquity_motor" type="motor_node">
+	<remap from="/ubiquity_velocity_controller/cmd_vel" to="/cmd_vel"/>
+	<remap from="/ubiquity_velocity_controller/odom" to="/odom_rear"/>
+	<remap from="/battery_state" to="/battery_state_rear"/>
+        <remap from="/left_error" to="/left_error_rear"/>
+	<remap from="/right_error" to="/right_error_rear"/>
+	<remap from="/motor_power_active" to="/motor_power_active_rear"/>
     </node>
 
 </launch>
