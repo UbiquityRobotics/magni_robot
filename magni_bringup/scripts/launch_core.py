@@ -21,13 +21,16 @@ default_conf = \
         'serial_port': "/dev/ttyAMA0",
         'serial_baud': 38400,
         'pid_proportional': 5000,
-        'pid_integral' 7,
+        'pid_integral': 7,
         'pid_derivative': -110,
         'pid_denominator': 1000,
         'pid_moving_buffer_size': 70,
         'pid_velocity': 1500
     },
-    'force_time_sync' : 'True'
+    'force_time_sync' : 'True',
+    'oled_display': {
+        'controller': None
+    }
 }
 
 def get_conf():
