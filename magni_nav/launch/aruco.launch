@@ -3,6 +3,7 @@
 -->
 <launch>
   <arg name="mapping_mode" default="false"/>
+  <arg name="fiducial_len" default="0.140"/>
 
   <!-- camera -->
   <include file="$(find raspicam_node)/launch/camerav2_1280x960_10fps.launch" />
@@ -14,7 +15,7 @@
     <arg name="transport" value="compressed"/>
     
     <!-- fiducial_len -->
-    <arg name="fiducial_len" value="0.140" />
+    <arg name="fiducial_len" value="$(arg fiducial_len)" />
   </include>
 
   <!-- Fiducial slam -->
