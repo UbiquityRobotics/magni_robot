@@ -43,13 +43,13 @@
             <vertical>
               <samples>5</samples>
               <resolution>1.0</resolution>
-              <min_angle>-0.24</min_angle>
-              <max_angle>0.24</max_angle>
+              <min_angle>-0.05</min_angle>
+              <max_angle>0.05</max_angle>
             </vertical>
           </scan>
           <range>
             <min>0.02</min>
-            <max>3.2</max>
+            <max>4.0</max>
             <resolution>0.01</resolution>
           </range>
         </ray>
@@ -58,7 +58,7 @@
           <gaussianNoise>0.015</gaussianNoise>
           <alwaysOn>true</alwaysOn>
           <updateRate>5</updateRate>
-          <topicName>/ubiquity_sonar/${name}</topicName>
+          <topicName>/pi_sonar/${name}</topicName>
           <frameName>${name}</frameName>
           <fov>0.5</fov>
           <radiation>ultrasound</radiation>
