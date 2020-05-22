@@ -4,6 +4,9 @@
 <launch>
   <arg name="mapping_mode" default="false"/>
   <arg name="fiducial_len" default="0.14"/>
+  <arg name="read_only_map" default="false"/>
+  <arg name="navigate_flat" default="false"/>
+  <arg name="fiducials_flat" default="false"/>
   <arg name="verbose_info" default="false"/>
 
   <!-- camera -->
@@ -27,6 +30,9 @@
     <arg name="base_frame" value="base_footprint"/>
     <arg name="future_date_transforms" value="0.5"/>
     <arg name="verbose_info" value="$(arg verbose_info)"/>
+    <arg name="fiducials_flat" value="$(arg fiducials_flat)"/>
+    <arg name="read_only_map" value="$(arg read_only_map)"/>
+    <arg name="navigate_flat" value="$(arg navigate_flat)"/>
 
     <!-- fiducial_len -->
     <arg name="fiducial_len" value="$(arg fiducial_len)"/>
