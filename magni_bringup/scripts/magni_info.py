@@ -158,60 +158,85 @@ if __name__ == "__main__":
     # stdout,stderr = out.communicate()
     # print(stdout)
 
-    print("\nLinux OS:       ------------------------")
+    print("\nLinux OS:       --------------------------------")
     cmd = 'uname -a' 
     os.system(cmd)
-    print("\nHost Cpu Type:  ------------------------")
+    print("\nHost Cpu Type:  --------------------------------")
     cmd = 'cat /sys/firmware/devicetree/base/model' 
     os.system(cmd)
     print " "
-    print "Disk usage:     ------------------------"
-    os.system(cmd)
+    print "\nDisk usage:       --------------------------------"
     cmd = 'df /' 
-    print "Memory Info:    ------------------------"
+    os.system(cmd)
+    print "\nMemory Info:      --------------------------------"
     os.system(cmd)
     cmd = 'free | head -2' 
     os.system(cmd)
     if verboseOutput > 0:
-        print "Processes:  ------------------------"
+        print "Processes:        --------------------------------"
         cmd = 'ps -ef' 
         os.system(cmd)
-    print "Device Info:    ------------------------"
     if verboseOutput > 0:
+        print "Device Info:      --------------------------------"
         cmd = 'ls -d /dev/*'
     else:
+        print "Key Device Info:  --------------------------------"
+        cmd = 'ls -d /dev/ttyAMA0'
+        os.system(cmd)
+        cmd = 'ls -d /dev/ttyUSB*'
+        os.system(cmd)
         cmd = 'ls -d /dev/video0'
+        os.system(cmd)
+        cmd = 'ls -d /dev/rtc0'
+        os.system(cmd)
+        cmd = 'ls -d /dev/pigpio'
+        os.system(cmd)
+    print "\nROS Log Dir:    --------------------------------"
+    cmd = 'roslaunch-logs'
     os.system(cmd)
-    cmd = 'ls -d /dev/rtc0'
-    os.system(cmd)
-    print "\nRobot Config:   ------------------------"
+    if verboseOutput > 0:
+        cmd = 'ls -ldtr `roslaunch-logs`/*.*'
+        os.system(cmd)
+    print "\nRobot Config:   --------------------------------"
     cmd = 'cat /etc/ubiquity/robot.yaml'
     os.system(cmd)
     if verboseOutput > 0:
-        print "\nBase Config:   ------------------------"
+        print "\nBase Config:   ---------------------------------"
         cmd = 'cat /opt/ros/kinetic/share/magni_bringup/param/base.yaml'
         os.system(cmd)
-    print "\nROS Log Dir:    ------------------------"
+    print "\nROS Log Dir:    --------------------------------"
     cmd = 'roslaunch-logs'
     os.system(cmd)
-    print "\nHostname And Network:    ---------------"
+    print "\nHostname And Network:  -------------------------"
     cmd = 'hostname'
     os.system(cmd)
     cmd = 'hostname -I'
     os.system(cmd)
+    print "\npifi Connectivity ------------------------------"
+    cmd = 'pifi status'
+    os.system(cmd)
+    cmd = 'pifi list pending'
+    os.system(cmd)
     if verboseOutput > 0:
-        print "\nROS Nodes:  ----------------------------"
+        print "\nNetwork ifconfig:  -----------------------------"
+        cmd = 'ifconfig'
+        os.system(cmd)
+        print "\nNetwork iwconfig:  -----------------------------"
+        cmd = 'iwconfig'
+        os.system(cmd)
+    if verboseOutput > 0:
+        print "\nROS Nodes:   ----------------------------------"
         cmd = 'rosnode list'
         os.system(cmd)
-        print "\nROS Topics: ----------------------------"
+        print "\nROS Topics:  ----------------------------------"
         cmd = 'rostopic list'
     else:
-        print "\nKey ROS Nodes:  ------------------------"
+        print "\nKey ROS Nodes:  -------------------------------"
         cmd = 'rosnode list | grep motor_node'
         os.system(cmd)
         cmd = 'rosnode list | grep pi_sonar'
         os.system(cmd)
-    print "\nDiagnostic Topic Info:   ---------------"
+    print "\nDiagnostic Topic Info:  ------------------------"
     cmd = 'rostopic echo -n 6 /diagnostics > diagTopic.txt'
     os.system(cmd)
     cmd = 'grep -A 1 "Firmware Version" diagTopic.txt | head -2'
