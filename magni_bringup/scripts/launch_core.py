@@ -36,7 +36,13 @@ default_conf = \
 def get_conf():
     try:
         with open(conf_path) as conf_file:
-            conf = yaml.load(conf_file)
+            try:
+                conf = yaml.safe_load(conf_file)
+            except Exception as e:
+                print('Error reading yaml file, using default configuration')
+                print(e)
+                return default_conf
+
             if (conf is None):
                 print('WARN /etc/ubiquity/robot.yaml is empty, using default configuration')
                 return default_conf
