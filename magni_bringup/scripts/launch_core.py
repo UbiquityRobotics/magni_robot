@@ -132,7 +132,7 @@ if __name__ == "__main__":
                          "controller_pid_proportional:=%s" % controller['pid_proportional'],
                          "controller_pid_integral:=%s" % controller['pid_integral'],
                          "controller_pid_derivative:=%s" % controller['pid_derivative'],
-                         "controller_pid_derivative:=%s" % controller['pid_denominator'],
+                         "controller_pid_denominator:=%s" % controller['pid_denominator'],
                          "controller_pid_moving_buffer_size:=%s" % controller['pid_moving_buffer_size'],
                          "controller_pid_velocity:=%s" % controller['pid_velocity'],
                          "oled_display:=%s" % oled_display_installed
