@@ -4,7 +4,7 @@
    Expects the magni_bringup base.launch to already be running.
 -->
 <launch>
-    <arg name="fiducial_len" default="0.0982"/>
+    <arg name="fiducial_len" default="0.14"/>
     <arg name="target_fiducial" default="fid49"/>
 
     <!-- Run the Pi Camera at low resolution -->
