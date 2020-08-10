@@ -5,9 +5,19 @@ import subprocess
 
 rospack = rospkg.RosPack()
 pkgs = ["move_basic", 
-	"fiducials",
 	"ubiquity_motor",
+	"fiducials",
 	"magni_robot",
+	"magni_bringup",
+	"magni_demos",
+	"magni_description",
+	"magni_gazebo",
+	"magni_viz",
+	"magni_nav",
+	"magni_teleop",
+	"aruco_detect",
+	"fiducial_msgs",
+	"fiducial_slam",
 	"raspicam_node",
 	"dnn_detect"]
 
