@@ -4,18 +4,8 @@ import rospkg
 import subprocess
 import xml.etree.ElementTree as ET
 
-rospack = rospkg.RosPack()
-rosstack = rospkg.RosStack()
-pkgs = ['move_basic', 
-	'ubiquity_motor',
-	'fiducials',
-	'magni_robot',
-	'fiducial_slam',
-	'raspicam_node',
-	'dnn_detect']
 
-print('--- UBIQUITY ROBOTICS PACKAGES VERSION ---\n')
-for pkg in pkgs:
+def versionSupport(pkg):
 	try:
 		os.chdir(rospack.get_path(pkg))
 	except:
@@ -32,3 +22,23 @@ for pkg in pkgs:
 			tree = ET.parse('package.xml').getroot()	
 			version = tree.find('version').text
 		print("(%s) - %s" % (pkg, version))
+
+
+pkgs = ['move_basic', 
+	'ubiquity_motor',
+	'fiducials',
+	'magni_robot',
+	'fiducial_slam',
+	'raspicam_node',
+	'dnn_detect']
+
+if __name__ == '__main__':
+	rospack = rospkg.RosPack()
+	rosstack = rospkg.RosStack()
+	try:
+		from joblib import Parallel, delayed
+		Parallel(n_jobs=-1)(delayed(versionSupport)(pkg) for pkg in pkgs)
+
+	except ImportError:
+		for pkg in pkgs:
+			versionSupport(pkg)
