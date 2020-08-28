@@ -44,14 +44,12 @@ def get_conf():
                 return default_conf
 
             if (conf is None):
-                print('WARN /etc/ubiquity/robot.yaml is empty, using default configuration')
+                print('WARN %s is empty, using default configuration' % conf_path)
                 return default_conf
 
-            for key, value in default_conf.items():
-                if key not in conf:
-                    conf[key] = value
+            merged = dict(default_conf, **conf)
 
-            return conf
+            return merged
     except IOError:
         print("WARN /etc/ubiquity/robot.yaml doesn't exist, using default configuration")
         return default_conf
@@ -61,19 +59,17 @@ def get_conf():
 
 if __name__ == "__main__":
     conf = get_conf()
-
     # We only support 1 version of the Sonars right now
-    if conf['sonars'] == 'pi_sonar_v1':
-        conf['sonars'] = 'true'
-    else:
-        conf['sonars'] = 'false'
+    conf['sonars'] = 'true' if conf['sonars'] == 'pi_sonar_v1' else 'false'
 
     # We only support 1 display type right now
-    oled_display_installed = 'false'
-    if conf['oled_display']['controller'] == 'SH1106':
-        oled_display_installed = 'true'
+    oled_display_installed = 'true' if conf['oled_display']['controller'] == 'SH1106' else 'false'
 
-    print conf
+    try:
+        import json
+        print(json.dumps(conf, indent=4, sort_keys=True))
+    except ImportError:
+        print(conf)
 
     if conf['force_time_sync']:
         time.sleep(5) # pifi doesn't like being called early in boot
@@ -81,23 +77,23 @@ if __name__ == "__main__":
             timeout = time.time() + 40 # up to 40 seconds
             while (1):
                 if (time.time() > timeout): 
-                    print "Timed out"
+                    print("Timed out")
                     raise RuntimeError # go to error handling
                 output = subprocess.check_output(["pifi", "status"])
                 if "not activated" in output:
                     time.sleep(5)
                 if "acting as an Access Point" in output:
-                    print "we are in AP mode, don't wait for time"
+                    print("we are in AP mode, don't wait for time")
                     break # dont bother with chrony in AP mode
                 if "is connected to" in output:
-                    print "we are connected to a network, wait for time"
+                    print("we are connected to a network, wait for time")
                     subprocess.call(["chronyc", "waitsync", "20"]) # Wait for chrony sync
                     break
         except (RuntimeError, OSError, subprocess.CalledProcessError) as e:
-            print "Error calling pifi"
+            print("Error calling pifi")
             subprocess.call(["chronyc", "waitsync", "6"]) # Wait up to 60 seconds for chrony
     else:
-        print "Skipping time sync steps due to configuration" 
+        print("Skipping time sync steps due to configuration") 
 
     boardRev = 0
 
@@ -110,9 +106,9 @@ if __name__ == "__main__":
             time.sleep(0.2)
             inputPortBits = i2cbus.read_byte(0x20)
             boardRev = 49 + (15 - (inputPortBits & 0x0F))
-            print "Got board rev: %d" % boardRev
+            print("Got board rev: %d" % boardRev)
         except: 
-            print "Error reading motor controller board version from i2c"
+            print("Error reading motor controller board version from i2c")
 
     extrinsics_file = '~/.ros/camera_info/extrinsics_%s.yaml' % conf['raspicam']['position']
     extrinsics_file = os.path.expanduser(extrinsics_file)
