@@ -205,7 +205,7 @@ Visualization Manager:
       Enabled: true
       Name: Sonar_0
       Queue Size: 100
-      Topic: /ubiquity_sonar/sonar_0
+      Topic: /pi_sonar/sonar_0
       Unreliable: false
       Value: true
     - Alpha: 0.5
@@ -215,7 +215,7 @@ Visualization Manager:
       Enabled: true
       Name: Sonar_1
       Queue Size: 100
-      Topic: /ubiquity_sonar/sonar_1
+      Topic: /pi_sonar/sonar_1
       Unreliable: false
       Value: true
     - Alpha: 0.5
@@ -225,7 +225,7 @@ Visualization Manager:
       Enabled: true
       Name: Sonar_2
       Queue Size: 100
-      Topic: /ubiquity_sonar/sonar_2
+      Topic: /pi_sonar/sonar_2
       Unreliable: false
       Value: true
     - Alpha: 0.5
@@ -235,7 +235,7 @@ Visualization Manager:
       Enabled: true
       Name: Sonar_3
       Queue Size: 100
-      Topic: /ubiquity_sonar/sonar_3
+      Topic: /pi_sonar/sonar_3
       Unreliable: false
       Value: true
     - Alpha: 0.5
@@ -245,7 +245,7 @@ Visualization Manager:
       Enabled: true
       Name: Sonar_5
       Queue Size: 100
-      Topic: /ubiquity_sonar/sonar_4
+      Topic: /pi_sonar/sonar_4
       Unreliable: false
       Value: true
     - Class: rviz/Image
