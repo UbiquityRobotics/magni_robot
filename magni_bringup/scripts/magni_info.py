@@ -30,242 +30,178 @@ magni_info is meant to gather up a variety of information for the Magni robot pl
 A report is then generated with the latest system information available
 """
 
+
+
+
 import os
 import sys
 import subprocess
 import psutil
-import roslib
 import rospy
-
-from geometry_msgs.msg import TransformStamped, Twist
 from sensor_msgs.msg import Range
+class UbiquitySensors(object):
+    def __init__(self):
+        self.num_sonars = 5
+        self.sonar_ranges = [None] * self.num_sonars
 
-import tf2_ros
-from math import pi, sqrt, atan2
-import traceback
-import math
-import time
+    def rangeCallback(self, msg):
+        """Callback for sonars data."""
+        words = msg.header.frame_id.split('_')
+        idx = int(words[1])
 
-# Set the rate the main loop will run at
-loop_hz = 0.33
-
-# optionally we can disable verbose debug messages or leave them on as in legacy code
-# 1 is less verbose and 2 more verbose with 0 almost no messages
-debug_mode  = rospy.get_param("~debug_mode", 1)
-
-num_sonars   = 5
-sonar_ranges = [None] * num_sonars
-
-def degrees(r):
-    return 180.0 * r / math.pi
+        # save the most recent sonar range
+        self.sonar_ranges[idx] = msg.range
 
 
-"""
-Called when a sonar message is received
-"""
-def rangeCallback( msg):
-
-    #if msg.header.frame_id == "sonar_1" or msg.header.frame_id == "sonar_2" or msg.header.frame_id == "sonar_3":
-    words = msg.header.frame_id.split('_')    # we expect frame_id like  sonar_3 for number 3
-    idx = int(words[1])
-
-    # save the most recent sonar range
-    sonar_ranges[idx] = msg.range
-    # print ("Sonar %s range %s" % (idx, msg.range))
-
-    #if msg.header.frame_id == "sonar_3":
-    #    print msg.header.frame_id, words[1], idx, sonar_ranges[3], msg.range, 
-
-"""
-Main loop
-"""
-def run():
-    print "INIT: Start the run main thread"
-    # setup for looping at 25hz
-    rate = rospy.Rate(loop_hz)
-    secPerLoop = 1.0 / loop_hz
-
-    print "system monitor starting with looprate %d debug %d" %  (loop_hz, debug_mode)
-
-    num_sonars   = 5
-    sonar_ranges = [None] * num_sonars
-
-    # ------------------------------------------------------------------
-    # Setup ROS topics to be published or subscribed to for operation
-
-    # A publisher for robot motion commands
-    cmdvelPub = rospy.Publisher("/cmd_vel", Twist, queue_size=1)
-
-    # Subscribe to sonar range sensors for object detection
-    rospy.Subscriber("/sonars", Range, rangeCallback)
-
-    # While our node is running
-    while not rospy.is_shutdown():
-        rate.sleep()
+def topics_to_file():
+    """Run topics and forward output to a file"""
+    if not os.path.exists('diagTopic.txt'):
+        os.system('touch diagTopic.txt')
+    os.system('rostopic echo -n 6 /diagnostics > diagTopic.txt')
 
 
 if __name__ == "__main__":
+
+    # Check user privileges
+    if os.geteuid() != 0:
+        sys.exit('Run script as root!')
+
     rospy.init_node('magni_info')
 
-    print "\nMagni Robot System Information:"
+    print("\nMagni Robot System Information:")
     os.system('date')
 
-    # setup for looping at 25hz
+    # Status variables
+    periodicStatus = False
+    verboseOutput = False
+    loop_hz = 0.33
     rate = rospy.Rate(loop_hz)
-    secPerLoop = 1.0 / loop_hz
+    topics_to_file()
 
-    # set periodicStatus to non-zero for remaining in status update mode
-    periodicStatus = 0
-    verboseOutput  = 0
-
-    # We are going to do very simple option checks for help or for periodic mode 
-    argcount = len(sys.argv) - 1
-    if argcount > 1:
+    argcount = len(sys.argv)
+    if argcount > 2:
         print("Only -h for help or -p for periodic are allowed as arguments!")
-        exit()
+        sys.exit()
 
-    # simple and swift checking for only two possible options
-    periodicStatus = 0
-    if argcount == 1:
+    # Possible options
+    if argcount == 2:
         if sys.argv[1] == '-h' or sys.argv[1] == '--help':
             print("Inspect key system parameters and exit by default")
             print("use -p for remaining active and monitoring some system parameters")
-            exit()
-        elif sys.argv[1] == '-p' or sys.argv[1] == '--periodic':
-            # set periodicStatus to non-zero for remaining in status update mode
-            periodicStatus = 1
+            sys.exit()
         elif sys.argv[1] == '-v' or sys.argv[1] == '--verbose':
-            # set level of verbosity higher (not for periodic mode)
-            verboseOutput = 1
+            # set level of verbosity higher
+            verboseOutput = True
+        elif sys.argv[1] == '-p' or sys.argv[1] == '--periodic':
+            # set periodicStatus to True for remaining in status update mode
+            periodicStatus = True
         else:
-            print("Unrecognized option! we support -h or -p")
-            print("Use -p for remaining active and monitoring some system parameters")
-            exit()
-
-
-    # ------------------------------------------------------------------
-    # Setup ROS topics to be published or subscribed to for operation
-
-    # A publisher for robot motion commands
-    cmdvelPub = rospy.Publisher("/cmd_vel", Twist, queue_size=1)
-
-    # Subscribe to sonar range sensors for object detection
-    rospy.Subscriber("/sonars", Range, rangeCallback)
-
-    # gather system info that will not change
-    # out = subprocess.Popen(cmd, 
-    #     stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    # stdout,stderr = out.communicate()
-    # print(stdout)
+            print("Unrecognized option! We only support -h or -p")
+            sys.exit()
 
     print("\nLinux OS:       --------------------------------")
-    cmd = 'uname -a' 
-    os.system(cmd)
-    print("\nHost Cpu Type:  --------------------------------")
-    cmd = 'cat /sys/firmware/devicetree/base/model' 
-    os.system(cmd)
-    print " "
-    print "\nDisk usage:       --------------------------------"
-    cmd = 'df /' 
-    os.system(cmd)
-    print "\nMemory Info:      --------------------------------"
-    os.system(cmd)
-    cmd = 'free | head -2' 
-    os.system(cmd)
-    if verboseOutput > 0:
-        print "Processes:        --------------------------------"
-        cmd = 'ps -ef' 
-        os.system(cmd)
-    if verboseOutput > 0:
-        print "Device Info:      --------------------------------"
-        cmd = 'ls -d /dev/*'
-    else:
-        print "Key Device Info:  --------------------------------"
-        cmd = 'ls -d /dev/ttyAMA0'
-        os.system(cmd)
-        cmd = 'ls -d /dev/ttyUSB*'
-        os.system(cmd)
-        cmd = 'ls -d /dev/video0'
-        os.system(cmd)
-        cmd = 'ls -d /dev/rtc0'
-        os.system(cmd)
-        cmd = 'ls -d /dev/pigpio'
-        os.system(cmd)
-    print "\nROS Log Dir:    --------------------------------"
-    cmd = 'roslaunch-logs'
-    os.system(cmd)
-    if verboseOutput > 0:
-        cmd = 'ls -ldtr `roslaunch-logs`/*.*'
-        os.system(cmd)
-    print "\nRobot Config:   --------------------------------"
-    cmd = 'cat /etc/ubiquity/robot.yaml'
-    os.system(cmd)
-    if verboseOutput > 0:
-        print "\nBase Config:   ---------------------------------"
-        cmd = 'cat /opt/ros/kinetic/share/magni_bringup/param/base.yaml'
-        os.system(cmd)
-    print "\nROS Log Dir:    --------------------------------"
-    cmd = 'roslaunch-logs'
-    os.system(cmd)
-    print "\nHostname And Network:  -------------------------"
-    cmd = 'hostname'
-    os.system(cmd)
-    cmd = 'hostname -I'
-    os.system(cmd)
-    print "\npifi Connectivity ------------------------------"
-    cmd = 'pifi status'
-    os.system(cmd)
-    cmd = 'pifi list pending'
-    os.system(cmd)
-    if verboseOutput > 0:
-        print "\nNetwork ifconfig:  -----------------------------"
-        cmd = 'ifconfig'
-        os.system(cmd)
-        print "\nNetwork iwconfig:  -----------------------------"
-        cmd = 'iwconfig'
-        os.system(cmd)
-    if verboseOutput > 0:
-        print "\nROS Nodes:   ----------------------------------"
-        cmd = 'rosnode list'
-        os.system(cmd)
-        print "\nROS Topics:  ----------------------------------"
-        cmd = 'rostopic list'
-    else:
-        print "\nKey ROS Nodes:  -------------------------------"
-        cmd = 'rosnode list | grep motor_node'
-        os.system(cmd)
-        cmd = 'rosnode list | grep pi_sonar'
-        os.system(cmd)
-    print "\nDiagnostic Topic Info:  ------------------------"
-    cmd = 'rostopic echo -n 6 /diagnostics > diagTopic.txt'
-    os.system(cmd)
-    cmd = 'grep -A 1 "Firmware Version" diagTopic.txt | head -2'
-    os.system(cmd)
-    cmd = 'grep -A 1 "Firmware Date" diagTopic.txt | head -2'
-    os.system(cmd)
-    cmd = 'grep -A 1 "Battery Voltage" diagTopic.txt | head -2'
-    os.system(cmd)
-    cmd = 'grep -A 1 "Motor Power" diagTopic.txt | head -2'
-    os.system(cmd)
-    print "Sonar Ranges:         ---------------------------------------"
-    print(sonar_ranges)
+    os.system('uname -a')
+    print("\nHost Information:  --------------------------------")
+    os.system('cat /sys/firmware/devicetree/base/model')
+    os.system('hostname')
+    os.system('hostname -I')
+    # TODO: Architecture with hostnamectl
+    # TODO: print("\nRoscore: -----------------------------------")
+    # TODO: os.system()
+    print("\nROS Environmental variables: ----------------")
+    os.system('printenv | grep ROS')
+    print("Firmware information: -------------------------------")
+    os.system('grep -A 1 "Firmware Version" diagTopic.txt | head -2')
+    os.system('grep -A 1 "Firmware Date" diagTopic.txt | head -2')
+    # TODO: System image version
+    print("Magni-base status: ----------------------------------")
+    os.system('sudo systemctl status magni-base')
+    print("\nDetected I2C devices: -------------------------------")
+    # Stop the motor node
+    os.system('sudo systemctl stop magni-base.service')
+    os.system('sudo i2cdetect -y 1')
+    # Restart magni-base service
+    os.system('sudo systemctl start magni-base.service')
+    # TODO: Check output with subprocess.check_output
+    print("\nKey ROS Nodes: ----------------------------")
+    print("/motor_node: ")
+    out = subprocess.check_output(
+        ['rostopic list', '|', 'grep -w "/motor_node"']).decode('utf-8')
+    out_info = 'running' if out else 'failed to run'
+    print(out_info)
+    print("/pi_sonar: ")
+    os.system('rostopic list | grep -w "/pi_sonar"')
+    print("\nKey ROS Topics: -----------------------------")
+    print("/cmd_vel: ")
+    os.system('rostopic list | grep -w "/cmd_vel"')
+    print("/battery_state: ")
+    os.system('rostopic list | grep -w "/battery_state"')
+    print("\nROS Log Dir:    --------------------------------")
+    os.system('roslaunch-logs')
+    print("\npifi Connectivity ------------------------------")
+    os.system('pifi --version')
+    os.system('pifi status')
+    os.system('pifi list seen')
+    os.system('pifi list pending')
+    print("\nKey Device Info:  --------------------------------")
+    os.system('ls -d /dev/ttyAMA0')
+    os.system('ls -d /dev/ttyUSB*')
+    os.system('ls -d /dev/video0')
+    os.system('ls -d /dev/rtc0')
+    os.system('ls -d /dev/pigpio')
+    print("\nRobot Config:   --------------------------------")
+    os.system('cat /etc/ubiquity/robot.yaml')
 
-    if periodicStatus > 0:
-        print "Periodic monitoring of the robot has been requested. Use Ctrl C to exit "
+    # Verbose option
+    if verboseOutput:
+        print("\nDisk usage:       --------------------------------")
+        os.system('df /')
+        print("\nMemory Info:      --------------------------------")
+        os.system('free | head -2')
+        print("\nProcesses:        --------------------------------")
+        os.system('ps -ef')
+        print("\nDevice Info:      --------------------------------")
+        os.system('ls -d /dev/*')
+        print("\nBase Config:   ---------------------------------")
+        os.system('cat /opt/ros/kinetic/share/magni_bringup/param/base.yaml')
+        print("\nNetwork ifconfig:  -----------------------------")
+        os.system('ifconfig')
+        print("\nNetwork iwconfig:  -----------------------------")
+        os.system('iwconfig')
+        print("\n/etc/hosts file: -------------------------------")
+        os.system('cat /etc/hosts')
+        print("\nROS Nodes:   ----------------------------------")
+        os.system('rosnode list')
+        print("\nROS Topics:  ----------------------------------")
+        os.system('rostopic list')
+        print("\n.bashrc file ----------------------------------")
+        os.system('cat ~/.bashrc')
 
+    # Periodic option
+    if periodicStatus:
+        us = UbiquitySensors()
+        rospy.Subscriber("/sonars", Range, us.rangeCallback)
+        print("Periodic monitoring of the robot has been requested. Use Ctrl-C to exit!")
+
+        # TODO: Check raspistill!
         # While our node is running
         while not rospy.is_shutdown():
-            print "\n-------------------------------------------------------------------------------------"
-            print "Cpu and Memory Stats: ---------------------------------------"
+            print(
+                "\n-------------------------------------------------------------------------------------")
+            print("Cpu and Memory Stats: ---------------------------------------")
             print('Cpu percent: % ', psutil.cpu_percent())
-            tot_m, used_m, free_m = map(int, os.popen('free -t -m').readlines()[-1].split()[1:])
-            print('Memory (in KBytes): Total %s  Free %s   Used %s ' % (tot_m, free_m, used_m))
-            print "Sonar Ranges:         ---------------------------------------"
-            print(sonar_ranges)
-            print "Other System Stats:   ---------------------------------------"
-            cmd = 'rostopic echo -n 4 /diagnostics | grep -A 1 "Battery Voltage"'
-            os.system(cmd)
+            tot_m, used_m, free_m = map(int, os.popen(
+                'free -t -m').readlines()[-1].split()[1:])
+            print('Memory (in KBytes): Total %s  Free %s   Used %s ' %
+                  (tot_m, free_m, used_m))
+            print("Sonar ranges: ----------------------------------------------")
+            print(us.sonar_ranges)
+            print("Other System Stats:   ---------------------------------------")
+            os.system(
+                'rostopic echo -n 4 /diagnostics | grep -A 1 "Battery Voltage"')
+            # TODO: Check other informations
 
             rate.sleep()
 
-    print "Script Done"
+    os.system('rm -f diagTopic.txt')
+    print("Script Done!")
