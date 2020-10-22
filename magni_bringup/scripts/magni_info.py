@@ -42,11 +42,11 @@ from sensor_msgs.msg import Range
 from diagnostic_msgs.msg import DiagnosticArray, DiagnosticStatus
 class UbiquitySensors(object):
     def __init__(self):
-	self.already1 = False
-	self.already2 = False
+        self.already1 = False
+        self.already2 = False
         self.num_sonars = 5
         self.sonar_ranges = [None] * self.num_sonars
-	rospy.Subscriber("/diagnostics", DiagnosticArray, self.diagCallback)
+        rospy.Subscriber("/diagnostics", DiagnosticArray, self.diagCallback)
         rospy.Subscriber("/sonars", Range, self.rangeCallback)
 
     def rangeCallback(self, msg):
@@ -58,21 +58,21 @@ class UbiquitySensors(object):
         self.sonar_ranges[idx] = msg.range
 
     def diagCallback(self, msg):
-	"""Callback for diagnostics."""
-    	if not os.path.exists('diagnostics.txt'):
-        	os.system('touch diagnostics.txt')
-	if len(msg.status[0].values) == 1 and not self.already1:
-		self.already1 = True
-		version = msg.status[0].values[0].value
-		os.system('echo "Firmware Version: %s" >> diagnostics.txt' % version)
-	if len(msg.status) > 1 and not self.already2:
-		date = msg.status[5].values[0].value
-		os.system('echo "Firmware Date: %s" >> diagnostics.txt' % date)
-		self.already2 = True
-		voltage = msg.status[2].values[0].value
-		os.system('echo "Battery Voltage: %s" >> diagnostics.txt' % voltage)
-		power = msg.status[3].values[0].value
-		os.system('echo "Motor Power: %s" >> diagnostics.txt' % power)
+        """Callback for diagnostics."""
+        if not os.path.exists('diagnostics.txt'):
+            os.system('touch diagnostics.txt')
+        if len(msg.status[0].values) == 1 and not self.already1:
+            self.already1 = True
+            version = msg.status[0].values[0].value
+            os.system('echo "Firmware Version: %s" >> diagnostics.txt' % version)
+        if len(msg.status) > 1 and not self.already2:
+            date = msg.status[10].values[0].value
+            os.system('echo "Firmware Date: %s" >> diagnostics.txt' % date)
+            self.already2 = True
+            voltage = msg.status[2].values[0].value
+            os.system('echo "Battery Voltage: %s" >> diagnostics.txt' % voltage)
+            power = msg.status[3].values[0].value
+            os.system('echo "Motor Power: %s" >> diagnostics.txt' % power)
 
 
 def topics_to_file():
@@ -141,26 +141,30 @@ if __name__ == "__main__":
     os.system('sudo systemctl start magni-base.service')
     print("\nKey ROS Nodes: --------------------------------------------------")
     try:
-    	out = subprocess.check_output(['grep', '-w', '/motor_node', 'Nodes.txt']).decode('utf-8')
-	sys.stdout.write(out)
+        out = subprocess.check_output(
+            ['grep', '-w', '/motor_node', 'Nodes.txt']).decode('utf-8')
+        sys.stdout.write(out)
     except subprocess.CalledProcessError:
-	print("/motor_node not running!")
+        print("/motor_node not running!")
     try:
-    	out = subprocess.check_output(['grep', '-w', '/pi_sonar', 'Nodes.txt']).decode('utf-8')
-	sys.stdout.write(out)
+        out = subprocess.check_output(
+            ['grep', '-w', '/pi_sonar', 'Nodes.txt']).decode('utf-8')
+        sys.stdout.write(out)
     except subprocess.CalledProcessError:
-	print("/pi_sonar not running!")
+        print("/pi_sonar not running!")
     print("\nKey ROS Topics: --------------------------------------------------")
     try:
-    	out = subprocess.check_output(['grep', '-w', '/cmd_vel', 'Topics.txt']).decode('utf-8')
-	sys.stdout.write(out)
+        out = subprocess.check_output(
+            ['grep', '-w', '/cmd_vel', 'Topics.txt']).decode('utf-8')
+        sys.stdout.write(out)
     except subprocess.CalledProcessError:
-	print("/cmd_vel topic not running!")
+        print("/cmd_vel topic not running!")
     try:
-    	out = subprocess.check_output(['grep', '-w', '/battery_state', 'Topics.txt']).decode('utf-8')
-	sys.stdout.write(out)
+        out = subprocess.check_output(
+            ['grep', '-w', '/battery_state', 'Topics.txt']).decode('utf-8')
+        sys.stdout.write(out)
     except subprocess.CalledProcessError:
-	print("/battery_state topic not running!")
+        print("/battery_state topic not running!")
     print("\nROS Log Dir:    --------------------------------------------------")
     os.system('roslaunch-logs')
     print("\npifi Connectivity ------------------------------------------------")
