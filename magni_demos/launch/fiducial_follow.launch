@@ -10,7 +10,7 @@
     <!-- Run the Pi Camera at low resolution -->
     <include file="$(find raspicam_node)/launch/camerav2_410x308_30fps.launch" />
 
-    <!-- We want aruco detect to give us the 6DOF pose, 
+    <!-- We want aruco detect to give us the 6DOF pose,
     not just the pixel coordinates of the vertices -->
     <arg name="do_pose_estimation" default="true"/>
 
@@ -24,10 +24,8 @@
         <param name="adaptiveThreshWinSizeStep" value="8" />
         <param name="adaptiveThreshWinSizeMin" value="10" />
         <param name="adaptiveThreshWinSizeMax" value="50" />
-        <param name="doCornerRefinement" value="False" />
-        <param name="do_tracking" value="false" />
-        <param name="num_threads" value="3" />
-        <remap from="/camera/compressed" 
+        <param name="doCornerRefinement" value="false" />
+        <remap from="/camera/compressed"
             to="/raspicam_node/image/compressed"/>
         <remap from="/camera_info" to="/raspicam_node/camera_info"/>
     </node>
