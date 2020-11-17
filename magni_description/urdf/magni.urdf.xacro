@@ -10,6 +10,9 @@
   <xacro:arg name="camera_extrinsics_file" default="-"/>
   <xacro:property name="camera_extrinsics_file" value="$(arg camera_extrinsics_file)"/>
 
+  <xacro:arg name="lidar_installed" default="false"/>
+  <xacro:property name="lidar_installed" value="$(arg lidar_installed)"/>
+
   <xacro:property name="wheel_r" value="0.1" />
   <xacro:property name="wheel_xpos" value="0.11" />
 
@@ -19,6 +22,8 @@
   <xacro:include filename="$(find magni_description)/urdf/inertial.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/sonar_hc-sr04.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/raspi_camera.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/sensors/hokuyo_lidar.xacro" />
+
 
 
   <!-- Robot base_link -->
@@ -195,5 +200,9 @@
       </xacro:raspi_camera>
     </xacro:if>
   </xacro:if>
-
+ <xacro:if value="${lidar_installed}">
+    <xacro:hokuyo_lidar name="laser" connected_to="base_link">
+      <origin xyz="0 0.0 0.2" rpy="0 0 0"/>
+    </xacro:hokuyo_lidar>
+  </xacro:if>
 </robot>

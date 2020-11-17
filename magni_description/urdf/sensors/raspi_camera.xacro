@@ -56,7 +56,7 @@
           <alwaysOn>true</alwaysOn>
           <updateRate>0.0</updateRate>
           <cameraName>${name}</cameraName>
-          <imageTopicName>/${name}_node/image/compressed</imageTopicName>
+          <imageTopicName>/${name}_node/image</imageTopicName>
           <cameraInfoTopicName>/${name}_node/camera_info</cameraInfoTopicName>
           <frameName>${name}</frameName>
           <hackBaseline>0.07</hackBaseline>
