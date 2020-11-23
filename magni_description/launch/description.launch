@@ -1,6 +1,7 @@
 <launch>
   <arg name="raspicam_mount" default="forward"/>
   <arg name="sonars_installed" default="true"/>
+  <arg name="lidar_installed" default="false"/>
   <arg name="camera_extrinsics_file" default="-"/>
 
   <param name="robot_description" 
@@ -8,6 +9,7 @@
         '$(find magni_description)/urdf/magni.urdf.xacro' 
         raspicam_mount:=$(arg raspicam_mount)
         sonars_installed:=$(arg sonars_installed)
+	lidar_installed:=$(arg lidar_installed)
         camera_extrinsics_file:=$(arg camera_extrinsics_file)"
   />
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />

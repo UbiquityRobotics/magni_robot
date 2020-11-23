@@ -2,6 +2,7 @@
 
     <arg name="raspicam_mount" default="forward"/>
     <arg name="sonars_installed" default="true"/>
+    <arg name="lidar_installed" default="true"/>
 
     <arg name="rviz_config" default="true" />
 
@@ -24,6 +25,7 @@
     <include file="$(find magni_gazebo)/launch/magni.launch">
         <arg name="raspicam_mount" value="$(arg raspicam_mount)"/>
         <arg name="sonars_installed" value="$(arg sonars_installed)"/>
+        <arg name="lidar_installed" value="$(arg lidar_installed)"/>
     </include>
 
 
