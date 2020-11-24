@@ -164,8 +164,8 @@
     <xacro:property name="cam_orientation" value="${cam_extrinsics['orientation']}"/>
 
     <xacro:raspi_camera name="raspicam" connected_to="base_link">
-      <origin xyz="${cam_position['x']} ${cam_position['y']} ${cam_position['z']}"
-        rpy="${cam_orientation['r']} ${cam_orientation['p']} ${cam_orientation['y']}"/>
+      <origin xyz="${cam_position[0]} ${cam_position[1]} ${cam_position[2]}"
+        rpy="${cam_orientation[0]} ${cam_orientation[1]} ${cam_orientation[2]}"/>
     </xacro:raspi_camera>
   </xacro:if>
   <xacro:if value="${camera_extrinsics_file == '-'}">
