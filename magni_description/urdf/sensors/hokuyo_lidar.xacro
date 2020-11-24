@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:macro name="hokuyo_lidar" params="name:='' connected_to:='' *origin">
+
+  <xacro:unless value="${connected_to == ''}">
+    <joint name="${name}_joint" type="fixed">
+      <parent link="${connected_to}"/>
+      <child link="${name}"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+  </xacro:unless>
+
+  <link name="${name}">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://magni_description/meshes/sensors/hokuyo.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.03 0.026 0.016"/>
+      </geometry>
+    </collision>
+  </link>
+
+
+  <gazebo reference="${name}">
+    <!--<sensor type="gpu_ray" name="${name}_sensor>-->
+    <sensor type="ray" name="${name}_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>false</visualize>
+      <update_rate>15</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>811</samples>
+            <!--<resolution>0.3333</resolution>-->
+            <min_angle>-2.3561925</min_angle>
+            <max_angle>2.3561925</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.20</min>
+          <max>30.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise parameters based on published spec for Hokuyo laser
+                achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+                stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+                reading. -->
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <!--<plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_gpu_laser.so">-->
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <topicName>/scan</topicName>
+        <frameName>${name}</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  </xacro:macro>
+
+</robot>

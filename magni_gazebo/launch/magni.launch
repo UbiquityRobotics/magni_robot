@@ -3,10 +3,12 @@
 
     <arg name="raspicam_mount" default="forward"/>
     <arg name="sonars_installed" default="true"/>
+    <arg name="lidar_installed" default="false"/>
 
     <include file="$(find magni_description)/launch/description.launch">
         <arg name="raspicam_mount" value="$(arg raspicam_mount)" />
         <arg name="sonars_installed" value="$(arg sonars_installed)" />
+	<arg name="lidar_installed" value="$(arg lidar_installed)" />
     </include>>
 
     <node name="magni_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model magni" />
