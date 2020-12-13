@@ -39,14 +39,10 @@ import subprocess
 import psutil
 import rospy
 from sensor_msgs.msg import Range
-from diagnostic_msgs.msg import DiagnosticArray, DiagnosticStatus
 class UbiquitySensors(object):
     def __init__(self):
-        self.already1 = False
-        self.already2 = False
         self.num_sonars = 5
         self.sonar_ranges = [None] * self.num_sonars
-        rospy.Subscriber("/diagnostics", DiagnosticArray, self.diagCallback)
         rospy.Subscriber("/sonars", Range, self.rangeCallback)
 
     def rangeCallback(self, msg):
@@ -57,23 +53,6 @@ class UbiquitySensors(object):
         # save the most recent sonar range
         self.sonar_ranges[idx] = msg.range
 
-    def diagCallback(self, msg):
-        """Callback for diagnostics."""
-        if not os.path.exists('diagnostics.txt'):
-            os.system('touch diagnostics.txt')
-        if len(msg.status[0].values) == 1 and not self.already1:
-            self.already1 = True
-            version = msg.status[0].values[0].value
-            os.system('echo "Firmware Version: %s" >> diagnostics.txt' % version)
-        if len(msg.status) > 1 and not self.already2:
-            date = msg.status[10].values[0].value
-            os.system('echo "Firmware Date: %s" >> diagnostics.txt' % date)
-            self.already2 = True
-            voltage = msg.status[2].values[0].value
-            os.system('echo "Battery Voltage: %s" >> diagnostics.txt' % voltage)
-            power = msg.status[3].values[0].value
-            os.system('echo "Motor Power: %s" >> diagnostics.txt' % power)
-
 
 def topics_to_file():
     """Run topics and forward output to a file"""
@@ -81,15 +60,14 @@ def topics_to_file():
         os.system('touch Topics.txt')
     if not os.path.exists('Nodes.txt'):
         os.system('touch Nodes.txt')
+    if not os.path.exists('diagnostics.txt'):
+        os.system('touch diagnostics.txt')
     os.system('rostopic list >> Topics.txt')
     os.system('rosnode list >> Nodes.txt')
+    os.system('rostopic echo -n 10 /diagnostics > diagnostics.txt')
 
 
 if __name__ == "__main__":
-
-    # User privileges
-    if os.geteuid() != 0:
-        sys.exit('Run script as root!')
 
     rospy.init_node('magni_info')
     us = UbiquitySensors()
@@ -123,23 +101,26 @@ if __name__ == "__main__":
 
     print("\nMagni Robot System Information:")
     os.system('date')
-    print("\nLinux OS:       -------------------------------------------------")
+    print("\n------------------------- Linux OS: --------------------------------")
     os.system('hostnamectl')
-    print("\nHost Information:  ----------------------------------------------")
+    print("\n------------------------- Host Information:  -----------------------")
     os.system('cat /sys/firmware/devicetree/base/model')
     print("")
     os.system('hostname -I')
-    print("\nROS Environmental variables: ------------------------------------")
+    print("\n------------------------- ROS Environmental variables: -------------")
     os.system('printenv | grep ROS')
-    print("\nFirmware information: -------------------------------------------")
-    os.system('cat diagnostics.txt')
-    print("\nDetected I2C devices: -------------------------------------------")
+    print("\n------------------------- Firmware information: --------------------")
+    os.system('grep -A 1 "Firmware Version" diagnostics.txt | head -2')
+    os.system('grep -A 1 "Firmware Date" diagnostics.txt | head -2')
+    os.system('grep -A 1 "Battery Voltage" diagnostics.txt | head -2')
+    os.system('grep -A 1 "Motor Power" diagnostics.txt | head -2')
+    print("\n------------------------- Detected I2C devices: --------------------")
     # Stop the motor node
     os.system('sudo systemctl stop magni-base.service')
     os.system('sudo i2cdetect -y 1')
     # Restart magni-base service
     os.system('sudo systemctl start magni-base.service')
-    print("\nKey ROS Nodes: --------------------------------------------------")
+    print("\n------------------------- Key ROS Nodes: ---------------------------")
     try:
         out = subprocess.check_output(
             ['grep', '-w', '/motor_node', 'Nodes.txt']).decode('utf-8')
@@ -152,7 +133,7 @@ if __name__ == "__main__":
         sys.stdout.write(out)
     except subprocess.CalledProcessError:
         print("/pi_sonar not running!")
-    print("\nKey ROS Topics: --------------------------------------------------")
+    print("\n------------------------- Key ROS Topics: --------------------------")
     try:
         out = subprocess.check_output(
             ['grep', '-w', '/cmd_vel', 'Topics.txt']).decode('utf-8')
@@ -165,9 +146,9 @@ if __name__ == "__main__":
         sys.stdout.write(out)
     except subprocess.CalledProcessError:
         print("/battery_state topic not running!")
-    print("\nROS Log Dir:    --------------------------------------------------")
+    print("\n------------------------ ROS Log Dir: -----------------------------")
     os.system('roslaunch-logs')
-    print("\npifi Connectivity ------------------------------------------------")
+    print("\n------------------------ pifi Connectivity ------------------------")
     os.system('pifi --version')
     print("# Status: ")
     os.system('pifi status')
@@ -175,38 +156,38 @@ if __name__ == "__main__":
     os.system('pifi list seen')
     print("# Pending Wifi's: ")
     os.system('pifi list pending')
-    print("\nKey Device Info:  -------------------------------------------------")
+    print("\n------------------------ Key Device Info: -------------------------")
     os.system('ls -d /dev/ttyAMA0 2>/dev/null')
     os.system('ls -d /dev/ttyUSB* 2>/dev/null')
     os.system('ls -d /dev/video0 2>/dev/null')
     os.system('ls -d /dev/rtc0 2>/dev/null')
     os.system('ls -d /dev/pigpio 2>/dev/null')
-    print("\nRobot Config:   ----------------------------------------------------")
+    print("\n------------------------ Robot Config: ----------------------------")
     os.system('cat /etc/ubiquity/robot.yaml')
 
     # Verbose option
     if verboseOutput:
-        print("\nDisk usage:       ---------------------------------------------")
+        print("\n-------------------- Disk usage: ------------------------------")
         os.system('df /')
-        print("\nMemory Info:      ---------------------------------------------")
+        print("\n-------------------- Memory Info: -----------------------------")
         os.system('free | head -2')
-        print("\nProcesses:        ---------------------------------------------")
+        print("\n-------------------- Processes: -------------------------------")
         os.system('ps -ef')
-        print("\nDevice Info:      ---------------------------------------------")
+        print("\n-------------------- Device Info: -----------------------------")
         os.system('ls -d /dev/*')
-        print("\nBase Config:   -------------------------------------------------")
+        print("\n-------------------- Base Config: -----------------------------")
         os.system('cat /opt/ros/kinetic/share/magni_bringup/param/base.yaml')
-        print("\nNetwork ifconfig:  ---------------------------------------------")
+        print("\n-------------------- Network ifconfig -------------------------")
         os.system('ifconfig')
-        print("\nNetwork iwconfig:  ---------------------------------------------")
+        print("\n-------------------- Network iwconfig: ------------------------")
         os.system('iwconfig')
-        print("\n/etc/hosts file: -----------------------------------------------")
+        print("\n-------------------- /etc/hosts file: -------------------------")
         os.system('cat /etc/hosts')
-        print("\nROS Nodes:   ---------------------------------------------------")
+        print("\n-------------------- ROS Nodes: -------------------------------")
         os.system('rosnode list')
-        print("\nROS Topics:  ---------------------------------------------------")
+        print("\n-------------------- ROS Topics: ------------------------------")
         os.system('rostopic list')
-        print("\n.bashrc file ---------------------------------------------------")
+        print("\n-------------------- .bashrc file -----------------------------")
         os.system('cat ~/.bashrc')
 
     # Periodic option
@@ -217,13 +198,13 @@ if __name__ == "__main__":
         while not rospy.is_shutdown():
             print(
                 "\n-------------------------------------------------------------------------------------")
-            print("Cpu and Memory Stats: ----------------------------------------")
+            print("------------------- Cpu and Memory Stats --------------------")
             print('Cpu percent: % ', psutil.cpu_percent())
             tot_m, used_m, free_m = map(int, os.popen(
                 'free -t -m').readlines()[-1].split()[1:])
             print('Memory (in KBytes): Total %s  Free %s   Used %s ' %
                   (tot_m, free_m, used_m))
-            print("Sonar ranges: ------------------------------------------------")
+            print("------------------- Sonar ranges: ---------------------------")
             print(us.sonar_ranges)
 
             rate.sleep()
