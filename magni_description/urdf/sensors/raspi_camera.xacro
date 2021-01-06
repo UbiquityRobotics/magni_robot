@@ -31,7 +31,7 @@
     <joint name="${name}_sensor_joint" type="fixed">
       <parent link="${name}"/>
       <child link="${name}_sensor"/>
-      <origin xyz="0 0 0.012" rpy="${pi/2} ${-pi/2} 0" />
+      <origin xyz="0 0 0.012" rpy="${-pi/2} 0 ${-pi/2}" />
     </joint>
 
     <!-- Gazebo sensor plugin -->
