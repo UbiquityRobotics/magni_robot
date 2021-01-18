@@ -12,5 +12,5 @@
 	lidar_installed:=$(arg lidar_installed)
         camera_extrinsics_file:=$(arg camera_extrinsics_file)"
   />
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 </launch>
