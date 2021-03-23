@@ -2,7 +2,7 @@
 
     <include file="$(find aruco_detect)/launch/aruco_detect.launch">
         <arg name="camera" value="/raspicam_node"/>
-        <arg name="image" value="image/compressed"/>
+        <arg name="image" value="image"/>
         <arg name="transport" default="compressed"/>
         <arg name="fiducial_len" value="0.14"/>
         <arg name="dictionary" value="16"/>
