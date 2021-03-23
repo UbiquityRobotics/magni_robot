@@ -96,7 +96,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        raspicam_gazebo_sensor:
+        raspicam_sensor:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -135,7 +135,7 @@ Visualization Manager:
           Value: true
         raspicam:
           Value: true
-        raspicam_gazebo_sensor:
+        raspicam_sensor:
           Value: true
         right_caster_wheel:
           Value: true
@@ -157,7 +157,7 @@ Visualization Manager:
               left_wheel:
                 {}
               raspicam:
-                raspicam_gazebo_sensor:
+                raspicam_sensor:
                   {}
               right_caster_wheel:
                 {}

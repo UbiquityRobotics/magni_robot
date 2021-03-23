@@ -13,7 +13,7 @@
 
     <link name="${name}">
       <visual>
-        <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+        <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
         <geometry>
           <mesh filename="package://magni_description/meshes/sensors/raspi_camera.dae" />
         </geometry>
@@ -26,16 +26,16 @@
       </collision>
     </link>
 
-    <!-- Additional link for camera Gazebo sensor to orient camera direction (it is used only for Gazebo simulation) -->
-    <link name="${name}_gazebo_sensor"/>
-    <joint name="${name}_gazebo_sensor_joint" type="fixed">
+    <!-- Additional link for camera sensor -->
+    <link name="${name}_sensor"/>
+    <joint name="${name}_sensor_joint" type="fixed">
       <parent link="${name}"/>
-      <child link="${name}_gazebo_sensor"/>
-      <origin xyz="0 0 0.012" rpy="${pi/2} ${-pi/2} 0" />
+      <child link="${name}_sensor"/>
+      <origin xyz="0.005 0 0" rpy="${-pi/2} 0 ${-pi/2}" />
     </joint>
 
-    <!-- Gazebo sensor plugin -->
-    <gazebo reference="${name}_gazebo_sensor">
+    <!-- Gazebo sensor plugin. Gazebo sensor is attached to camera link (${name}) but publishes its messages to ${name}_sensor frame. -->
+    <gazebo reference="${name}">
       <sensor type="camera" name="camera1">
         <visualize>false</visualize>
         <update_rate>30.0</update_rate>
@@ -55,10 +55,10 @@
         <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
           <alwaysOn>true</alwaysOn>
           <updateRate>0.0</updateRate>
-          <cameraName>${name}</cameraName>
-          <imageTopicName>/${name}_node/image</imageTopicName>
-          <cameraInfoTopicName>/${name}_node/camera_info</cameraInfoTopicName>
-          <frameName>${name}</frameName>
+          <cameraName></cameraName>
+          <imageTopicName>${name}_node/image</imageTopicName>
+          <cameraInfoTopicName>${name}_node/camera_info</cameraInfoTopicName>
+          <frameName>${name}_sensor</frameName>
           <hackBaseline>0.07</hackBaseline>
           <distortionK1>0.0</distortionK1>
           <distortionK2>0.0</distortionK2>

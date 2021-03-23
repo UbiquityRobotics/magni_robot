@@ -181,29 +181,32 @@
     <!-- ahead    Directly facing forward with no tilt        -->
     <xacro:if value="${raspicam_mount == 'forward'}">
       <xacro:raspi_camera name="raspicam" connected_to="base_link">
-        <origin xyz="0.050 0.085 0.135" rpy="1.15191731 0 1.5707"/>
+        <origin xyz="0.050 0.085 0.135" rpy="0 ${-pi/2 - 1.15191731} ${pi}"/>
       </xacro:raspi_camera>
     </xacro:if>
     <xacro:if value="${raspicam_mount == 'upward'}">
       <xacro:raspi_camera name="raspicam" connected_to="base_link">
-        <origin xyz="0.020 0.115 0.155" rpy="0 0 ${pi}"/>
+        <origin xyz="0.020 0.115 0.155" rpy="0 ${-pi/2} ${-pi/2}"/>
       </xacro:raspi_camera>
     </xacro:if>
     <xacro:if value="${raspicam_mount == 'downward'}">
       <xacro:raspi_camera name="raspicam" connected_to="base_link">
-        <origin xyz="0.1 0.090 0.145" rpy="3.14159 -1.25 0.0"/>
+        <origin xyz="0.1 0.090 0.145" rpy="${-pi/2} ${pi/2 - 1.25} 0.0"/>
       </xacro:raspi_camera>
     </xacro:if>
     <xacro:if value="${raspicam_mount == 'ahead'}">
       <xacro:raspi_camera name="raspicam" connected_to="base_link">
-        <origin xyz="0.095 0.061 0.10" rpy="0 1.5707 0"/>
+        <origin xyz="0.095 0.061 0.10" rpy="${pi/2} 0 0"/>
       </xacro:raspi_camera>
     </xacro:if>
   </xacro:if>
- <xacro:if value="${lidar_installed}">
+
+  <!-- Define lidar -->
+  <xacro:if value="${lidar_installed}">
     <xacro:hokuyo_lidar name="laser" connected_to="base_link">
       <origin xyz="0 0.0 0.2" rpy="0 0 0"/>
     </xacro:hokuyo_lidar>
   </xacro:if>
+
 </robot>
 
