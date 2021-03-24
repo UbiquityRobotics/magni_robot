@@ -58,7 +58,7 @@ OF SUCH DAMAGE.
     <xacro:macro name="box_inertial" params="x y z mass">
         <inertial>
             <mass value="${mass}" />
-            <origin xyz="0 0 0" />
+            <origin xyz="-0.15 0 0.03" />
             <inertia ixx="${0.0833333 * mass * (y*y + z*z)}" ixy="0.0" ixz="0.0"
                      iyy="${0.0833333 * mass * (x*x + z*z)}" iyz="0.0"
                      izz="${0.0833333 * mass * (x*x + y*y)}" />
@@ -69,7 +69,7 @@ OF SUCH DAMAGE.
     <xacro:macro name="sphere_inertial_with_origin" params="radius mass *origin">
         <inertial>
             <mass value="${mass}" />
-            <insert_block name="origin" />
+            <xacro:insert_block name="origin" />
             <inertia ixx="${0.4 * mass * radius * radius}" ixy="0.0" ixz="0.0"
                      iyy="${0.4 * mass * radius * radius}" iyz="0.0"
                      izz="${0.4 * mass * radius * radius}" />
@@ -79,7 +79,7 @@ OF SUCH DAMAGE.
     <xacro:macro name="cylinder_inertial_with_origin" params="radius length mass *origin">
         <inertial>
             <mass value="${mass}" />
-            <insert_block name="origin" />
+            <xacro:insert_block name="origin" />
             <inertia ixx="${0.0833333 * mass * (3 * radius * radius + length * length)}" ixy="0.0" ixz="0.0"
                      iyy="${0.0833333 * mass * (3 * radius * radius + length * length)}" iyz="0.0"
                      izz="${0.5 * mass * radius * radius}" />
@@ -89,7 +89,7 @@ OF SUCH DAMAGE.
     <xacro:macro name="box_inertial_with_origin" params="x y z mass *origin">
         <inertial>
             <mass value="${mass}" />
-            <insert_block name="origin" />
+            <xacro:insert_block name="origin" />
             <inertia ixx="${0.0833333 * mass * (y*y + z*z)}" ixy="0.0" ixz="0.0"
                      iyy="${0.0833333 * mass * (x*x + z*z)}" iyz="0.0"
                      izz="${0.0833333 * mass * (x*x + y*y)}" />
