@@ -1,6 +1,5 @@
 ubiquity_motor:
   controller_loop_rate: 20
-  serial_loop_rate: 200
   pid_proportional: 5000
   pid_integral: 7
   pid_derivative: -110
