@@ -51,17 +51,33 @@
     -->
     <arg name="camera_extrinsics_file" default="-"/>
 
-    <arg name="controller_board_version" default="0"/>
     <arg name="controller_serial_port" default="/dev/ttyAMA0"/>
-    <arg name="controller_serial_baud" default="38400"/>
+    <arg name="controller_serial_baud" default="37400"/>
     
     <!-- PID Params -->
     <arg name="controller_pid_proportional" default="5000"/>
-    <arg name="controller_pid_integral" default="7"/>
-    <arg name="controller_pid_derivative" default="-110"/>
+    <arg name="controller_pid_integral" default="2"/>
+    <arg name="controller_pid_derivative" default="-100"/>
     <arg name="controller_pid_denominator" default="1000"/>
-    <arg name="controller_pid_moving_buffer_size" default="70"/>
-    <arg name="controller_pid_velocity" default="1500"/>
+    <arg name="controller_pid_moving_buffer_size" default="40"/>
+    <arg name="controller_pid_velocity" default="0"/>
+
+    <!-- HAS TO BE NAMED parameters -->
+    <arg name="controller_fw_max_pwm" default="300"/>
+    <arg name="controller_wheel_type" default="standard"/>
+
+    <!-- Velocity controller parameters -->
+    <arg name="v_controller_wheel_separation_multiplier" default="1.0"/>
+    <arg name="v_controller_wheel_radius_multiplier" default="1.0"/>
+
+    <arg name="v_controller_linear_x_has_velocity_limits" default="False"/>
+    <arg name="v_controller_linear_x_max_velocity" default="1.0"/>
+    <arg name="v_controller_linear_x_has_acceleration_limits" default="True"/>
+    <arg name="v_controller_linear_x_max_acceleration" default="0.5"/>
+    <arg name="v_controller_angular_z_has_velocity_limits" default="False"/>
+    <arg name="v_controller_angular_z_max_velocity" default="2.0"/>
+    <arg name="v_controller_angular_z_has_acceleration_limits" default="True"/>
+    <arg name="v_controller_angular_z_max_acceleration" default="5.0"/>
 
     <!-- Launch the URDF for magni -->
     <include file="$(find magni_description)/launch/description.launch">
@@ -83,24 +99,57 @@
         <rosparam command="load" file="$(find magni_bringup)/param/diagnostics_agg.yaml"/>
     </node>
 
-    <!-- Load the parameters used by the following nodes -->
-    <rosparam command="load" file="$(find magni_bringup)/param/base.yaml" />
-    
-    <!-- If a board version was passed in, use it -->
-    <group if="$(eval controller_board_version != 0)">
-	<param name="/ubiquity_motor/controller_board_version" value="$(arg controller_board_version)"/>
-    </group>
-
     <param name="/ubiquity_motor/serial_port" value="$(arg controller_serial_port)"/>
     <param name="/ubiquity_motor/serial_baud" value="$(arg controller_serial_baud)"/>
     
     <!-- PID Params -->
-    <param name="/ubiquity_motor/pid_proportional" value="$(arg controller_pid_proportional)"/>
     <param name="/ubiquity_motor/pid_integral" value="$(arg controller_pid_integral)"/>
     <param name="/ubiquity_motor/pid_derivative" value="$(arg controller_pid_derivative)"/>
     <param name="/ubiquity_motor/pid_denominator" value="$(arg controller_pid_denominator)"/>
     <param name="/ubiquity_motor/pid_moving_buffer_size" value="$(arg controller_pid_moving_buffer_size)"/>
     <param name="/ubiquity_motor/pid_velocity" value="$(arg controller_pid_velocity)"/>
+
+    <!-- HAS TO BE NAMED parameters -->
+    <param name="/ubiquity_motor/fw_max_pwm" value="$(arg controller_fw_max_pwm)"/>
+    <param name="/ubiquity_motor/wheel_type" value="$(arg controller_wheel_type)"/>
+
+     <!-- Velocity controller parameters -->
+    <param name="/ubiquity_velocity_controller/wheel_separation_multiplier" value="$(arg v_controller_wheel_separation_multiplier)"/>
+    <param name="/ubiquity_velocity_controller/wheel_radius_multiplier" value="$(arg v_controller_wheel_radius_multiplier)"/>
+
+    <param name="/ubiquity_velocity_controller/linear/x/has_velocity_limits" value="$(arg v_controller_linear_x_has_velocity_limits)"/>
+    <param name="/ubiquity_velocity_controller/linear/x/max_velocity" value="$(arg v_controller_linear_x_max_velocity)"/>
+    <param name="/ubiquity_velocity_controller/linear/x/has_acceleration_limits" value="$(arg v_controller_linear_x_has_acceleration_limits)"/>
+    <param name="/ubiquity_velocity_controller/linear/x/max_acceleration" value="$(arg v_controller_linear_x_max_acceleration)"/>
+    <param name="/ubiquity_velocity_controller/angular/z/has_velocity_limits" value="$(arg v_controller_angular_z_has_velocity_limits)"/>
+    <param name="/ubiquity_velocity_controller/angular/z/max_velocity" value="$(arg v_controller_angular_z_max_velocity)"/>
+    <param name="/ubiquity_velocity_controller/angular/z/has_acceleration_limits" value="$(arg v_controller_angular_z_has_acceleration_limits)"/>
+    <param name="/ubiquity_velocity_controller/angular/z/max_acceleration" value="$(arg v_controller_angular_z_max_acceleration)"/>
+
+    <!-- Defaults if not in base.yaml -->
+    <param name="ubiquity_motor/controller_loop_rate" value="20"/>
+    <param name="ubiquity_motor/serial_loop_rate" value="200"/>
+
+    <param name="ubiquity_joint_publisher/type" value="joint_state_controller/JointStateController"/>
+    <param name="ubiquity_joint_publisher/publish_rate" value="50"/>
+
+    <param name="ubiquity_velocity_controller/type" value="diff_drive_controller/DiffDriveController"/>
+    <param name="ubiquity_velocity_controller/left_wheel" value="left_wheel_joint"/>
+    <param name="ubiquity_velocity_controller/right_wheel" value="right_wheel_joint"/>
+    <param name="ubiquity_velocity_controller/publish_rate" value="50.0"/>
+    <param name="ubiquity_velocity_controller/pose_covariance_diagonal" value='[0.2, 0.2, 0.2, 0.2, 0.2, 0.2]'/>
+    <param name="ubiquity_velocity_controller/twist_covariance_diagonal" value='[0.2, 0.2, 0.2, 0.2, 0.2, 0.2]'/>
+    <param name="ubiquity_velocity_controller/cmd_vel_timeout" value="0.25"/>
+
+    <param name="ubiquity_velocity_controller/enable_odom_tf" value="True"/>
+
+    <param name="ubiquity_velocity_controller/wheel_separation" value="0.33"/>
+    <param name="ubiquity_velocity_controller/wheel_radius" value="0.1015"/>
+
+    <param name="ubiquity_velocity_controller/base_frame_id" value="base_footprint"/>
+
+    <!-- Load the parameters used by the following nodes -->
+    <rosparam command="load" file="$(find magni_bringup)/param/base.yaml" />
     
     <!-- Launch the roscontrol controllers needed -->
     <node name="controller_spawner" pkg="controller_manager" type="spawner"
