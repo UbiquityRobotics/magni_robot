@@ -52,7 +52,7 @@
     <arg name="camera_extrinsics_file" default="-"/>
 
     <arg name="controller_serial_port" default="/dev/ttyAMA0"/>
-    <arg name="controller_serial_baud" default="37400"/>
+    <arg name="controller_serial_baud" default="38400"/>
     
     <!-- PID Params -->
     <arg name="controller_pid_proportional" default="5000"/>
