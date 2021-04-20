@@ -19,12 +19,10 @@ default_conf = \
     'sonars' : None,
     'motor_controller' : {
         'serial_port': "/dev/ttyAMA0",
-        # 'serial_baud': 38400,
+        'serial_baud': 38400,
         'pid_proportional': 5000,
         'pid_integral': 2,
         'pid_derivative': -100,
-        #'pid_denominator': 1000,
-        #'pid_moving_buffer_size': 40,
         'pid_velocity': 0,
         'fw_max_pwm': 300,
         'wheel_type': 'standard'
@@ -147,12 +145,10 @@ if __name__ == "__main__":
                          "sonars_installed:=%s" % conf['sonars'],
                          "camera_extrinsics_file:=%s" % extrinsics_file,
                          "controller_serial_port:=%s" % m_controller['serial_port'],
-                        #  "controller_serial_baud:=%s" % m_controller['serial_baud'],
+                         "controller_serial_baud:=%s" % m_controller['serial_baud'],
                          "controller_pid_proportional:=%s" % m_controller['pid_proportional'],
                          "controller_pid_integral:=%s" % m_controller['pid_integral'],
                          "controller_pid_derivative:=%s" % m_controller['pid_derivative'],
-                         #"controller_pid_denominator:=%s" % m_controller['pid_denominator'],
-                         #"controller_pid_moving_buffer_size:=%s" % m_controller['pid_moving_buffer_size'],
                          "controller_pid_velocity:=%s" % m_controller['pid_velocity'],
                          "controller_fw_max_pwm:=%s" % m_controller['fw_max_pwm'],
                          "controller_wheel_type:=%s" % m_controller['wheel_type'],
@@ -165,12 +161,9 @@ if __name__ == "__main__":
                          "v_controller_angular_z_has_velocity_limits:=%s" % v_controller_angular['has_velocity_limits'],
                          "v_controller_angular_z_max_velocity:=%s" % v_controller_angular['max_velocity'],
                          "v_controller_angular_z_has_acceleration_limits:=%s" % v_controller_angular['has_acceleration_limits'],
-                        #  "v_controller_angular_z_max_acceleration:=%s" % v_controller_angular['max_acceleration'],
+                         "v_controller_angular_z_max_acceleration:=%s" % v_controller_angular['max_acceleration'],
                          "oled_display:=%s" % oled_display_installed
                ]
 
-
-    print("------------------------------")
-    print(sys.argv)
     roslaunch.main(sys.argv)
 
