@@ -77,7 +77,7 @@ def get_conf():
                 print('WARN /etc/ubiquity/robot.yaml is empty, using default configuration')
                 return default_conf
 
-            # check if all parameters in default_config are set
+            # check if all parameter keys in default_config are set
             # if not, set them as default
             check(conf, default_conf)
             return conf
@@ -164,6 +164,5 @@ if __name__ == "__main__":
                          "v_controller_angular_z_max_acceleration:=%s" % v_controller_angular['max_acceleration'],
                          "oled_display:=%s" % oled_display_installed
                ]
-
     roslaunch.main(sys.argv)
 

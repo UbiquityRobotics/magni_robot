@@ -103,6 +103,7 @@
     <param name="/ubiquity_motor/serial_baud" value="$(arg controller_serial_baud)"/>
     
     <!-- PID Params -->
+    <param name="/ubiquity_motor/pid_proportional" value="$(arg controller_pid_proportional)"/>
     <param name="/ubiquity_motor/pid_integral" value="$(arg controller_pid_integral)"/>
     <param name="/ubiquity_motor/pid_derivative" value="$(arg controller_pid_derivative)"/>
     <param name="/ubiquity_motor/pid_denominator" value="$(arg controller_pid_denominator)"/>
