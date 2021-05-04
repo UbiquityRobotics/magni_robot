@@ -1,0 +1,10 @@
+<launch>
+    <arg name="subscribe_topic" default="/raspicam_node/image"/>
+    <arg name="publish_topic" default="/raspicam_node/motion_vectors"/>
+
+    <node name="motion_vectors" pkg="magni_gazebo" type="motion_vectors.py" output="screen">
+        <param name="subscribe_topic" value="$(arg subscribe_topic)"/>
+        <param name="publish_topic" value="$(arg publish_topic)"/>
+    </node>
+
+</launch>
