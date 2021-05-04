@@ -6,6 +6,7 @@
     [2] http://wiki.ros.org/move_basic
 -->
 <launch>
+    <arg name="fiducial_len" default="0.140"/>
     <!-- 
         This parameter is used to specify what level of capabilites
         the robot should have after this launch file.
@@ -18,6 +19,8 @@
     <param name="ubiquity_robot_mode" type="string" value="navigation"/> 
 
     <include file="$(find magni_nav)/launch/move_basic.launch" />
-    <include file="$(find magni_nav)/launch/aruco.launch" />
+    <include file="$(find magni_nav)/launch/aruco.launch">
+        <arg name="fiducial_len" value="$(arg fiducial_len)" />
+    </include>
 </launch>
 
