@@ -1,0 +1,8 @@
+
+# Robot Configuration
+
+raspicam: {'camera_installed' : 'True', 'position' : 'forward'}
+
+sonars: None
+# sonars: 'pi_sonar_v1' # Use this to enable sonars
+

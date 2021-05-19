@@ -1,6 +1,6 @@
 <launch>
 
-    <arg name="raspicam_mount" default="forward"/>
+    <arg name="camera_installed" default="true"/>
     <arg name="sonars_installed" default="true"/>
     <arg name="lidar_installed" default="true"/>
 
@@ -19,11 +19,14 @@
         <arg name="paused" value="$(arg paused)" />
         <arg name="debug" value="$(arg debug)" />
         <arg name="use_sim_time" value="true" />
+        <rosparam command="load" file="$(find magni_description)/param/camera_extrinsics_forward.yaml" />
     </include>
+
+
 
     <!-- start robot -->
     <include file="$(find magni_gazebo)/launch/magni.launch">
-        <arg name="raspicam_mount" value="$(arg raspicam_mount)"/>
+        <arg name="camera_installed" value="$(arg camera_installed)"/>
         <arg name="sonars_installed" value="$(arg sonars_installed)"/>
         <arg name="lidar_installed" value="$(arg lidar_installed)"/>
     </include>

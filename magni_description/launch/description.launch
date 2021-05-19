@@ -1,16 +1,27 @@
 <launch>
-  <arg name="raspicam_mount" default="forward"/>
+  <arg name="camera_installed" default="true"/>
   <arg name="sonars_installed" default="true"/>
   <arg name="lidar_installed" default="false"/>
-  <arg name="camera_extrinsics_file" default="-"/>
+  <arg name="cam_ext_x" default="0.0"/>
+  <arg name="cam_ext_y" default="0.0"/>
+  <arg name="cam_ext_z" default="0.0"/>
+  <arg name="cam_ext_roll" default="0.0"/>
+  <arg name="cam_ext_pitch" default="0.0"/>
+  <arg name="cam_ext_yaw" default="0.0"/>
 
   <param name="robot_description" 
       command="$(find xacro)/xacro --inorder
         '$(find magni_description)/urdf/magni.urdf.xacro' 
-        raspicam_mount:=$(arg raspicam_mount)
+        camera_installed:=$(arg camera_installed)
         sonars_installed:=$(arg sonars_installed)
-	lidar_installed:=$(arg lidar_installed)
-        camera_extrinsics_file:=$(arg camera_extrinsics_file)"
+        lidar_installed:=$(arg lidar_installed)
+        cam_ext_x:=$(arg cam_ext_x)
+        cam_ext_y:=$(arg cam_ext_y)
+        cam_ext_z:=$(arg cam_ext_z)
+        cam_ext_roll:=$(arg cam_ext_roll)
+        cam_ext_pitch:=$(arg cam_ext_pitch)
+        cam_ext_yaw:=$(arg cam_ext_yaw)
+        "
   />
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 </launch>
