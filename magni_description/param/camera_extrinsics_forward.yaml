@@ -2,5 +2,5 @@ x: 0.050
 y: 0.085
 z: 0.135
 roll: 0.0
-pitch: rad(-pi/2 - 1.15191731)
-yaw: rad(pi)
+pitch: -2.72191  #rad(-pi/2 - 1.15191731)
+yaw: 3.14 #rad(pi)

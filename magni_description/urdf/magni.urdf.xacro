@@ -10,18 +10,19 @@
   <xacro:arg name="lidar_installed" default="false"/>
   <xacro:property name="lidar_installed" value="$(arg lidar_installed)"/>
 
-  <xacro:arg name="cam_ext_x" default="0.0"/>
-  <xacro:arg name="cam_ext_y" default="0.0"/>
-  <xacro:arg name="cam_ext_z" default="0.0"/>
-  <xacro:arg name="cam_ext_roll" default="0.0"/>
-  <xacro:arg name="cam_ext_pitch" default="0.0"/>
-  <xacro:arg name="cam_ext_yaw" default="0.0"/>
-  <xacro:property name="cam_ext_x" value="$(arg cam_ext_x)"/>
-  <xacro:property name="cam_ext_y" value="$(arg cam_ext_y)"/>
-  <xacro:property name="cam_ext_z" value="$(arg cam_ext_z)"/>
-  <xacro:property name="cam_ext_roll" value="$(arg cam_ext_roll)"/>
-  <xacro:property name="cam_ext_pitch" value="$(arg cam_ext_pitch)"/>
-  <xacro:property name="cam_ext_yaw" value="$(arg cam_ext_yaw)"/>
+  <xacro:arg name="camera_extr_x" default="0.0"/>
+  <xacro:arg name="camera_extr_y" default="0.0"/>
+  <xacro:arg name="camera_extr_z" default="0.0"/>
+  <xacro:arg name="camera_extr_roll" default="0.0"/>
+  <xacro:arg name="camera_extr_pitch" default="0.0"/>
+  <xacro:arg name="camera_extr_yaw" default="0.0"/>
+
+  <xacro:arg name="lidar_extr_x" default="0.0"/>
+  <xacro:arg name="lidar_extr_y" default="0.0"/>
+  <xacro:arg name="lidar_extr_z" default="0.0"/>
+  <xacro:arg name="lidar_extr_roll" default="0.0"/>
+  <xacro:arg name="lidar_extr_pitch" default="0.0"/>
+  <xacro:arg name="lidar_extr_yaw" default="0.0"/>
 
   <xacro:property name="wheel_r" value="0.1" />
   <xacro:property name="wheel_xpos" value="0.11" />
@@ -173,14 +174,14 @@
 
   <xacro:if value="${camera_installed}">
     <xacro:raspi_camera name="raspicam" connected_to="base_link">
-      <origin xyz="${cam_ext_x} ${cam_ext_y} ${cam_ext_z}" rpy="${cam_ext_roll} ${cam_ext_pitch} ${cam_ext_yaw}"/>
+      <origin xyz="$(arg camera_extr_x) $(arg camera_extr_y) $(arg camera_extr_z)" rpy="$(arg camera_extr_roll) $(arg camera_extr_pitch) $(arg camera_extr_yaw)"/>
     </xacro:raspi_camera>
   </xacro:if>
 
   <!-- Define lidar -->
   <xacro:if value="${lidar_installed}">
     <xacro:hokuyo_lidar name="laser" connected_to="base_link">
-      <origin xyz="0 0.0 0.2" rpy="0 0 0"/>
+      <origin xyz="$(arg lidar_extr_x) $(arg lidar_extr_y) $(arg lidar_extr_z)" rpy="$(arg lidar_extr_roll) $(arg lidar_extr_pitch) $(arg lidar_extr_yaw)"/>
     </xacro:hokuyo_lidar>
   </xacro:if>
 

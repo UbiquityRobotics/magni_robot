@@ -108,7 +108,7 @@
     <!-- Launch the motor node with the topic remapped to standard names -->
     <node name="motor_node" pkg="ubiquity_motor" type="motor_node">
         <remap from="/ubiquity_velocity_controller/cmd_vel" to="/cmd_vel"/>
-	<remap from="/ubiquity_velocity_controller/odom" to="/odom"/>
+	    <remap from="/ubiquity_velocity_controller/odom" to="/odom"/>
     </node>
 
 </launch>
