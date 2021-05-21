@@ -110,8 +110,6 @@ def create_core_launch_file(path,
                             board_rev = 0):
 
     try:
-        camera_installed = conf['raspicam']['camera_installed']
-        lidar_installed = conf['lidar']['lidar_installed']
         sonars_installed = conf['sonars']
         motor_controller_params = conf['motor_controller']
         # velocity controller params
@@ -119,10 +117,6 @@ def create_core_launch_file(path,
     except Exception as e:
         print ("There is an error with the conf: " + str(e))
         return False
-
-    # if len(lidar_extrinsics)!=6:
-    #     print("Camera extrinsics dictionaty must contain 6 items. Instead it has:", str(len(lidar_extrinsics)))
-    #     return False
 
     if len(motor_controller_params)!=9: 
         print("Motor_controller_params dictionaty must contain 9 items. Instead it has:", str(len(motor_controller_params)))
@@ -213,7 +207,6 @@ def create_core_launch_file(path,
         <param name="/ubiquity_velocity_controller/angular/z/max_velocity" value='"""+str(vc_ang['max_velocity'])+"""'/>
         <param name="/ubiquity_velocity_controller/angular/z/has_acceleration_limits" value='"""+str(vc_ang['has_acceleration_limits'])+"""'/>
         <param name="/ubiquity_velocity_controller/angular/z/max_acceleration" value='"""+str(vc_ang['max_acceleration'])+"""'/>
-
     </node>
     
     """)
@@ -223,19 +216,23 @@ def create_core_launch_file(path,
 
     return True
 
+# finds file path by priority:
+# 1.) Checks first path and returns it if it exsists
+# 2.) Checks second path and returns it if it exsists
+# 3.) If none of them exsist returns empty string
 def find_file_by_priority(first_path, second_path):
     first_path = os.path.expanduser(first_path)
     if not os.path.isfile(first_path):
-        print("File "+first_path+" does not exsist, now searching for "+second_path)
+        print("File "+first_path+" does not exsist")
         second_path = os.path.expanduser(second_path)
         if not os.path.isfile(second_path):
-            print("File "+second_path+" does not exsist, using default config\n")
+            print("File "+second_path+" does not exsist, using default config")
             return ""
         else:
-            print("File "+second_path+" found\n")
+            print("File "+second_path+" found")
             return second_path
     else:
-        print("File "+first_path+" found\n")
+        print("File "+first_path+" found")
         return first_path
 
 if __name__ == "__main__":
@@ -300,7 +297,7 @@ if __name__ == "__main__":
     check for extrinsics files in two places with following priorities:
         1.) in ~/.ros/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml
         2.) in package magni_description/param/<SENSOR>_extrinsics_<POSITION>.yaml
-    If no file was found, use the default confing defined in this script
+    If no file was found, do not load the sensor in urdf
     """
     rp = rospkg.RosPack()
     magni_description_path = rp.get_path('magni_description')
@@ -310,22 +307,22 @@ if __name__ == "__main__":
     path2 = magni_description_path+'/param/camera_extrinsics_%s.yaml' % conf['raspicam']['position']
     camera_extr_file = find_file_by_priority(path1, path2)
     if camera_extr_file == "":
-        camera_extrinsics = default_camera_extrinsics
+        print ("Camera will not be enabled in urdf")
     else:
-        camera_extrinsics = get_yaml(camera_extr_file, default_camera_extrinsics)
-    # print ("Camerea extrinsics: " + str(camera_extrinsics))
+        print ("Camera enabled in urdf")
+
 
     # get lidar extrinsics
     path1 = '~/.ros/extrinsics/lidar_extrinsics_%s.yaml' % conf['lidar']['position']
     path2 = magni_description_path+'/param/lidar_extrinsics_%s.yaml' % conf['lidar']['position']
     lidar_extr_file = find_file_by_priority(path1, path2)
     if lidar_extr_file == "":
-        lidar_extrinsics = default_lidar_extrinsics
+        print ("Lidar will not be enabled in urdf")
     else:
-        lidar_extrinsics = get_yaml(lidar_extr_file, default_lidar_extrinsics)
-    # print ("Lidar extrinsics: " + str(lidar_extrinsics))
+        print ("Lidar enabled in urdf")
+
    
-    launch_file_path = os.environ['HOME']+"/core.launch" #TODO move this in /tmp/ - in home for debug
+    launch_file_path = "/tmp/core.launch" #TODO move this in /tmp/ - in home for debug
     create_success = create_core_launch_file(launch_file_path,
                                             conf = conf,
                                             camera_extrinsics_file=camera_extr_file,
