@@ -1,22 +1,5 @@
 <launch>
-  <arg name="camera_installed" default="true"/>
   <arg name="sonars_installed" default="true"/>
-  <arg name="lidar_installed" default="false"/>
-  
-  <arg name="camera_extr_x" default="0.0"/>
-  <arg name="camera_extr_y" default="0.0"/>
-  <arg name="camera_extr_z" default="0.0"/>
-  <arg name="camera_extr_roll" default="0.0"/>
-  <arg name="camera_extr_pitch" default="0.0"/>
-  <arg name="camera_extr_yaw" default="0.0"/>
-
-  <arg name="lidar_extr_x" default="0.0"/>
-  <arg name="lidar_extr_y" default="0.0"/>
-  <arg name="lidar_extr_z" default="0.0"/>
-  <arg name="lidar_extr_roll" default="0.0"/>
-  <arg name="lidar_extr_pitch" default="0.0"/>
-  <arg name="lidar_extr_yaw" default="0.0"/>
-
   <arg name="camera_extrinsics_file" default=""/>
   <arg name="lidar_extrinsics_file" default=""/>
 

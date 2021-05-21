@@ -4,36 +4,14 @@
   <xacro:arg name="sonars_installed" default="true"/>
   <xacro:property name="sonars_installed" value="$(arg sonars_installed)"/>
 
-  <xacro:arg name="camera_installed" default="true"/>
-  <xacro:property name="camera_installed" value="$(arg camera_installed)"/>
-
-  <xacro:arg name="lidar_installed" default="false"/>
-  <xacro:property name="lidar_installed" value="$(arg lidar_installed)"/>
-
-  <xacro:arg name="camera_extr_x" default="0.0"/>
-  <xacro:arg name="camera_extr_y" default="0.0"/>
-  <xacro:arg name="camera_extr_z" default="0.0"/>
-  <xacro:arg name="camera_extr_roll" default="0.0"/>
-  <xacro:arg name="camera_extr_pitch" default="0.0"/>
-  <xacro:arg name="camera_extr_yaw" default="0.0"/>
-
-  <xacro:arg name="lidar_extr_x" default="0.0"/>
-  <xacro:arg name="lidar_extr_y" default="0.0"/>
-  <xacro:arg name="lidar_extr_z" default="0.0"/>
-  <xacro:arg name="lidar_extr_roll" default="0.0"/>
-  <xacro:arg name="lidar_extr_pitch" default="0.0"/>
-  <xacro:arg name="lidar_extr_yaw" default="0.0"/>
-
   <xacro:arg name="camera_extrinsics_file" default=""/>
   <xacro:property name="camera_extrinsics_file" value="$(arg camera_extrinsics_file)"/>
 
   <xacro:arg name="lidar_extrinsics_file" default=""/>
   <xacro:property name="lidar_extrinsics_file" value="$(arg lidar_extrinsics_file)"/>
   
-
   <xacro:property name="wheel_r" value="0.1" />
   <xacro:property name="wheel_xpos" value="0.11" />
-
 
   <xacro:include filename="$(find magni_description)/urdf/magni.transmission.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/magni.gazebo.xacro" />
