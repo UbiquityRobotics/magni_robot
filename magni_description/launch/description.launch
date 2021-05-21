@@ -17,24 +17,15 @@
   <arg name="lidar_extr_pitch" default="0.0"/>
   <arg name="lidar_extr_yaw" default="0.0"/>
 
+  <arg name="camera_extrinsics_file" default=""/>
+  <arg name="lidar_extrinsics_file" default=""/>
+
   <param name="robot_description" 
       command="$(find xacro)/xacro --inorder
         '$(find magni_description)/urdf/magni.urdf.xacro' 
-        camera_installed:=$(arg camera_installed)
         sonars_installed:=$(arg sonars_installed)
-        lidar_installed:=$(arg lidar_installed)
-        camera_extr_x:=$(arg camera_extr_x)
-        camera_extr_y:=$(arg camera_extr_y)
-        camera_extr_z:=$(arg camera_extr_z)
-        camera_extr_roll:=$(arg camera_extr_roll)
-        camera_extr_pitch:=$(arg camera_extr_pitch)
-        camera_extr_yaw:=$(arg camera_extr_yaw)
-        lidar_extr_x:=$(arg lidar_extr_x)
-        lidar_extr_y:=$(arg lidar_extr_y)
-        lidar_extr_z:=$(arg lidar_extr_z)
-        lidar_extr_roll:=$(arg lidar_extr_roll)
-        lidar_extr_pitch:=$(arg lidar_extr_pitch)
-        lidar_extr_yaw:=$(arg lidar_extr_yaw)
+        lidar_extrinsics_file:=$(arg lidar_extrinsics_file)
+        camera_extrinsics_file:=$(arg camera_extrinsics_file)
         "
   />
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />

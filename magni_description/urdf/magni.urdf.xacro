@@ -24,6 +24,13 @@
   <xacro:arg name="lidar_extr_pitch" default="0.0"/>
   <xacro:arg name="lidar_extr_yaw" default="0.0"/>
 
+  <xacro:arg name="camera_extrinsics_file" default=""/>
+  <xacro:property name="camera_extrinsics_file" value="$(arg camera_extrinsics_file)"/>
+
+  <xacro:arg name="lidar_extrinsics_file" default=""/>
+  <xacro:property name="lidar_extrinsics_file" value="$(arg lidar_extrinsics_file)"/>
+  
+
   <xacro:property name="wheel_r" value="0.1" />
   <xacro:property name="wheel_xpos" value="0.11" />
 
@@ -172,16 +179,27 @@
     </xacro:sonar_hc-sr04>
   </xacro:if>
 
-  <xacro:if value="${camera_installed}">
+  <!-- <xacro:if value="${camera_installed}">
     <xacro:raspi_camera name="raspicam" connected_to="base_link">
       <origin xyz="$(arg camera_extr_x) $(arg camera_extr_y) $(arg camera_extr_z)" rpy="$(arg camera_extr_roll) $(arg camera_extr_pitch) $(arg camera_extr_yaw)"/>
     </xacro:raspi_camera>
+  </xacro:if> -->
+
+  <!-- Define camera -->
+  <xacro:if value="${camera_extrinsics_file != ''}">
+    <xacro:property name="cam_extrinsics" value="${load_yaml(camera_extrinsics_file)}"/>
+    <xacro:raspi_camera name="raspicam" connected_to="base_link">
+      <origin xyz="${cam_extrinsics['x']} ${cam_extrinsics['y']} ${cam_extrinsics['z']}"
+        rpy="${cam_extrinsics['roll']} ${cam_extrinsics['pitch']} ${cam_extrinsics['yaw']}"/>
+    </xacro:raspi_camera>
   </xacro:if>
 
-  <!-- Define lidar -->
-  <xacro:if value="${lidar_installed}">
+  <!-- Define Lidar -->
+  <xacro:if value="${lidar_extrinsics_file != ''}">
+    <xacro:property name="lidar_extrinsics" value="${load_yaml(lidar_extrinsics_file)}"/>
     <xacro:hokuyo_lidar name="laser" connected_to="base_link">
-      <origin xyz="$(arg lidar_extr_x) $(arg lidar_extr_y) $(arg lidar_extr_z)" rpy="$(arg lidar_extr_roll) $(arg lidar_extr_pitch) $(arg lidar_extr_yaw)"/>
+      <origin xyz="${lidar_extrinsics['x']} ${lidar_extrinsics['y']} ${lidar_extrinsics['z']}"
+        rpy="${lidar_extrinsics['roll']} ${lidar_extrinsics['pitch']} ${lidar_extrinsics['yaw']}"/>
     </xacro:hokuyo_lidar>
   </xacro:if>
 

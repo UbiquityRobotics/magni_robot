@@ -104,8 +104,8 @@ def get_yaml(path, default_yaml):
 
 def create_core_launch_file(path,
                             conf = default_conf,
-                            camera_extrinsics = default_camera_extrinsics,
-                            lidar_extrinsics = default_lidar_extrinsics,
+                            camera_extrinsics_file = "",
+                            lidar_extrinsics_file = "",
                             oled_display = 0,
                             board_rev = 0):
 
@@ -120,13 +120,9 @@ def create_core_launch_file(path,
         print ("There is an error with the conf: " + str(e))
         return False
 
-    if len(camera_extrinsics)!=6:
-        print("Camera extrinsics dictionaty must contain 6 items. Instead it has:", str(len(camera_extrinsics)))
-        return False
-    
-    if len(lidar_extrinsics)!=6:
-        print("Camera extrinsics dictionaty must contain 6 items. Instead it has:", str(len(lidar_extrinsics)))
-        return False
+    # if len(lidar_extrinsics)!=6:
+    #     print("Camera extrinsics dictionaty must contain 6 items. Instead it has:", str(len(lidar_extrinsics)))
+    #     return False
 
     if len(motor_controller_params)!=9: 
         print("Motor_controller_params dictionaty must contain 9 items. Instead it has:", str(len(motor_controller_params)))
@@ -141,21 +137,9 @@ def create_core_launch_file(path,
     # add the robot description part
     f.write("""
     <include file="$(find magni_description)/launch/description.launch">
-        <arg name="camera_installed" value='""" +str(camera_installed)+ """'/>
-        <arg name="lidar_installed" value='""" +str(lidar_installed)+ """'/>
+        <arg name="camera_extrinsics_file" value='""" +str(camera_extrinsics_file)+ """'/>
+        <arg name="lidar_extrinsics_file" value='""" +str(lidar_extrinsics_file)+ """'/>
         <arg name="sonars_installed" value='""" +str(sonars_installed)+ """'/>
-        <arg name="camera_extr_x" value='""" + str(camera_extrinsics['x']) + """'/>
-        <arg name="camera_extr_y" value='""" + str(camera_extrinsics['y']) + """'/>
-        <arg name="camera_extr_z" value='""" + str(camera_extrinsics['z']) + """'/>
-        <arg name="camera_extr_roll" value='""" + str(camera_extrinsics['roll']) + """'/>
-        <arg name="camera_extr_pitch" value='""" + str(camera_extrinsics['pitch']) + """'/>
-        <arg name="camera_extr_yaw" value='""" + str(camera_extrinsics['yaw']) + """'/>
-        <arg name="lidar_extr_x" value='""" + str(lidar_extrinsics['x']) + """'/>
-        <arg name="lidar_extr_y" value='""" + str(lidar_extrinsics['y']) + """'/>
-        <arg name="lidar_extr_z" value='""" + str(lidar_extrinsics['z']) + """'/>
-        <arg name="lidar_extr_roll" value='""" + str(lidar_extrinsics['roll']) + """'/>
-        <arg name="lidar_extr_pitch" value='""" + str(lidar_extrinsics['pitch']) + """'/>
-        <arg name="lidar_extr_yaw" value='""" + str(lidar_extrinsics['yaw']) + """'/>
     </include>
     """)
 
@@ -341,11 +325,11 @@ if __name__ == "__main__":
         lidar_extrinsics = get_yaml(lidar_extr_file, default_lidar_extrinsics)
     # print ("Lidar extrinsics: " + str(lidar_extrinsics))
    
-    launch_file_path = os.environ['HOME']+"/neki.launch"
+    launch_file_path = os.environ['HOME']+"/core.launch" #TODO move this in /tmp/ - in home for debug
     create_success = create_core_launch_file(launch_file_path,
                                             conf = conf,
-                                            camera_extrinsics=camera_extrinsics,
-                                            lidar_extrinsics=lidar_extrinsics,
+                                            camera_extrinsics_file=camera_extr_file,
+                                            lidar_extrinsics_file=lidar_extr_file,
                                             oled_display = oled_display_installed,
                                             board_rev = boardRev)
 

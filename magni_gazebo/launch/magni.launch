@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
 
-    <arg name="camera_installed" default="true"/>
+    <!-- 
+    This string will be taken to search for camera extrinsics yaml file like 
+    $(find magni_description)/param/camera_extrinsics_$(arg camera_position).yaml
+    so if that yaml file does not exsist, the xacro file will return "No such file or directory" error
+    -->
+    <arg name="camera_position" default="forward"/>
+    
+    <!-- 
+    This string will be taken to search for lidar extrinsics yaml file like 
+    $(find magni_description)/param/lidar_extrinsics_$(arg lidar_position).yaml
+    so if that yaml file does not exsist, the xacro file will return "No such file or directory" error
+    -->
+    <arg name="lidar_position" default="top_plate"/>
+    
     <arg name="sonars_installed" default="true"/>
-    <arg name="lidar_installed" default="false"/>
+    
+    <arg name="lidar_extrinsics_file" value="$(find magni_description)/param/lidar_extrinsics_$(arg lidar_position).yaml"/>
+    <arg name="camera_extrinsics_file" value="$(find magni_description)/param/camera_extrinsics_$(arg camera_position).yaml"/>
 
     <include file="$(find magni_description)/launch/description.launch">
-        <arg name="camera_installed" value="$(arg camera_installed)" />
+        <arg name="camera_extrinsics_file" value="$(arg camera_extrinsics_file)" />
         <arg name="sonars_installed" value="$(arg sonars_installed)" />
-        <arg name="lidar_installed" value="$(arg lidar_installed)" />
+        <arg name="lidar_extrinsics_file" value="$(arg lidar_extrinsics_file)" />
     </include>
 
     <node name="magni_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model magni" />
