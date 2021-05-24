@@ -157,12 +157,6 @@
     </xacro:sonar_hc-sr04>
   </xacro:if>
 
-  <!-- <xacro:if value="${camera_installed}">
-    <xacro:raspi_camera name="raspicam" connected_to="base_link">
-      <origin xyz="$(arg camera_extr_x) $(arg camera_extr_y) $(arg camera_extr_z)" rpy="$(arg camera_extr_roll) $(arg camera_extr_pitch) $(arg camera_extr_yaw)"/>
-    </xacro:raspi_camera>
-  </xacro:if> -->
-
   <!-- Define camera -->
   <xacro:if value="${camera_extrinsics_file != ''}">
     <xacro:property name="cam_extrinsics" value="${load_yaml(camera_extrinsics_file)}"/>

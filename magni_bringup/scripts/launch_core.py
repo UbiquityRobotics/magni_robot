@@ -5,7 +5,7 @@
 # 3DTOF, etc, if they are installed.
 ###
 
-import sys, os, subprocess, time
+import sys, os, subprocess, time, argparse
 import roslaunch, rospkg
 import yaml
 import smbus # used for the hw rev stuff
@@ -53,27 +53,6 @@ default_conf = \
             }
         }
     }
-}
-
-
-default_camera_extrinsics = \
-{
-    'x' : '0.0',
-    'y' : '0.0',
-    'z' : '0.0',
-    'roll' : '0.0',
-    'pitch' : '0.0',
-    'yaw' : '0.0'
-}
-
-default_lidar_extrinsics = \
-{
-    'x' : '0.0',
-    'y' : '0.0',
-    'z' : '0.0',
-    'roll' : '0.0',
-    'pitch' : '0.0',
-    'yaw' : '0.0'
 }
 
 def get_yaml(path, default_yaml):
@@ -236,7 +215,11 @@ def find_file_by_priority(first_path, second_path):
         return first_path
 
 if __name__ == "__main__":
-    print (conf_path)
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--debug', action='store_true', help='Only generate ROS launch without launching it')
+    args=parser.parse_args()
+
+
     conf = get_yaml(conf_path, default_conf)
 
     # We only support 1 version of the Sonars right now
@@ -289,7 +272,7 @@ if __name__ == "__main__":
             boardRev = 49 + (15 - (inputPortBits & 0x0F))
             print ("Got board rev: %d" % boardRev)
         except: 
-            print ("Error reading motor controller board version from i2c\n")
+            print ("Error reading motor controller board version from i2c")
 
     
     
@@ -302,27 +285,31 @@ if __name__ == "__main__":
     rp = rospkg.RosPack()
     magni_description_path = rp.get_path('magni_description')
 
-    # get camera extrinsics
-    path1 = '~/.ros/extrinsics/camera_extrinsics_%s.yaml' % conf['raspicam']['position']
-    path2 = magni_description_path+'/param/camera_extrinsics_%s.yaml' % conf['raspicam']['position']
-    camera_extr_file = find_file_by_priority(path1, path2)
-    if camera_extr_file == "":
-        print ("Camera will not be enabled in urdf")
-    else:
-        print ("Camera enabled in urdf")
+    camera_extr_file = ""
+    lidar_extr_file = ""
 
+    if conf['raspicam']['camera_installed'] == "True" or conf['raspicam']['camera_installed'] == "true":
+        # get camera extrinsics
+        path1 = '~/.ros/extrinsics/camera_extrinsics_%s.yaml' % conf['raspicam']['position']
+        path2 = magni_description_path+'/param/camera_extrinsics_%s.yaml' % conf['raspicam']['position']
+        camera_extr_file = find_file_by_priority(path1, path2)
+        if camera_extr_file == "":
+            print ("Camera will NOT be enabled in urdf")
+        else:
+            print ("Camera enabled in urdf")
 
-    # get lidar extrinsics
-    path1 = '~/.ros/extrinsics/lidar_extrinsics_%s.yaml' % conf['lidar']['position']
-    path2 = magni_description_path+'/param/lidar_extrinsics_%s.yaml' % conf['lidar']['position']
-    lidar_extr_file = find_file_by_priority(path1, path2)
-    if lidar_extr_file == "":
-        print ("Lidar will not be enabled in urdf")
-    else:
-        print ("Lidar enabled in urdf")
+    if conf['lidar']['lidar_installed'] == "True" or conf['lidar']['lidar_installed'] == "true":
+        # get lidar extrinsics
+        path1 = '~/.ros/extrinsics/lidar_extrinsics_%s.yaml' % conf['lidar']['position']
+        path2 = magni_description_path+'/param/lidar_extrinsics_%s.yaml' % conf['lidar']['position']
+        lidar_extr_file = find_file_by_priority(path1, path2)
+        if lidar_extr_file == "":
+            print ("Lidar will not be enabled in urdf")
+        else:
+            print ("Lidar enabled in urdf")
 
    
-    launch_file_path = "/tmp/core.launch" #TODO move this in /tmp/ - in home for debug
+    launch_file_path = "/tmp/core.launch"
     create_success = create_core_launch_file(launch_file_path,
                                             conf = conf,
                                             camera_extrinsics_file=camera_extr_file,
@@ -332,6 +319,12 @@ if __name__ == "__main__":
 
     if not create_success:
         print("Creating launch file did not sucsseed")
+    else:
+        print("Launch file generated at "+launch_file_path)
 
-    # TODO launch launch_file_path
-    
+    # only actually launch the generated launch if not in debug mode
+    if args.debug != True:
+        print ("Launching with command: roslaunch "+launch_file_path)
+        proc = os.popen("roslaunch "+launch_file_path)
+    else:
+        print ("In debug mode the generated roslaunch is not launched")
