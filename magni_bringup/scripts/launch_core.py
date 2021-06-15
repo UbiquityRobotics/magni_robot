@@ -9,8 +9,11 @@ import sys, os, subprocess, time, argparse
 import roslaunch, rospkg
 import yaml
 import smbus # used for the hw rev stuff
+import em
 
+rp = rospkg.RosPack()
 conf_path = "/etc/ubiquity/robot.yaml"
+core_em_path = rp.get_path('magni_bringup')+"/param/core_launch.em"
 
 default_conf = \
 {
@@ -81,13 +84,13 @@ def get_yaml(path, default_yaml):
         print("WARN failed to parse " + path + ", using default configuration")
         return default_conf
 
-def create_core_launch_file(path,
+def create_core_launch_file(em_path,
+                            path,
                             conf = default_conf,
                             camera_extrinsics_file = "",
                             lidar_extrinsics_file = "",
                             oled_display = 0,
                             board_rev = 0):
-
     try:
         sonars_installed = conf['sonars']
         motor_controller_params = conf['motor_controller']
@@ -103,96 +106,53 @@ def create_core_launch_file(path,
 
     # TODO should I be doing more checks here -> maybe if dictionary and such
 
-    # create if not exsisting, overwrite stuff thats already there
-    f = open(path, "w")
-    f.write("<launch>\n")
-
-    # add the robot description part
-    f.write("""
-    <include file="$(find magni_description)/launch/description.launch">
-        <arg name="camera_extrinsics_file" value='""" +str(camera_extrinsics_file)+ """'/>
-        <arg name="lidar_extrinsics_file" value='""" +str(lidar_extrinsics_file)+ """'/>
-        <arg name="sonars_installed" value='""" +str(sonars_installed)+ """'/>
-    </include>
-    """)
-
-    if bool(sonars_installed):
-        f.write('\n\t<node pkg="pi_sonar" type="pi_sonar" name="pi_sonar"/>\n')
-    else:
-        f.write('\n\t<!--<node pkg="pi_sonar" type="pi_sonar" name="pi_sonar"/>-->\n')
-
-    # oled_display adding if True, if False add it in anyway but commented out for easier debugging
-    if oled_display:
-        f.write('\n\t<node pkg="oled_display_node" type="oled_display_node" name="oled_display"/>\n')
-    else:
-        f.write('\n\t<!--<node pkg="oled_display_node" type="oled_display_node" name="oled_display"/>-->\n')
-
-
-    f.write("""
-    <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostics_agg">
-        <!-- Load the file you made above -->
-        <rosparam command="load" file="$(find magni_bringup)/param/diagnostics_agg.yaml"/>
-    </node>
-
-    <!-- Load the parameters used by the following nodes -->
-    <rosparam command="load" file="$(find magni_bringup)/param/base.yaml" />
-    """)
-    
-    # board version adding if not 0, if zero add it in anyway but commented out for easier debugging
-    if board_rev != 0:
-        f.write('\n\t<param name="/ubiquity_motor/controller_board_version" value="'+str(board_rev)+'"/>\n')
-    else:
-        f.write('\n\t<!--<param name="/ubiquity_motor/controller_board_version" value="'+str(board_rev)+'"/>-->\n')
-
-    # add PID Params
-    f.write("""
-    <param name="/ubiquity_motor/serial_port" value='"""+str(motor_controller_params['serial_port'])+"""'/>
-    <param name="/ubiquity_motor/serial_baud" value='"""+str(motor_controller_params['serial_baud'])+"""'/>
-    
-    <!-- PID Params -->
-    <param name="/ubiquity_motor/pid_proportional" value='"""+str(motor_controller_params['pid_proportional'])+"""'/>
-    <param name="/ubiquity_motor/pid_integral" value='"""+str(motor_controller_params['pid_integral'])+"""'/>
-    <param name="/ubiquity_motor/pid_derivative" value='"""+str(motor_controller_params['pid_derivative'])+"""'/>
-    <param name="/ubiquity_motor/pid_denominator" value='"""+str(motor_controller_params['pid_denominator'])+"""'/>
-    <param name="/ubiquity_motor/pid_moving_buffer_size" value='"""+str(motor_controller_params['pid_moving_buffer_size'])+"""'/>
-    <param name="/ubiquity_motor/pid_velocity" value='"""+str(motor_controller_params['pid_velocity'])+"""'/>
-    
-    """)
-
-    # add the roscontrol controller
-    f.write("""
-    <!-- Launch the roscontrol controllers needed -->
-    <node name="controller_spawner" pkg="controller_manager" type="spawner"
-        args="ubiquity_velocity_controller ubiquity_joint_publisher"/>
-    """)
-
     vc_lin = vc_params['linear']['x']
     vc_ang = vc_params['angular']['z']
-    # add the motor node
-    f.write("""
-    <!-- Launch the motor node with the topic remapped to standard names -->
-    <node name="motor_node" pkg="ubiquity_motor" type="motor_node">
-        <remap from="/ubiquity_velocity_controller/cmd_vel" to="/cmd_vel"/>
-        <remap from="/ubiquity_velocity_controller/odom" to="/odom"/>
 
-        <param name="/ubiquity_velocity_controller/wheel_separation_multiplier" value='"""+str(vc_params['wheel_separation_multiplier'])+"""'/>
-        <param name="/ubiquity_velocity_controller/wheel_radius_multiplier" value='"""+str(vc_params['wheel_radius_multiplier'])+"""'/>
-        <param name="/ubiquity_velocity_controller/linear/x/has_velocity_limits" value='"""+str(vc_lin['has_velocity_limits'])+"""'/>
-        <param name="/ubiquity_velocity_controller/linear/x/max_velocity" value='"""+str(vc_lin['max_velocity'])+"""'/>
-        <param name="/ubiquity_velocity_controller/linear/x/has_acceleration_limits" value='"""+str(vc_lin['has_acceleration_limits'])+"""'/>
-        <param name="/ubiquity_velocity_controller/linear/x/max_acceleration" value='"""+str(vc_lin['max_acceleration'])+"""'/>
+    try:
+        with open(em_path) as em_launch_file:
+            em_launch = em_launch_file.read()
+            expanded_em_launch = em.expand(em_launch, 
+                {"camera_extrinsics_file": camera_extrinsics_file,
+                "lidar_extrinsics_file": lidar_extrinsics_file,
+                "sonars_installed": sonars_installed,
+                "oled_display": oled_display,
+                "controller_board_version": str(board_rev),
+                "serial_port": str(motor_controller_params['serial_port']),
+                "serial_baud": str(motor_controller_params['serial_baud']),
+                "pid_proportional": str(motor_controller_params['pid_proportional']),
+                "pid_integral": str(motor_controller_params['pid_integral']),
+                "pid_derivative": str(motor_controller_params['pid_derivative']),
+                "pid_denominator": str(motor_controller_params['pid_denominator']),
+                "pid_moving_buffer_size": str(motor_controller_params['pid_moving_buffer_size']),
+                "pid_velocity": str(motor_controller_params['pid_velocity']),
+                "wheel_separation_multiplier": str(vc_params['wheel_separation_multiplier']),
+                "wheel_radius_multiplier": str(vc_params['wheel_radius_multiplier']),
+                "has_velocity_limits": str(vc_lin['has_velocity_limits']),
+                "has_velocity_limits": str(vc_lin['max_velocity']),
+                "has_acceleration_limits": str(vc_lin['has_acceleration_limits']),
+                "max_acceleration": str(vc_lin['max_acceleration']),
+                "has_velocity_limits": str(vc_ang['has_velocity_limits']),
+                "max_velocity": str(vc_ang['max_velocity']),
+                "has_acceleration_limits": str(vc_ang['has_acceleration_limits']),
+                "max_acceleration": str(vc_ang['max_acceleration'])
+                }
+            )
+    except FileNotFoundError:
+        print(
+            "WARN "+em_path+" doesn't exist!"
+        )
+        return False
+    # except (JSONDecodeError, NameError) as e:
+    #     print(
+    #         "WARN failed to parse /etc/pifi/default_ap.em, using fallback configuration"
+    #     )
+    #     print(e)
+    #     return fallback_ap_conf        
 
-        <param name="/ubiquity_velocity_controller/angular/z/has_velocity_limits" value='"""+str(vc_ang['has_velocity_limits'])+"""'/>
-        <param name="/ubiquity_velocity_controller/angular/z/max_velocity" value='"""+str(vc_ang['max_velocity'])+"""'/>
-        <param name="/ubiquity_velocity_controller/angular/z/has_acceleration_limits" value='"""+str(vc_ang['has_acceleration_limits'])+"""'/>
-        <param name="/ubiquity_velocity_controller/angular/z/max_acceleration" value='"""+str(vc_ang['max_acceleration'])+"""'/>
-    </node>
-    
-    """)
-
-    f.write("</launch>")
+    f = open(path, "w")
+    f.write(expanded_em_launch)
     f.close()
-
     return True
 
 # finds file path by priority:
@@ -217,6 +177,7 @@ def find_file_by_priority(first_path, second_path):
 if __name__ == "__main__":
     parser=argparse.ArgumentParser()
     parser.add_argument('--debug', action='store_true', help='Only generate ROS launch without launching it')
+    parser.add_argument('--path', default="/tmp/core.launch", help='Generated the launch file to this path')
     args=parser.parse_args()
 
 
@@ -233,13 +194,14 @@ if __name__ == "__main__":
     if conf['oled_display']['controller'] == 'SH1106':
         oled_display_installed = True
 
-    # print (conf)
+    print (conf)
 
-    if conf['force_time_sync']:
+    if conf['force_time_sync'] == "True":
         time.sleep(5) # pifi doesn't like being called early in boot
         try:
             timeout = time.time() + 40 # up to 40 seconds
             while (1):
+                print ("neki")
                 if (time.time() > timeout): 
                     print ("Timed out")
                     raise RuntimeError # go to error handling
@@ -282,7 +244,6 @@ if __name__ == "__main__":
         2.) in package magni_description/param/<SENSOR>_extrinsics_<POSITION>.yaml
     If no file was found, do not load the sensor in urdf
     """
-    rp = rospkg.RosPack()
     magni_description_path = rp.get_path('magni_description')
 
     camera_extr_file = ""
@@ -308,9 +269,8 @@ if __name__ == "__main__":
         else:
             print ("Lidar enabled in urdf")
 
-   
-    launch_file_path = "/tmp/core.launch"
-    create_success = create_core_launch_file(launch_file_path,
+    create_success = create_core_launch_file(core_em_path,
+                                            args.path,
                                             conf = conf,
                                             camera_extrinsics_file=camera_extr_file,
                                             lidar_extrinsics_file=lidar_extr_file,
@@ -318,13 +278,13 @@ if __name__ == "__main__":
                                             board_rev = boardRev)
 
     if not create_success:
-        print("Creating launch file did not sucsseed")
+        print("Creating launch file did not succeed")
     else:
-        print("Launch file generated at "+launch_file_path)
+        print("Launch file generated at "+args.path)
 
     # only actually launch the generated launch if not in debug mode
     if args.debug != True:
-        print ("Launching with command: roslaunch "+launch_file_path)
-        proc = os.popen("roslaunch "+launch_file_path)
+        print ("Launching with command: roslaunch "+args.path)
+        proc = os.popen("roslaunch "+args.path)
     else:
         print ("In debug mode the generated roslaunch is not launched")
