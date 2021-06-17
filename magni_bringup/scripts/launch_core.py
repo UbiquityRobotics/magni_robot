@@ -16,6 +16,8 @@ conf_path_1 = "/etc/ubiquity/robot.yaml"
 conf_path_2 = rp.get_path('magni_bringup')+"/param/robot.yaml"
 core_em_path = rp.get_path('magni_bringup')+"/param/core_launch.em"
 
+arguments = None
+
 default_conf = \
 {
     'raspicam' : {'camera_installed' : 'True', 'position' : 'upward'},
@@ -176,8 +178,7 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--debug', action='store_true', help='Only generate ROS launch without launching it')
     parser.add_argument('--launch_generate_path', default="/tmp/core.launch", help='Generated the launch file to this path')
-    args=parser.parse_args()
-
+    arguments, unknown=parser.parse_known_args()
 
     conf_path = find_file_by_priority(conf_path_1, conf_path_2)
     if conf_path == "":
@@ -201,7 +202,7 @@ def main():
         oled_display_installed = True
 
     # print out the whole config if in debug mode
-    if args.debug == True:
+    if arguments.debug == True:
         print (conf)
 
     if conf['force_time_sync'] == "True":
@@ -277,7 +278,7 @@ def main():
             print ("Lidar extrinsics found: "+ lidar_extr_file)
 
     create_success = create_core_launch_file(core_em_path,
-                                            args.launch_generate_path,
+                                            arguments.launch_generate_path,
                                             conf = conf,
                                             camera_extrinsics_file=camera_extr_file,
                                             lidar_extrinsics_file=lidar_extr_file,
@@ -288,12 +289,12 @@ def main():
         print("ERROR: Creating launch file did not succeed")
         return
     else:
-        print("Launch file generated at "+args.launch_generate_path)
+        print("Launch file generated at "+arguments.launch_generate_path)
 
     # only launch the generated launch if not in debug mode
-    if args.debug != True:
-        print ("Launching with command: roslaunch "+args.launch_generate_path)
-        sys.argv = ["roslaunch", args.launch_generate_path]
+    if arguments.debug != True:
+        print ("Launching with command: roslaunch "+arguments.launch_generate_path)
+        sys.argv = ["roslaunch", arguments.launch_generate_path]
         roslaunch.main(sys.argv)
     else:
         print ("In debug mode the generated roslaunch is not launched")
