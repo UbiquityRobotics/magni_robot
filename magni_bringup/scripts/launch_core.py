@@ -12,7 +12,8 @@ import smbus # used for the hw rev stuff
 import em
 
 rp = rospkg.RosPack()
-conf_path = "/etc/ubiquity/robot.yaml"
+conf_path_1 = "/etc/ubiquity/robot.yaml"
+conf_path_2 = rp.get_path('magni_bringup')+"/param/robot.yaml"
 core_em_path = rp.get_path('magni_bringup')+"/param/core_launch.em"
 
 default_conf = \
@@ -58,9 +59,9 @@ default_conf = \
     }
 }
 
-def get_yaml(path, default_yaml):
+def get_yaml(yaml_path, default_yaml):
     try:
-        with open(path) as conf_file:
+        with open(yaml_path) as conf_file:
             try:
                 y_conf = yaml.safe_load(conf_file)
             except Exception as e:
@@ -69,19 +70,20 @@ def get_yaml(path, default_yaml):
                 return default_yaml
 
             if (y_conf is None):
-                print('WARN ' + path + ' is empty, using default configuration')
+                print('WARN ' + yaml_path + ' is empty, using default configuration')
                 return default_yaml
 
             for key, value in default_yaml.items():
                 if key not in y_conf:
+                    print ("WARN: Did not find '"+str(key)+"' in "+yaml_path+". Replacing it with: "+str(value))
                     y_conf[key] = value
 
             return y_conf
     except IOError:
-        print("WARN " + path + " doesn't exist, using default configuration")
+        print("WARN " + yaml_path + " doesn't exist, using default configuration")
         return default_conf
     except yaml.parser.ParserError:
-        print("WARN failed to parse " + path + ", using default configuration")
+        print("WARN failed to parse " + yaml_path + ", using default configuration")
         return default_conf
 
 def create_core_launch_file(em_path,
@@ -101,7 +103,7 @@ def create_core_launch_file(em_path,
         return False
 
     if len(motor_controller_params)!=9: 
-        print("Motor_controller_params dictionaty must contain 9 items. Instead it has:", str(len(motor_controller_params)))
+        print("Motor_controller_params dictionary must contain 9 items. Instead it has:", str(len(motor_controller_params)))
         return False
 
     # TODO should I be doing more checks here -> maybe if dictionary and such
@@ -139,16 +141,12 @@ def create_core_launch_file(em_path,
                 }
             )
     except FileNotFoundError:
-        print(
-            "WARN "+em_path+" doesn't exist!"
-        )
+        print("WARN "+em_path+" doesn't exist!")
         return False
-    # except (JSONDecodeError, NameError) as e:
-    #     print(
-    #         "WARN failed to parse /etc/pifi/default_ap.em, using fallback configuration"
-    #     )
-    #     print(e)
-    #     return fallback_ap_conf        
+    except (JSONDecodeError, NameError) as e:
+        print("WARN failed to parse "+em_path)
+        print(e)
+        return False        
 
     f = open(path, "w")
     f.write(expanded_em_launch)
@@ -156,29 +154,37 @@ def create_core_launch_file(em_path,
     return True
 
 # finds file path by priority:
-# 1.) Checks first path and returns it if it exsists
-# 2.) Checks second path and returns it if it exsists
-# 3.) If none of them exsist returns empty string
+# 1.) Checks first path and returns it if it exists
+# 2.) Checks second path and returns it if it exists
+# 3.) If none of them exists returns empty string
 def find_file_by_priority(first_path, second_path):
     first_path = os.path.expanduser(first_path)
     if not os.path.isfile(first_path):
-        print("File "+first_path+" does not exsist")
+        # print("File "+first_path+" does not exsist")
         second_path = os.path.expanduser(second_path)
         if not os.path.isfile(second_path):
-            print("File "+second_path+" does not exsist, using default config")
+            # print("File "+second_path+" does not exsist, using default config")
             return ""
         else:
-            print("File "+second_path+" found")
+            # print("File "+second_path+" found")
             return second_path
     else:
-        print("File "+first_path+" found")
+        # print("File "+first_path+" found")
         return first_path
 
-if __name__ == "__main__":
+def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--debug', action='store_true', help='Only generate ROS launch without launching it')
-    parser.add_argument('--path', default="/tmp/core.launch", help='Generated the launch file to this path')
+    parser.add_argument('--launch_generate_path', default="/tmp/core.launch", help='Generated the launch file to this path')
     args=parser.parse_args()
+
+
+    conf_path = find_file_by_priority(conf_path_1, conf_path_2)
+    if conf_path == "":
+        print("ERROR: configuration file robot.yaml could not be found in either:\n"+conf_path_1+" or\n"+conf_path_2)
+        return
+    else:
+        print("Found config file: "+conf_path)
 
 
     conf = get_yaml(conf_path, default_conf)
@@ -194,14 +200,15 @@ if __name__ == "__main__":
     if conf['oled_display']['controller'] == 'SH1106':
         oled_display_installed = True
 
-    print (conf)
+    # print out the whole config if in debug mode
+    if args.debug == True:
+        print (conf)
 
     if conf['force_time_sync'] == "True":
         time.sleep(5) # pifi doesn't like being called early in boot
         try:
             timeout = time.time() + 40 # up to 40 seconds
             while (1):
-                print ("neki")
                 if (time.time() > timeout): 
                     print ("Timed out")
                     raise RuntimeError # go to error handling
@@ -236,10 +243,8 @@ if __name__ == "__main__":
         except: 
             print ("Error reading motor controller board version from i2c")
 
-    
-    
     """
-    check for extrinsics files in two places with following priorities:
+    check for lidar and camera extrinsics files in two places with following priorities:
         1.) in ~/.ros/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml
         2.) in package magni_description/param/<SENSOR>_extrinsics_<POSITION>.yaml
     If no file was found, do not load the sensor in urdf
@@ -249,28 +254,30 @@ if __name__ == "__main__":
     camera_extr_file = ""
     lidar_extr_file = ""
 
+    # check for camera extrinsics
     if conf['raspicam']['camera_installed'] == "True" or conf['raspicam']['camera_installed'] == "true":
         # get camera extrinsics
         path1 = '~/.ros/extrinsics/camera_extrinsics_%s.yaml' % conf['raspicam']['position']
         path2 = magni_description_path+'/param/camera_extrinsics_%s.yaml' % conf['raspicam']['position']
         camera_extr_file = find_file_by_priority(path1, path2)
         if camera_extr_file == "":
-            print ("Camera will NOT be enabled in urdf")
+            print ("WARN: Camera will NOT be enabled in urdf, because extrinsics file not found in neither: "+path1+"\n"+path2)
         else:
-            print ("Camera enabled in urdf")
+            print ("Camera extrinsics found: "+camera_extr_file)
 
+    # check for lidar extrinsics
     if conf['lidar']['lidar_installed'] == "True" or conf['lidar']['lidar_installed'] == "true":
         # get lidar extrinsics
         path1 = '~/.ros/extrinsics/lidar_extrinsics_%s.yaml' % conf['lidar']['position']
         path2 = magni_description_path+'/param/lidar_extrinsics_%s.yaml' % conf['lidar']['position']
         lidar_extr_file = find_file_by_priority(path1, path2)
         if lidar_extr_file == "":
-            print ("Lidar will not be enabled in urdf")
+            print ("WARN: Lidar will NOT be enabled in urdf, because extrinsics file not found in neither: "+path1+"\n"+path2)
         else:
-            print ("Lidar enabled in urdf")
+            print ("Lidar extrinsics found: "+ lidar_extr_file)
 
     create_success = create_core_launch_file(core_em_path,
-                                            args.path,
+                                            args.launch_generate_path,
                                             conf = conf,
                                             camera_extrinsics_file=camera_extr_file,
                                             lidar_extrinsics_file=lidar_extr_file,
@@ -278,13 +285,18 @@ if __name__ == "__main__":
                                             board_rev = boardRev)
 
     if not create_success:
-        print("Creating launch file did not succeed")
+        print("ERROR: Creating launch file did not succeed")
+        return
     else:
-        print("Launch file generated at "+args.path)
+        print("Launch file generated at "+args.launch_generate_path)
 
-    # only actually launch the generated launch if not in debug mode
+    # only launch the generated launch if not in debug mode
     if args.debug != True:
-        print ("Launching with command: roslaunch "+args.path)
-        proc = os.popen("roslaunch "+args.path)
+        print ("Launching with command: roslaunch "+args.launch_generate_path)
+        sys.argv = ["roslaunch", args.launch_generate_path]
+        roslaunch.main(sys.argv)
     else:
         print ("In debug mode the generated roslaunch is not launched")
+
+if __name__ == "__main__":
+    main()

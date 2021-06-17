@@ -1,15 +1,21 @@
 
 # Robot Configuration
 
+
+# Check for lidar and camera extrinsics files in two places with following priorities:
+#  1.) in ~/.ros/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml
+#  2.) in package magni_description/param/<SENSOR>_extrinsics_<POSITION>.yaml
+# where <SENSOR> is either "camera" or "lidar" and <POSITION> is an arbitrary string with which the extrinsics file is identified 
 raspicam: {'camera_installed' : 'True', 'position' : 'forward'}
 lidar: {'lidar_installed' : 'True', 'position' : 'top_plate'}
 
 sonars: None
 # sonars: 'pi_sonar_v1' # Use this to enable sonars
 
-ubiquity_motor:
-  controller_loop_rate: 20
-  serial_loop_rate: 200
+motor_controller:
+  board_version : None 
+  serial_port: '/dev/ttyAMA0'
+  serial_baud: 38400
   pid_proportional: 5000
   pid_integral: 7
   pid_derivative: -110
