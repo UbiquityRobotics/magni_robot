@@ -16,8 +16,6 @@ conf_path_1 = "/etc/ubiquity/robot.yaml"
 conf_path_2 = rp.get_path('magni_bringup')+"/param/robot.yaml"
 core_em_path = rp.get_path('magni_bringup')+"/param/core_launch.em"
 
-arguments = None
-
 default_conf = \
 {
     'raspicam' : {'camera_installed' : 'True', 'position' : 'upward'},
