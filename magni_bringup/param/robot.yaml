@@ -4,7 +4,7 @@
 
 # Check for lidar and camera extrinsics files in two places with following priorities:
 #  1.) in ~/.ros/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml
-#  2.) in package magni_description/param/<SENSOR>_extrinsics_<POSITION>.yaml
+#  2.) in package magni_description/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml
 # where <SENSOR> is either "camera" or "lidar" and <POSITION> is an arbitrary string with which the extrinsics file is identified 
 raspicam: {'camera_installed' : 'True', 'position' : 'forward'}
 lidar: {'lidar_installed' : 'True', 'position' : 'top_plate'}

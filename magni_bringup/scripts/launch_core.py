@@ -245,7 +245,7 @@ def main():
     """
     check for lidar and camera extrinsics files in two places with following priorities:
         1.) in ~/.ros/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml
-        2.) in package magni_description/param/<SENSOR>_extrinsics_<POSITION>.yaml
+        2.) in package magni_description/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml
     If no file was found, do not load the sensor in urdf
     """
     magni_description_path = rp.get_path('magni_description')
@@ -257,7 +257,7 @@ def main():
     if conf['raspicam']['camera_installed'] == "True" or conf['raspicam']['camera_installed'] == "true":
         # get camera extrinsics
         path1 = '~/.ros/extrinsics/camera_extrinsics_%s.yaml' % conf['raspicam']['position']
-        path2 = magni_description_path+'/param/camera_extrinsics_%s.yaml' % conf['raspicam']['position']
+        path2 = magni_description_path+'/extrinsics/camera_extrinsics_%s.yaml' % conf['raspicam']['position']
         camera_extr_file = find_file_by_priority(path1, path2)
         if camera_extr_file == "":
             print ("WARN: Camera will NOT be enabled in urdf, because extrinsics file not found in neither: "+path1+"\n"+path2)
@@ -268,7 +268,7 @@ def main():
     if conf['lidar']['lidar_installed'] == "True" or conf['lidar']['lidar_installed'] == "true":
         # get lidar extrinsics
         path1 = '~/.ros/extrinsics/lidar_extrinsics_%s.yaml' % conf['lidar']['position']
-        path2 = magni_description_path+'/param/lidar_extrinsics_%s.yaml' % conf['lidar']['position']
+        path2 = magni_description_path+'/extrinsics/lidar_extrinsics_%s.yaml' % conf['lidar']['position']
         lidar_extr_file = find_file_by_priority(path1, path2)
         if lidar_extr_file == "":
             print ("WARN: Lidar will NOT be enabled in urdf, because extrinsics file not found in neither: "+path1+"\n"+path2)
