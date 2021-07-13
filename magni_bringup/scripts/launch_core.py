@@ -174,7 +174,7 @@ def find_file_by_priority(first_path, second_path):
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('--debug', action='store_true', help='Only generate ROS launch without launching it')
+    parser.add_argument('--debug', action='store_true', help='Only generate ROS launch file without launching it')
     parser.add_argument('--launch_generate_path', default="/tmp/core.launch", help='Generated the launch file to this path')
     arguments, unknown=parser.parse_known_args()
 
