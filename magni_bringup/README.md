@@ -9,7 +9,7 @@ Magni robots start ros core and a set of base nodes on boot. This is done in the
 1.) using `systemctl` the magni-base service file (`/usr/sbin/magni-base.service`) is ran. This:
   a) starts roscore,
   b) sets up environment variables,
-  c) ..., TODO
+  c) ..., TODO what else is being launched there?
   d) launches `base.launch`
 2.) `base.launch` launches robot base nodes:
   a) `logitech.launch`
@@ -21,9 +21,10 @@ Magni robots start ros core and a set of base nodes on boot. This is done in the
   b) robot description: all robot static and dynamic transforms. It gets its camera and lidar extrinsics from either `~/.ros/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml` OR `magni_description/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml` with respective priorities. 
   c) other nodes like `controller_spawner`, `diagnostic_aggregator`, `oled_display_node`,... Exactly what gets launched can be seen in `magni_bringup/param/core_launch.em` from which core.launch is generated. Any addition to core.launch should be added inside the `core_launch.em` file
 
-**Useful commands**
+**Useful commands for debugging**
+If new additions need to be added to core.launch, add them into `magni_bringup/param/core_launch.em`, then edit the launch_core.py accordingly. You can then run the commands:
 
-`python src/magni_robot/magni_bringup/scripts/launch_core.py --debug` uses launch_core.py to create the core.launch but does not start it (for debug purposes)
+`python src/magni_robot/magni_bringup/scripts/launch_core.py --debug` uses launch_core.py to create the core.launch but does not start it (for debug purposes) - generated core.launch can be visually inspected for bugs.
 
 `python src/magni_robot/magni_bringup/scripts/launch_core.py --launch_generate_path <PATH>` will generate the core.launch at `<PATH>` and launch it from there
 
@@ -44,7 +45,7 @@ Magni robots start ros core and a set of base nodes on boot. This is done in the
     - Not everything in there is actually a ROS parameter, like force_time_sync or the camera/lidar extrinsics which is passed directly to xacro
     - Allow for string comparison if statements for determining which nodes to launch, ex: "pi_sonar_v1" vs only having bools
 
- - why launch_core.py creates its own xml launch file 
+ - why does `launch_core.py` generate `core.launch` and then launches it:
     - launch_core.py to generate the roslaunch XML based on the parameters. That might reduce the number of places we have to touch to add a new parameter.  - It also allows for switching between different nodes at launch easier, for things like picking which lidar we have etc.
     - Debugging is much easier: you can actually see the parameters that were used by opening the generated launch file in the /tmp/ directory. The alternative is that you leave the param calculation to statements in urdf files which are much harder to debug.
     - Creating the core.launch from python gives much more freedom to do stuff programmatically now and for possible changes in the future
