@@ -12,52 +12,26 @@ import smbus # used for the hw rev stuff
 import em
 
 rp = rospkg.RosPack()
+
+# Path to the robot.yaml on the robot (not tracked by git)
 conf_path_1 = "/etc/ubiquity/robot.yaml"
+
+# Path to the default_robot.yaml config inside magni_robot repo (git tracked)
 conf_path_2 = rp.get_path('magni_bringup')+"/config/default_robot.yaml"
+
+# Path to the .em file from which the core.launch is generated
 core_em_path = rp.get_path('magni_bringup')+"/launch/core_launch.em"
 
-default_conf = \
-{
-    'raspicam' : {'camera_installed' : 'True', 'position' : 'upward'},
-    'lidar' : {'lidar_installed' : 'True', 'position' : 'top_plate'},
-    'sonars' : 'None',
-    'motor_controller' : {
-        'board_version' : None,   
-        'serial_port': "/dev/ttyAMA0",
-        'serial_baud': 38400,
-        'pid_proportional': 5000,
-        'pid_integral': 7,
-        'pid_derivative': -110,
-        'pid_denominator': 1000,
-        'pid_moving_buffer_size': 70,
-        'pid_velocity': 1500
-    },
-    'force_time_sync' : 'True',
-    'oled_display': {
-        'controller': None
-    },
+# We rely on the conf_path_2 always existing since its inside the repo.
+# The default config is always loaded because specific elements are loaded from it if 
+# they are missing in conf_path_1 yaml (see get_yaml() function).
+try: 
+    with open(conf_path_2) as cf:
+        default_conf = yaml.safe_load(cf)
+except Exception as e:
+    print('Error reading '+conf_path_2)
+    print(e)
 
-    'ubiquity_velocity_controller' : {
-        'wheel_separation_multiplier': 1.0, # default: 1.0
-        'wheel_radius_multiplier'    : 1.0, # default: 1.0    
-        'linear':{
-            'x':{
-                'has_velocity_limits'    : 'True',
-                'max_velocity'           : 1.0,   # m/s
-                'has_acceleration_limits': 'True',
-                'max_acceleration'       : 1.1,   # m/s^2
-            }
-        },
-        'angular': {
-            'z': {
-                'has_velocity_limits'    : 'True',
-                'max_velocity'           : 2.0,   # rad/s
-                'has_acceleration_limits': 'True',
-                'max_acceleration'       : 5.0,   # rad/s^2    
-            }
-        }
-    }
-}
 
 def get_yaml(yaml_path, default_yaml):
     try:
