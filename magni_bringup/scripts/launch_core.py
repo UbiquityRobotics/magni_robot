@@ -190,7 +190,7 @@ def main():
                 if (time.time() > timeout): 
                     print ("Timed out")
                     raise RuntimeError # go to error handling
-                output = subprocess.check_output(["pifi", "status"])
+                output = subprocess.run(["pifi", "status"], check=True, text=True, capture_output=True).stdout
                 if "not activated" in output:
                     time.sleep(5)
                 if "acting as an Access Point" in output:
