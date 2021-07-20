@@ -31,6 +31,7 @@ try:
 except Exception as e:
     print('Error reading '+conf_path_2)
     print(e)
+    exit
 
 
 def get_yaml(yaml_path, default_yaml):
@@ -133,18 +134,22 @@ def create_core_launch_file(em_path,
 # 3.) If none of them exists returns empty string
 def find_file_by_priority(first_path, second_path):
     first_path = os.path.expanduser(first_path)
-    if not os.path.isfile(first_path):
-        # print("File "+first_path+" does not exsist")
-        second_path = os.path.expanduser(second_path)
-        if not os.path.isfile(second_path):
-            # print("File "+second_path+" does not exsist, using default config")
-            return ""
+    try:
+        if not os.path.isfile(first_path):
+            # print("File "+first_path+" does not exsist")
+            second_path = os.path.expanduser(second_path)
+            if not os.path.isfile(second_path):
+                # print("File "+second_path+" does not exsist, using default config")
+                return ""
+            else:
+                # print("File "+second_path+" found")
+                return second_path
         else:
-            # print("File "+second_path+" found")
-            return second_path
-    else:
-        # print("File "+first_path+" found")
-        return first_path
+            # print("File "+first_path+" found")
+            return first_path
+    except Exception as e:
+        print("Error finding file by priority: "+e)
+        return "noFileFound"
 
 def main():
     parser=argparse.ArgumentParser()
@@ -154,7 +159,7 @@ def main():
 
     conf_path = find_file_by_priority(conf_path_1, conf_path_2)
     if conf_path == "":
-        print("ERROR: configuration file robot.yaml could not be found in either:\n"+conf_path_1+" or\n"+conf_path_2)
+        print("ERROR: configuration file robot.yaml could not be found in either:\n"+conf_path_1+" OR\n"+conf_path_2)
         return
     else:
         print("Found config file: "+conf_path)
@@ -239,7 +244,10 @@ def main():
         path2 = magni_description_path+'/extrinsics/camera_extrinsics_%s.yaml' % conf['raspicam']['position']
         camera_extr_file = find_file_by_priority(path1, path2)
         if camera_extr_file == "":
-            print ("WARN: Camera will NOT be enabled in urdf, because extrinsics file not found in neither: "+path1+"\n"+path2)
+            print ("WARN: Camera will NOT be enabled in urdf, because extrinsics file not found in neither: "+path1+" OR\n"+path2)
+            # In this case, the camera_extr_file as empty string is passed to create the core.launch. Upon ros-launching that, URDF
+            # detects that the extrinsics yaml path string is empty and does not load it into robot_description. That is why it is important
+            # that this string is "" if any error with getting extrinsics.
         else:
             print ("Camera extrinsics found: "+camera_extr_file)
 
@@ -250,7 +258,10 @@ def main():
         path2 = magni_description_path+'/extrinsics/lidar_extrinsics_%s.yaml' % conf['lidar']['position']
         lidar_extr_file = find_file_by_priority(path1, path2)
         if lidar_extr_file == "":
-            print ("WARN: Lidar will NOT be enabled in urdf, because extrinsics file not found in neither: "+path1+"\n"+path2)
+            print ("WARN: Lidar will NOT be enabled in urdf, because extrinsics file not found in neither: "+path1+" OR\n"+path2)
+            # In this case, the lidar_extr_file as empty string is passed to create the core.launch. Upon ros-launching that, URDF
+            # detects that the extrinsics yaml path string is empty and does not load it into robot_description. That is why it is important
+            # that this string is "" if any error with getting extrinsics.
         else:
             print ("Lidar extrinsics found: "+ lidar_extr_file)
 
