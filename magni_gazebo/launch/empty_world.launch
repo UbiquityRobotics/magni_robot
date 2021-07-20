@@ -1,8 +1,20 @@
 <launch>
 
-    <arg name="raspicam_mount" default="forward"/>
+    <!-- 
+    This string will be taken to search for camera extrinsics yaml file like 
+    $(find magni_description)/param/camera_extrinsics_$(arg camera_position).yaml
+    so if that yaml file does not exsist, the xacro file will return "No such file or directory" error
+    -->
+    <arg name="camera_position" default="forward"/> 
+    
+    <!-- 
+    This string will be taken to search for lidar extrinsics yaml file like 
+    $(find magni_description)/param/lidar_extrinsics_$(arg lidar_position).yaml
+    so if that yaml file does not exsist, the xacro file will return "No such file or directory" error
+    -->
+    <arg name="lidar_position" default="top_plate"/>
+    
     <arg name="sonars_installed" default="true"/>
-    <arg name="lidar_installed" default="true"/>
 
     <arg name="rviz_config" default="true" />
 
@@ -21,11 +33,13 @@
         <arg name="use_sim_time" value="true" />
     </include>
 
+
+
     <!-- start robot -->
     <include file="$(find magni_gazebo)/launch/magni.launch">
-        <arg name="raspicam_mount" value="$(arg raspicam_mount)"/>
+        <arg name="camera_position" value="$(arg camera_position)"/>
         <arg name="sonars_installed" value="$(arg sonars_installed)"/>
-        <arg name="lidar_installed" value="$(arg lidar_installed)"/>
+        <arg name="lidar_position" value="$(arg lidar_position)"/>
     </include>
 
 

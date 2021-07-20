@@ -1,0 +1,45 @@
+
+# Robot Configuration
+
+
+# Check for lidar and camera extrinsics files in two places with following priorities:
+#  1.) in ~/.ros/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml
+#  2.) in package magni_description/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml
+# where <SENSOR> is either "camera" or "lidar" and <POSITION> is an arbitrary string with which the extrinsics file is identified 
+raspicam: {'camera_installed' : 'True', 'position' : 'forward'}
+lidar: {'lidar_installed' : 'True', 'position' : 'top_plate'}
+
+sonars: None
+# sonars: 'pi_sonar_v1' # Use this to enable sonars
+
+motor_controller:
+  board_version : None 
+  serial_port: '/dev/ttyAMA0'
+  serial_baud: 38400
+  pid_proportional: 5000
+  pid_integral: 7
+  pid_derivative: -110
+  pid_denominator: 1000
+  pid_moving_buffer_size: 70
+  pid_velocity: 15000
+
+force_time_sync : 'True'
+oled_display: {'controller': None}
+
+ubiquity_velocity_controller:
+  wheel_separation_multiplier: 1.0 # default: 1.0
+  wheel_radius_multiplier    : 1.0 # default: 1.0
+  # Velocity and acceleration limits
+  # Whenever a min_* is unspecified, default to -max_*
+  linear:
+    x:
+      has_velocity_limits    : true
+      max_velocity           : 1.0   # m/s
+      has_acceleration_limits: true
+      max_acceleration       : 1.1   # m/s^2
+  angular:
+    z:
+      has_velocity_limits    : true
+      max_velocity           : 2.0   # rad/s
+      has_acceleration_limits: true
+      max_acceleration       : 5.0   # rad/s^2
