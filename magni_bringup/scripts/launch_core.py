@@ -13,8 +13,8 @@ import em
 
 rp = rospkg.RosPack()
 conf_path_1 = "/etc/ubiquity/robot.yaml"
-conf_path_2 = rp.get_path('magni_bringup')+"/param/robot.yaml"
-core_em_path = rp.get_path('magni_bringup')+"/param/core_launch.em"
+conf_path_2 = rp.get_path('magni_bringup')+"/config/default_robot.yaml"
+core_em_path = rp.get_path('magni_bringup')+"/launch/core_launch.em"
 
 default_conf = \
 {
@@ -252,6 +252,11 @@ def main():
 
     camera_extr_file = ""
     lidar_extr_file = ""
+
+    # this may happen with older robot.yaml where conf["raspicam"] did not have camera_installed entry yet
+    if not "camera_installed" in conf['raspicam']:
+        print("ERROR: 'camera_installed' entry was not found in conf['raspicam']")
+        return
 
     # check for camera extrinsics
     if conf['raspicam']['camera_installed'] == "True" or conf['raspicam']['camera_installed'] == "true":
