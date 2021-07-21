@@ -160,10 +160,10 @@ def find_file_by_priority(first_path, second_path):
     first_path = os.path.expanduser(first_path)
     try:
         if not os.path.isfile(first_path):
-            # print("File "+first_path+" does not exsist")
+            # print("File "+first_path+" does not exist")
             second_path = os.path.expanduser(second_path)
             if not os.path.isfile(second_path):
-                # print("File "+second_path+" does not exsist, using default config")
+                # print("File "+second_path+" does not exist, using default config")
                 return ""
             else:
                 # print("File "+second_path+" found")
