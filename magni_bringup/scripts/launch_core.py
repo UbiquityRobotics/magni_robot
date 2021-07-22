@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 ###
 # Eventually this should do something smarter, like launch sonars
