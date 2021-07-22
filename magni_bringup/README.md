@@ -25,9 +25,12 @@ Magni robots start ros core and a set of base nodes on boot. This is done in the
      - placeholder for other nodes that are NOT VARIABLE (don't change with robot config)
      - starts `launch_core.py`
 3. `launch_core.py` creates and launches `core.launch` (by default in `/tmp/core.launch`) which starts up the rest of the robot nodes that are variable (change with robot config):
-     - **motor_node**: runs ubiquity_motor node with the parameters extracted from either `/etc/ubiquity/robot.yaml` OR `magni_bringup/param/robot.yaml` with respective priorities
-     - **robot_description**: all robot static and dynamic transforms. It gets its camera and lidar extrinsics from either `~/.ros/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml` OR `magni_description/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml` with respective priorities. 
-     - other nodes like `controller_spawner`, `diagnostic_aggregator`, `oled_display_node`,... Exactly what gets launched can be seen in `magni_bringup/param/core_launch.em` from which core.launch is generated. Any addition to core.launch should be added inside the `core_launch.em` file
+     - **motor_node**: runs ubiquity_motor node with the parameters extracted from either `/etc/ubiquity/robot.yaml` OR `magni_bringup/param/default_robot.yaml` with respective priorities. (if there are some parameters missign in `/etc/ubiquity/robot.yaml` they are taken individually from `magni_bringup/param/default_robot.yaml`. Which specific parameter was taken from where can be seen on printout of the `launch_core.py`)
+     - **robot_description**: all robot static and dynamic transforms. It gets its camera and lidar extrinsics from either `~/.ros/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml` OR `magni_description/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml` with respective priorities. `<SENSOR>` and `<POSITION>` are taken from `robot.yaml`
+     - other nodes like `controller_spawner`, `diagnostic_aggregator`, `oled_display_node`,... are also launched. Exactly what gets launched can be seen in `magni_bringup/launch/core_launch.em` from which core.launch is generated. Any addition to core.launch should be added inside the `core_launch.em` file
+
+4. There is also a `magni_bringup/scripts/ros_log_clean.bash` present that takes care of deleting the log files so they dont end up taking too much space. This can be included into `magni-base.service` so the check and deletion can be done on every boot.
+
 
 **Useful commands for debugging**
 
