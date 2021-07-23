@@ -4,7 +4,6 @@
 Magni robots start ros core and a set of base nodes on boot. This is done in the following order:
 
 `systemctl start magni-base.service`:
-  - roscore
   - env variables
   - `base.launch`:
     - `logitech.launch`
@@ -14,8 +13,7 @@ Magni robots start ros core and a set of base nodes on boot. This is done in the
 
 1. using `systemctl` the magni-base service file (`/usr/sbin/magni-base.service`) is ran:
      - sources ros overlay and working workspaces
-     - starts roscore,
-     - sets up environment variables,
+     - sets up environment variables (like ROS_HOSTNAME, and ROS_MASTER_URI)
      - placeholder for anything that needs to happen on boot
      - launches `base.launch`
 
@@ -43,7 +41,7 @@ If new additions need to be added to core.launch, add them into `magni_bringup/p
 ## Design choices:
  - we use `systemctl` to start on boot because:
    - can easily be controlled from terminal: `systemctl start/stop/restart magni-base`
-   - easy(ish) to debug: `journalctl -u magni-base` TODO correct?
+   - easy(ish) to debug: `journalctl -u magni-base.service`
    - is a standard way to start stuff on boot
   
  - why robot.yaml is not a rosparam file: 
