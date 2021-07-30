@@ -2,8 +2,8 @@
 Changelog for package magni_viz
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.5.0 (2021-07-30)
+------------------
 * Added license files to all magni packages
 * Fixed topic /ubiquity_sonar to /pi_sonar
 * Added magni_viz with rviz configs

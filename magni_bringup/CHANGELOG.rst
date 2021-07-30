@@ -2,8 +2,8 @@
 Changelog for package magni_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.5.0 (2021-07-30)
+------------------
 * Fixed dependancies for Focal/Noetic
 * Readme update
 * Change shebang to python3 in launch_core

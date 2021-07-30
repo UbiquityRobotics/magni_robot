@@ -2,8 +2,8 @@
 Changelog for package magni_nav
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.5.0 (2021-07-30)
+------------------
 * Pass in fid len (`#116 <https://github.com/UbiquityRobotics/magni_robot/issues/116>`_)
 * Added license files to all magni packages
 * Localization error monitor created. Spiral trajectory cmd_vel script created.  (`#92 <https://github.com/UbiquityRobotics/magni_robot/issues/92>`_)

@@ -2,8 +2,8 @@
 Changelog for package magni_gazebo
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.5.0 (2021-07-30)
+------------------
 * Sensors simulation in Gazebo added.
 * Gazebo integration updates.
 * Gazebo package added and URDF description update for Magni robot simulation
