@@ -2,6 +2,12 @@
 Changelog for package magni_demos
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Pass in fid len (`#116 <https://github.com/UbiquityRobotics/magni_robot/issues/116>`_)
+* Added license files to all magni packages
+* Contributors: AGregorc, Janez Cimerman, MoffKalast, Rohan Agrawal, Teodor
+
 0.4.3 (2018-08-30)
 ------------------
 

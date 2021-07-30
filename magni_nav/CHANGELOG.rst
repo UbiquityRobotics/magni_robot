@@ -2,6 +2,23 @@
 Changelog for package magni_nav
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Pass in fid len (`#116 <https://github.com/UbiquityRobotics/magni_robot/issues/116>`_)
+* Added license files to all magni packages
+* Localization error monitor created. Spiral trajectory cmd_vel script created.  (`#92 <https://github.com/UbiquityRobotics/magni_robot/issues/92>`_)
+  * Fiducials world created
+  * Paper background added to markers
+  * Localization monitor created. cmd_vel trajectory publisher created.
+  * Plot update rate configured. Refactoring.
+  * Localization data errors print added.
+* Fix side dist PID params
+* Move basic launch file
+* Add params for PID control of lateral error
+* Use base_footprint in move_basic
+* Use base_footprint for odometery, aruco, and move_base
+* Contributors: Janez Cimerman, Jim Vaughan, Petro Shmigelskyi, Rohan Agrawal
+
 0.4.3 (2018-08-30)
 ------------------
 

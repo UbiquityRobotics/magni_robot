@@ -2,6 +2,13 @@
 Changelog for package magni_viz
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Added license files to all magni packages
+* Fixed topic /ubiquity_sonar to /pi_sonar
+* Added magni_viz with rviz configs
+* Contributors: Janez Cimerman, Teodor
+
 0.4.3 (2018-08-30)
 ------------------
 

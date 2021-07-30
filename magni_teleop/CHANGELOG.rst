@@ -2,6 +2,12 @@
 Changelog for package magni_teleop
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Added license files to all magni packages
+* Added magni_teleop
+* Contributors: Janez Cimerman
+
 0.4.3 (2018-08-30)
 ------------------
 
