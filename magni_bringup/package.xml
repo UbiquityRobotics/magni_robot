@@ -16,6 +16,8 @@
   <exec_depend>joint_state_controller</exec_depend>
   <exec_depend>diff_drive_controller</exec_depend>
   <exec_depend>oled_display_node</exec_depend>
+  <exec_depend>python3-smbus</exec_depend>
+  <exec_depend>diagnostic_aggregator</exec_depend>
 
   <!-- Force chrony to be installed -->
   <exec_depend>chrony</exec_depend>
