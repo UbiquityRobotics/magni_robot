@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>magni_bringup</name>
-  <version>0.5.1</version>
+  <version>0.5.2</version>
   <description>The magni_bringup package</description>
 
   <maintainer email="send2arohan@gmail.com">Rohan Agrawal</maintainer>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>magni_desktop</name>
-  <version>0.5.1</version>
+  <version>0.5.2</version>
   <description>Meta package for all the desktop side utilities for magni</description>
   
   <maintainer email="send2arohan@gmail.com">Rohan Agrawal</maintainer>
