@@ -2,6 +2,9 @@
 Changelog for package magni_nav
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 0.5.0 (2021-07-30)
 ------------------
 * Pass in fid len (`#116 <https://github.com/UbiquityRobotics/magni_robot/issues/116>`_)

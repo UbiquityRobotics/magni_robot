@@ -2,6 +2,12 @@
 Changelog for package magni_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Install magni-base.service here, but don't enable it
+* Install the config dir so that default conf can be found in debs
+* Contributors: Rohan Agrawal
+
 0.5.0 (2021-07-30)
 ------------------
 * Fixed dependancies for Focal/Noetic

@@ -2,6 +2,9 @@
 Changelog for package magni_robot
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 0.5.0 (2021-07-30)
 ------------------
 * Fixed dependancies for Focal/Noetic
