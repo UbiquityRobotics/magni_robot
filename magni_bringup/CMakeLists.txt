@@ -127,6 +127,30 @@ install(PROGRAMS scripts/launch_core.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
+
+# Adapted from https://github.com/realtime-neil/ros-bloom-debhelper/tree/master/src/my_project
+# Expands the template service file, and installs it to the correct place for systemd
+function(gen_install_rootfs kind template destination replace_mode)
+  # https://github.com/ros/catkin/pull/940
+  # https://github.com/colcon/colcon-ros/pull/11
+  if(CATKIN_BUILD_BINARY_PACKAGE)
+    # we're making the real deal
+    set(ROOTFS "/")
+  else()
+    # fake it to see what happens
+    set(ROOTFS "/tmp/")
+  endif()
+  string(REGEX REPLACE "\\.in$" "" product "${template}")
+  string(REPLACE "package_name" "${PACKAGE_NAME}" product "${product}")
+  string(REPLACE "exe_name" "${EXE_NAME}" product "${product}")
+  configure_file(${template} ${product} ${replace_mode})
+  install(${kind} ${CMAKE_CURRENT_BINARY_DIR}/${product}
+    DESTINATION "${ROOTFS}${destination}/")
+endfunction()
+
+gen_install_rootfs(FILES debian/magni-base.service.in /lib/systemd/system/ @ONLY)
+
+
 #############
 ## Testing ##
 #############

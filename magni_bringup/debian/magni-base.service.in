@@ -1,0 +1,13 @@
+[Unit]
+Requires=roscore.service
+PartOf=roscore.service
+After=NetworkManager.service time-sync.target roscore.service
+
+[Service]
+Type=simple
+User=ubuntu
+Environment=ROS_HOME=/home/ubuntu/.ros
+ExecStart=/bin/sh -c '. @CMAKE_INSTALL_PREFIX@/setup.sh && . /home/ubuntu/catkin_ws/devel/setup.bash; . /etc/ubiquity/env.sh && env | sort && roslaunch --wait -v magni_bringup base.launch'
+
+[Install]
+WantedBy=multi-user.target
