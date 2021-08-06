@@ -2,8 +2,8 @@
 Changelog for package magni_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.5.1 (2021-08-06)
+------------------
 * Install magni-base.service here, but don't enable it
 * Install the config dir so that default conf can be found in debs
 * Contributors: Rohan Agrawal
