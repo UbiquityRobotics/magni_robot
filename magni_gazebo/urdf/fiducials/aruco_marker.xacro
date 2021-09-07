@@ -6,7 +6,7 @@
             <joint name="${prefix}${marker_id}_joint" type="fixed">
                 <parent link="world"/>
                 <child link="${prefix}${marker_id}base_link"/>
-                <insert_block name="origin"/>
+                <xacro:insert_block name="origin"/>
             </joint>
         </xacro:if>
 
