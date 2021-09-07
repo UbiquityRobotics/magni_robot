@@ -19,8 +19,8 @@
     
     <arg name="sonars_installed" default="true"/>
     
-    <arg name="lidar_extrinsics_file" value="$(find magni_description)/param/lidar_extrinsics_$(arg lidar_position).yaml"/>
-    <arg name="camera_extrinsics_file" value="$(find magni_description)/param/camera_extrinsics_$(arg camera_position).yaml"/>
+    <arg name="lidar_extrinsics_file" value="$(find magni_description)/extrinsics/lidar_extrinsics_$(arg lidar_position).yaml"/>
+    <arg name="camera_extrinsics_file" value="$(find magni_description)/extrinsics/camera_extrinsics_$(arg camera_position).yaml"/>
 
     <include file="$(find magni_description)/launch/description.launch">
         <arg name="camera_extrinsics_file" value="$(arg camera_extrinsics_file)" />
