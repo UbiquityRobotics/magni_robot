@@ -3,7 +3,7 @@
 
     <!-- 
     This string will be taken to search for camera extrinsics yaml file like 
-    $(find magni_description)/param/camera_extrinsics_$(arg camera_position).yaml
+    $(find magni_description)/extrinsics/camera_extrinsics_$(arg camera_position).yaml
     so if that yaml file does not exsist, the xacro file will return "No such file or directory" error
     Leave empty to disable
     -->
@@ -11,7 +11,7 @@
     
     <!-- 
     This string will be taken to search for lidar extrinsics yaml file like 
-    $(find magni_description)/param/lidar_extrinsics_$(arg lidar_position).yaml
+    $(find magni_description)/extrinsics/lidar_extrinsics_$(arg lidar_position).yaml
     so if that yaml file does not exsist, the xacro file will return "No such file or directory" error
     Leave empty to disable
     -->
