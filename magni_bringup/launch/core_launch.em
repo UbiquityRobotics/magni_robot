@@ -54,14 +54,14 @@
 
         <param name="/ubiquity_velocity_controller/wheel_separation_multiplier" value="@(wheel_separation_multiplier)"/>
         <param name="/ubiquity_velocity_controller/wheel_radius_multiplier" value="@(wheel_radius_multiplier)"/>
-        <param name="/ubiquity_velocity_controller/linear/x/has_velocity_limits" value="@(has_velocity_limits)"/>
-        <param name="/ubiquity_velocity_controller/linear/x/max_velocity" value="@(has_velocity_limits)"/>
-        <param name="/ubiquity_velocity_controller/linear/x/has_acceleration_limits" value="@(has_acceleration_limits)"/>
-        <param name="/ubiquity_velocity_controller/linear/x/max_acceleration" value="@(max_acceleration)"/>
+        <param name="/ubiquity_velocity_controller/linear/x/has_velocity_limits" value="@(lin_has_velocity_limits)"/>
+        <param name="/ubiquity_velocity_controller/linear/x/max_velocity" value="@(lin_max_velocity)"/>
+        <param name="/ubiquity_velocity_controller/linear/x/has_acceleration_limits" value="@(lin_has_acceleration_limits)"/>
+        <param name="/ubiquity_velocity_controller/linear/x/max_acceleration" value="@(lin_max_acceleration)"/>
 
-        <param name="/ubiquity_velocity_controller/angular/z/has_velocity_limits" value="@(has_velocity_limits)"/>
-        <param name="/ubiquity_velocity_controller/angular/z/max_velocity" value="@(max_velocity)"/>
-        <param name="/ubiquity_velocity_controller/angular/z/has_acceleration_limits" value="@(has_acceleration_limits)"/>
-        <param name="/ubiquity_velocity_controller/angular/z/max_acceleration" value="@(max_acceleration)"/>
+        <param name="/ubiquity_velocity_controller/angular/z/has_velocity_limits" value="@(ang_has_velocity_limits)"/>
+        <param name="/ubiquity_velocity_controller/angular/z/max_velocity" value="@(ang_max_velocity)"/>
+        <param name="/ubiquity_velocity_controller/angular/z/has_acceleration_limits" value="@(ang_has_acceleration_limits)"/>
+        <param name="/ubiquity_velocity_controller/angular/z/max_acceleration" value="@(ang_max_acceleration)"/>
     </node>
 </launch>

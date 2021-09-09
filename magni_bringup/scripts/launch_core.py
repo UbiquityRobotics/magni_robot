@@ -22,6 +22,7 @@ conf_path_2 = rp.get_path("magni_bringup") + "/config/default_robot.yaml"
 # Path to the .em file from which the core.launch is generated
 core_em_path = rp.get_path("magni_bringup") + "/launch/core_launch.em"
 
+#Color codes for printing in shell
 class clr:
     OK = '\033[92m'
     WARN = '\033[93m'
@@ -87,27 +88,6 @@ def create_core_launch_file(
     board_rev=0,
 ):
     try:
-        sonars_installed = conf["sonars"]
-        motor_controller_params = conf["motor_controller"]
-        # velocity controller params
-        vc_params = conf["ubiquity_velocity_controller"]
-    except Exception as e:
-        print("There is an error with the conf: " + str(e))
-        return False
-
-    if len(motor_controller_params) != 9:
-        print(
-            "Motor_controller_params dictionary must contain 9 items. Instead it has:",
-            str(len(motor_controller_params)),
-        )
-        return False
-
-    # TODO should I be doing more checks here -> maybe if dictionary and such
-
-    vc_lin = vc_params["linear"]["x"]
-    vc_ang = vc_params["angular"]["z"]
-
-    try:
         with open(em_path) as em_launch_file:
             em_launch = em_launch_file.read()
             expanded_em_launch = em.expand(
@@ -115,35 +95,36 @@ def create_core_launch_file(
                 {
                     "camera_extrinsics_file": camera_extrinsics_file,
                     "lidar_extrinsics_file": lidar_extrinsics_file,
-                    "sonars_installed": sonars_installed,
+                    "sonars_installed": conf["sonars"],
                     "oled_display": oled_display,
                     "controller_board_version": str(board_rev),
-                    "serial_port": str(motor_controller_params["serial_port"]),
-                    "serial_baud": str(motor_controller_params["serial_baud"]),
+                    "serial_port": str(conf["motor_controller_serial_port"]),
+                    "serial_baud": str(conf["motor_controller_serial_baud"]),
                     "pid_proportional": str(
-                        motor_controller_params["pid_proportional"]
+                        conf["motor_controller_pid_proportional"]
                     ),
-                    "pid_integral": str(motor_controller_params["pid_integral"]),
-                    "pid_derivative": str(motor_controller_params["pid_derivative"]),
-                    "pid_denominator": str(motor_controller_params["pid_denominator"]),
+                    "pid_integral": str(conf["motor_controller_pid_integral"]),
+                    "pid_derivative": str(conf["motor_controller_pid_derivative"]),
+                    "pid_denominator": str(conf["motor_controller_pid_denominator"]),
                     "pid_moving_buffer_size": str(
-                        motor_controller_params["pid_moving_buffer_size"]
+                        conf["motor_controller_pid_moving_buffer_size"]
                     ),
-                    "pid_velocity": str(motor_controller_params["pid_velocity"]),
+                    "pid_velocity": str(conf["motor_controller_pid_velocity"]),
                     "wheel_separation_multiplier": str(
-                        vc_params["wheel_separation_multiplier"]
+                        conf["vel_controller_wheel_separation_multiplier"]
                     ),
                     "wheel_radius_multiplier": str(
-                        vc_params["wheel_radius_multiplier"]
+                        conf["vel_controller_wheel_radius_multiplier"]
                     ),
-                    "has_velocity_limits": str(vc_lin["has_velocity_limits"]),
-                    "has_velocity_limits": str(vc_lin["max_velocity"]),
-                    "has_acceleration_limits": str(vc_lin["has_acceleration_limits"]),
-                    "max_acceleration": str(vc_lin["max_acceleration"]),
-                    "has_velocity_limits": str(vc_ang["has_velocity_limits"]),
-                    "max_velocity": str(vc_ang["max_velocity"]),
-                    "has_acceleration_limits": str(vc_ang["has_acceleration_limits"]),
-                    "max_acceleration": str(vc_ang["max_acceleration"]),
+                    "lin_has_velocity_limits": str(conf["vel_controller_lin_x_has_velocity_limits"]),
+                    "lin_max_velocity": str(conf["vel_controller_lin_x_max_velocity"]),
+                    "lin_has_acceleration_limits": str(conf["vel_controller_lin_x_has_acceleration_limits"]),
+                    "lin_max_acceleration": str(conf["vel_controller_lin_x_max_acceleration"]),
+
+                    "ang_has_velocity_limits": str(conf["vel_controller_ang_z_has_velocity_limits"]),
+                    "ang_max_velocity": str(conf["vel_controller_ang_max_velocity"]),
+                    "ang_has_acceleration_limits": str(conf["vel_controller_ang_has_acceleration_limits"]),
+                    "ang_max_acceleration": str(conf["vel_controller_ang_max_acceleration"]),
                 },
             )
     except FileNotFoundError:
@@ -220,7 +201,7 @@ def main():
 
     # We only support 1 display type right now
     oled_display_installed = False
-    if conf["oled_display"]["controller"] == "SH1106":
+    if conf["oled_display_controller"] == "SH1106":
         oled_display_installed = True
 
     # print out the whole config if in debug mode
@@ -260,7 +241,7 @@ def main():
 
     boardRev = 0
 
-    if conf["motor_controller"]["board_version"] == None:
+    if conf["motor_controller_board_version"] == None:
         # Code to read board version from I2C
         # The I2C chip is only present on 5.0 and newer boards
         try:
@@ -285,7 +266,7 @@ def main():
     lidar_extr_file = ""
 
     # check for camera extrinsics
-    if (conf["raspicam_position"] != ""):
+    if (conf["raspicam_position"] != None and conf["raspicam_position"] != "None"):
         # get camera extrinsics
         path1 = (
             "~/.ros/extrinsics/camera_extrinsics_%s.yaml" % conf["raspicam_position"]
@@ -310,10 +291,10 @@ def main():
         else:
             print(clr.OK + "Camera enabled with extrinsics: " + camera_extr_file + clr.ENDC)
     else:
-        print(clr.OK + "Camera not enabled in robot.yaml" + clr.ENDC)
+        print("Camera not enabled in robot.yaml")
 
     # check for lidar extrinsics
-    if (conf["lidar_position"] != ""):
+    if (conf["lidar_position"] != None and conf["lidar_position"] != "None"):
         # get lidar extrinsics
         path1 = "~/.ros/extrinsics/lidar_extrinsics_%s.yaml" % conf["lidar_position"]
         path2 = (
@@ -334,7 +315,7 @@ def main():
         else:
             print(clr.OK + "Lidar enabled with extrinsics:: " + lidar_extr_file + clr.ENDC)
     else:
-        print(clr.OK + "Lidar not enabled in robot.yaml" + clr.ENDC)
+        print("Lidar not enabled in robot.yaml")
 
     create_success = create_core_launch_file(
         core_em_path,
