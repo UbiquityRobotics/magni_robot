@@ -284,51 +284,41 @@ def main():
     camera_extr_file = ""
     lidar_extr_file = ""
 
-    # this may happen with older robot.yaml where conf["raspicam"] did not have "camera_installed" entry yet
-    if not "camera_installed" in conf["raspicam"]:
-        print(  clr.WARN 
-                +"WARN: 'camera_installed' entry was not found in conf['raspicam'], replacing it with "
-                + str(default_conf["raspicam"])
-                + clr.ENDC)
-        conf["raspicam"] = default_conf["raspicam"]
-
     # check for camera extrinsics
-    if (
-        conf["raspicam"]["camera_installed"] == "True"
-        or conf["raspicam"]["camera_installed"] == "true"
-    ):
+    if (conf["raspicam_position"] != ""):
         # get camera extrinsics
         path1 = (
-            "~/.ros/extrinsics/camera_extrinsics_%s.yaml" % conf["raspicam"]["position"]
+            "~/.ros/extrinsics/camera_extrinsics_%s.yaml" % conf["raspicam_position"]
         )
         path2 = (
             magni_description_path
-            + "/extrinsics/camera_extrinsics_%s.yaml" % conf["raspicam"]["position"]
+            + "/extrinsics/camera_extrinsics_%s.yaml" % conf["raspicam_position"]
         )
         camera_extr_file = find_file_by_priority(path1, path2)
         if camera_extr_file == "":
             print(
-                "WARN: Camera will NOT be enabled in urdf, because extrinsics file not found in neither: "
+                clr.WARN
+                +"WARN: Camera will NOT be enabled in urdf, because extrinsics file not found in neither: "
                 + path1
                 + " OR\n"
                 + path2
+                + clr.ENDC
             )
             # In this case, the camera_extr_file as empty string is passed to create the core.launch. Upon ros-launching that, URDF
             # detects that the extrinsics yaml path string is empty and does not load it into robot_description. That is why it is important
             # that this string is "" if any error with getting extrinsics.
         else:
-            print("Camera extrinsics found: " + camera_extr_file)
+            print(clr.OK + "Camera enabled with extrinsics: " + camera_extr_file + clr.ENDC)
+    else:
+        print(clr.OK + "Camera not enabled in robot.yaml" + clr.ENDC)
 
     # check for lidar extrinsics
-    if (
-        conf["lidar"]["lidar_installed"] == "True"
-        or conf["lidar"]["lidar_installed"] == "true"
-    ):
+    if (conf["lidar_position"] != ""):
         # get lidar extrinsics
-        path1 = "~/.ros/extrinsics/lidar_extrinsics_%s.yaml" % conf["lidar"]["position"]
+        path1 = "~/.ros/extrinsics/lidar_extrinsics_%s.yaml" % conf["lidar_position"]
         path2 = (
             magni_description_path
-            + "/extrinsics/lidar_extrinsics_%s.yaml" % conf["lidar"]["position"]
+            + "/extrinsics/lidar_extrinsics_%s.yaml" % conf["lidar_position"]
         )
         lidar_extr_file = find_file_by_priority(path1, path2)
         if lidar_extr_file == "":
@@ -342,7 +332,9 @@ def main():
             # detects that the extrinsics yaml path string is empty and does not load it into robot_description. That is why it is important
             # that this string is "" if any error with getting extrinsics.
         else:
-            print("Lidar extrinsics found: " + lidar_extr_file)
+            print(clr.OK + "Lidar enabled with extrinsics:: " + lidar_extr_file + clr.ENDC)
+    else:
+        print(clr.OK + "Lidar not enabled in robot.yaml" + clr.ENDC)
 
     create_success = create_core_launch_file(
         core_em_path,
