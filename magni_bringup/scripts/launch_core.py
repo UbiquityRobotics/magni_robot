@@ -22,6 +22,12 @@ conf_path_2 = rp.get_path("magni_bringup") + "/config/default_robot.yaml"
 # Path to the .em file from which the core.launch is generated
 core_em_path = rp.get_path("magni_bringup") + "/launch/core_launch.em"
 
+class clr:
+    OK = '\033[92m'
+    WARN = '\033[93m'
+    ERROR = '\033[91m'
+    ENDC = '\033[0m'
+
 # We rely on the conf_path_2 always existing since its inside the repo.
 # The default config is always loaded because specific elements are loaded from it if
 # they are missing in conf_path_1 yaml (see get_yaml() function).
@@ -29,7 +35,7 @@ try:
     with open(conf_path_2) as cf:
         default_conf = yaml.safe_load(cf)
 except Exception as e:
-    print("Error reading " + conf_path_2)
+    print(clr.ERROR + "Error reading " + conf_path_2 + clr.ENDC)
     print(e)
     exit
 
@@ -51,14 +57,16 @@ def get_yaml(yaml_path, default_yaml):
             for key, value in default_yaml.items():
                 if key not in y_conf:
                     print(
-                        "WARN: Did not find '"
+                        clr.WARN
+                        + "WARN: Did not find '"
                         + str(key)
                         + "' in "
                         + yaml_path
                         + ". Replacing it with: "
                         + str(value)
+                        + clr.ENDC
                     )
-                    y_conf[key] = value
+                    y_conf[key] = value               
 
             return y_conf
     except IOError:
@@ -139,10 +147,10 @@ def create_core_launch_file(
                 },
             )
     except FileNotFoundError:
-        print("WARN " + em_path + " doesn't exist!")
+        print(clr.WARN + "WARN " + em_path + " doesn't exist!" + clr.ENDC)
         return False
     except (JSONDecodeError, NameError) as e:
-        print("WARN failed to parse " + em_path)
+        print(clr.ERROR + "ERROR failed to parse " + em_path + clr.ENDC)
         print(e)
         return False
 
@@ -200,7 +208,7 @@ def main():
         )
         return
     else:
-        print("Found config file: " + conf_path)
+        print(clr.OK + "Found config file: " + conf_path + clr.ENDC)
 
     conf = get_yaml(conf_path, default_conf)
 
@@ -217,6 +225,7 @@ def main():
 
     # print out the whole config if in debug mode
     if arguments.debug == True:
+        print("DEUBG: Full content of the applied config:")
         print(conf)
 
     if conf["force_time_sync"] == "True":
@@ -275,10 +284,13 @@ def main():
     camera_extr_file = ""
     lidar_extr_file = ""
 
-    # this may happen with older robot.yaml where conf["raspicam"] did not have camera_installed entry yet
+    # this may happen with older robot.yaml where conf["raspicam"] did not have "camera_installed" entry yet
     if not "camera_installed" in conf["raspicam"]:
-        print("ERROR: 'camera_installed' entry was not found in conf['raspicam']")
-        return
+        print(  clr.WARN 
+                +"WARN: 'camera_installed' entry was not found in conf['raspicam'], replacing it with "
+                + str(default_conf["raspicam"])
+                + clr.ENDC)
+        conf["raspicam"] = default_conf["raspicam"]
 
     # check for camera extrinsics
     if (
@@ -343,10 +355,10 @@ def main():
     )
 
     if not create_success:
-        print("ERROR: Creating launch file did not succeed")
+        print(clr.ERROR + "ERROR: Creating launch file did not succeed" + clr.ENDC)
         return
     else:
-        print("Launch file generated at " + arguments.launch_generate_path)
+        print(clr.OK + "Launch file generated at " + arguments.launch_generate_path + clr.ENDC)
 
     # only launch the generated launch if not in debug mode
     if arguments.debug != True:
