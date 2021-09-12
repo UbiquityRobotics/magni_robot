@@ -1,11 +1,16 @@
 ubiquity_motor:
   controller_loop_rate: 20
-  pid_proportional: 5000
-  pid_integral: 7
+  pid_proportional: 6000
+  pid_integral: 4
   pid_derivative: -110
+  pid_velocity: 0
   pid_denominator: 1000
   pid_moving_buffer_size: 70
-  pid_velocity: 15000
+  pid_control: 0
+  fw_max_pwm: 350
+  wheel_type: "standard"
+  wheel_gear_ratio: 4.294 
+  drive_type: "2wd"
 
 ubiquity_joint_publisher:
   type: "joint_state_controller/JointStateController"
