@@ -1,7 +1,7 @@
 <launch>
 
     <include file="$(find magni_gazebo)/launch/empty_world.launch">
-        <arg name="raspicam_mount" value="upward"/>
+        <arg name="camera_position" value="upward"/>
         <arg name="sonars_installed" value="false"/>
     </include>
 
