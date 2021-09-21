@@ -119,10 +119,6 @@ install(DIRECTORY urdf/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/urdf
 )
 
-install(DIRECTORY extrinsics/
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/extrinsics
-)
-
 #############
 ## Testing ##
 #############
