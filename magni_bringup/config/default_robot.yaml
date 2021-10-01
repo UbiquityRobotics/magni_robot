@@ -22,7 +22,7 @@ motor_controller:
   pid_integral: 7
   pid_derivative: -110
   pid_denominator: 1000
-  pid_moving_buffer_size: 70bb
+  pid_moving_buffer_size: 70
   pid_velocity: 15000
 
 force_time_sync : 'True'

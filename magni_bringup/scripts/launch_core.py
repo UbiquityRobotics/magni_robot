@@ -48,7 +48,7 @@ def dict_replace_missing(d1, d2):
     for k in d2:
         if k in d1:
             if type(d2[k]) is dict:
-                dict_replace_missing(d2[k],d1[k])
+                dict_replace_missing(d1[k],d2[k])
         else:
             print(
                 clr.WARN
@@ -80,7 +80,6 @@ def get_config_replace_missing(conf_path, default_conf):
                 return default_conf
 
             print(clr.OK + "Found config file: " + conf_path + clr.ENDC)
-            # print(y_conf)
 
             # if any key missing in y_conf replace it individually from default_conf
             dict_replace_missing(y_conf, default_conf)
@@ -154,7 +153,7 @@ def create_core_launch_file(
     except FileNotFoundError:
         print(clr.WARN + "WARN " + em_path + " doesn't exist!" + clr.ENDC)
         return False
-    except (JSONDecodeError, NameError) as e:
+    except Exception as e:
         print(clr.ERROR + "ERROR failed to parse " + em_path + clr.ENDC)
         print(e)
         return False
@@ -187,6 +186,13 @@ def find_file_by_priority(first_path, second_path):
     except Exception as e:
         print("Error finding file by priority: " + e)
         return "noFileFound"
+
+"""
+Execute popen with feedback
+"""
+def feedback_popen(command, cwd):
+    proc = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, close_fds=True, cwd=cwd)
+    return proc.communicate()[0], proc.returncode
 
 
 def main():
@@ -353,6 +359,17 @@ def main():
     else:
         print("In debug mode the generated roslaunch is not launched")
 
+        print("Executing 'rosrun roslaunch roslaunch-check " + arguments.launch_generate_path+"'")
+        output, success = feedback_popen("rosrun roslaunch roslaunch-check " + arguments.launch_generate_path, os.environ['HOME'])
+        if str(output).find("FAILURE") > 0:
+            print(clr.ERROR
+                + "LAUNCH FAILURE:")
+            print(output)
+        else:
+            print(clr.OK
+                + "Launch check OK"
+                + clr.ENDC)
+        
 
 if __name__ == "__main__":
     main()
