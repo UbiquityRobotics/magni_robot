@@ -10,14 +10,15 @@ import roslaunch, rospkg
 import yaml
 import smbus  # used for the hw rev stuff
 import em
+from collections import abc
 
 rp = rospkg.RosPack()
 
 # Path to the robot.yaml on the robot (not tracked by git)
-conf_path_1 = "/etc/ubiquity/robot.yaml"
+conf_path = "/etc/ubiquity/robot.yaml"
 
 # Path to the default_robot.yaml config inside magni_robot repo (git tracked)
-conf_path_2 = rp.get_path("magni_bringup") + "/config/default_robot.yaml"
+default_conf_path = rp.get_path("magni_bringup") + "/config/default_robot.yaml"
 
 # Path to the .em file from which the core.launch is generated
 core_em_path = rp.get_path("magni_bringup") + "/launch/core_launch.em"
@@ -29,52 +30,72 @@ class clr:
     ERROR = '\033[91m'
     ENDC = '\033[0m'
 
-# We rely on the conf_path_2 always existing since its inside the repo.
+# We rely on the default_conf_path always existing since its inside the repo.
 # The default config is always loaded because specific elements are loaded from it if
-# they are missing in conf_path_1 yaml (see get_yaml() function).
+# they are missing in conf_path yaml (see get_config_replace_missing() function).
 try:
-    with open(conf_path_2) as cf:
+    with open(default_conf_path) as cf:
         default_conf = yaml.safe_load(cf)
 except Exception as e:
-    print(clr.ERROR + "Error reading " + conf_path_2 + clr.ENDC)
+    print(clr.ERROR + "Error reading " + default_conf_path + clr.ENDC)
     print(e)
     exit
 
+# Looks recursevly (can be nested dicts) if any key from dictionary 2 (d2) is missing
+# in dictionary 1 (d1). If a key is found in d2 but not in d1, it is placed into d1.
+# Any keys that are in d1 but not in d2 are left alone. d2 is unchanged.
+def dict_replace_missing(d1, d2):
+    for k in d2:
+        if k in d1:
+            if type(d2[k]) is dict:
+                dict_replace_missing(d2[k],d1[k])
+        else:
+            print(
+                clr.WARN
+                + "WARN: Did not find '"
+                + str(k)
+                + "' in imported config. Adding it with value: "
+                + str(d2[k])
+                + clr.ENDC
+            )
+            d1[k] = d2[k]
 
-def get_yaml(yaml_path, default_yaml):
+
+def get_config_replace_missing(conf_path, default_conf):
     try:
-        with open(yaml_path) as conf_file:
+        with open(conf_path) as conf_file:
             try:
                 y_conf = yaml.safe_load(conf_file)
             except Exception as e:
-                print("Error reading yaml file, using default configuration")
+                print(clr.ERROR + 
+                    + "Error reading yaml file from "
+                    + conf_path
+                    + ", using default configuration"
+                    + clr.ENDC)
                 print(e)
-                return default_yaml
+                return default_conf
 
             if y_conf is None:
-                print("WARN " + yaml_path + " is empty, using default configuration")
-                return default_yaml
+                print("WARN " + conf_path + " is empty, using default configuration")
+                return default_conf
 
-            for key, value in default_yaml.items():
-                if key not in y_conf:
-                    print(
-                        clr.WARN
-                        + "WARN: Did not find '"
-                        + str(key)
-                        + "' in "
-                        + yaml_path
-                        + ". Replacing it with: "
-                        + str(value)
-                        + clr.ENDC
-                    )
-                    y_conf[key] = value               
+            print(clr.OK + "Found config file: " + conf_path + clr.ENDC)
+            # print(y_conf)
 
+            # if any key missing in y_conf replace it individually from default_conf
+            dict_replace_missing(y_conf, default_conf)
+
+            # print(y_conf)    
             return y_conf
     except IOError:
-        print("WARN " + yaml_path + " doesn't exist, using default configuration")
+        print(clr.WARN 
+            + "WARN "
+            + conf_path 
+            + " doesn't exist, using default configuration"
+            + clr.ENDC)
         return default_conf
     except yaml.parser.ParserError:
-        print("WARN failed to parse " + yaml_path + ", using default configuration")
+        print("WARN failed to parse " + conf_path + ", using default configuration")
         return default_conf
 
 
@@ -87,6 +108,9 @@ def create_core_launch_file(
     oled_display=0,
     board_rev=0,
 ):
+    mot_cont = conf["motor_controller"]
+    vel_cont = conf["ubiquity_velocity_controller"]
+    
     try:
         with open(em_path) as em_launch_file:
             em_launch = em_launch_file.read()
@@ -98,33 +122,33 @@ def create_core_launch_file(
                     "sonars_installed": conf["sonars"],
                     "oled_display": oled_display,
                     "controller_board_version": str(board_rev),
-                    "serial_port": str(conf["motor_controller_serial_port"]),
-                    "serial_baud": str(conf["motor_controller_serial_baud"]),
+                    "serial_port": str(mot_cont["serial_port"]),
+                    "serial_baud": str(mot_cont["serial_baud"]),
                     "pid_proportional": str(
-                        conf["motor_controller_pid_proportional"]
+                        mot_cont["pid_proportional"]
                     ),
-                    "pid_integral": str(conf["motor_controller_pid_integral"]),
-                    "pid_derivative": str(conf["motor_controller_pid_derivative"]),
-                    "pid_denominator": str(conf["motor_controller_pid_denominator"]),
+                    "pid_integral": str(mot_cont["pid_integral"]),
+                    "pid_derivative": str(mot_cont["pid_derivative"]),
+                    "pid_denominator": str(mot_cont["pid_denominator"]),
                     "pid_moving_buffer_size": str(
-                        conf["motor_controller_pid_moving_buffer_size"]
+                        mot_cont["pid_moving_buffer_size"]
                     ),
-                    "pid_velocity": str(conf["motor_controller_pid_velocity"]),
+                    "pid_velocity": str(mot_cont["pid_velocity"]),
                     "wheel_separation_multiplier": str(
-                        conf["vel_controller_wheel_separation_multiplier"]
+                        vel_cont["wheel_separation_multiplier"]
                     ),
                     "wheel_radius_multiplier": str(
-                        conf["vel_controller_wheel_radius_multiplier"]
+                        vel_cont["wheel_radius_multiplier"]
                     ),
-                    "lin_has_velocity_limits": str(conf["vel_controller_lin_x_has_velocity_limits"]),
-                    "lin_max_velocity": str(conf["vel_controller_lin_x_max_velocity"]),
-                    "lin_has_acceleration_limits": str(conf["vel_controller_lin_x_has_acceleration_limits"]),
-                    "lin_max_acceleration": str(conf["vel_controller_lin_x_max_acceleration"]),
+                    "lin_has_velocity_limits": str(vel_cont["linear"]["x"]["has_velocity_limits"]),
+                    "lin_max_velocity": str(vel_cont["linear"]["x"]["max_velocity"]),
+                    "lin_has_acceleration_limits": str(vel_cont["linear"]["x"]["has_acceleration_limits"]),
+                    "lin_max_acceleration": str(vel_cont["linear"]["x"]["max_acceleration"]),
 
-                    "ang_has_velocity_limits": str(conf["vel_controller_ang_z_has_velocity_limits"]),
-                    "ang_max_velocity": str(conf["vel_controller_ang_max_velocity"]),
-                    "ang_has_acceleration_limits": str(conf["vel_controller_ang_has_acceleration_limits"]),
-                    "ang_max_acceleration": str(conf["vel_controller_ang_max_acceleration"]),
+                    "ang_has_velocity_limits": str(vel_cont["angular"]["z"]["has_velocity_limits"]),
+                    "ang_max_velocity": str(vel_cont["angular"]["z"]["max_velocity"]),
+                    "ang_has_acceleration_limits": str(vel_cont["angular"]["z"]["has_acceleration_limits"]),
+                    "ang_max_acceleration": str(vel_cont["angular"]["z"]["max_acceleration"]),
                 },
             )
     except FileNotFoundError:
@@ -174,24 +198,17 @@ def main():
     )
     parser.add_argument(
         "--launch_generate_path",
-        default="/tmp/core.launch",
-        help="Generated the launch file to this path",
+        default=rp.get_path("magni_bringup")+"/launch/generated_core.launch",
+        help="Generate the launch file to this path",
     )
     arguments, unknown = parser.parse_known_args()
 
-    conf_path = find_file_by_priority(conf_path_1, conf_path_2)
-    if conf_path == "":
-        print(
-            "ERROR: configuration file robot.yaml could not be found in either:\n"
-            + conf_path_1
-            + " OR\n"
-            + conf_path_2
-        )
-        return
-    else:
-        print(clr.OK + "Found config file: " + conf_path + clr.ENDC)
+    conf = get_config_replace_missing(conf_path, default_conf)
 
-    conf = get_yaml(conf_path, default_conf)
+    # print out the whole config if in debug mode
+    if arguments.debug == True:
+        print("DEUBG: Full content of the applied config:")
+        print(conf)
 
     # We only support 1 version of the Sonars right now
     if conf["sonars"] == "pi_sonar_v1":
@@ -201,13 +218,8 @@ def main():
 
     # We only support 1 display type right now
     oled_display_installed = False
-    if conf["oled_display_controller"] == "SH1106":
+    if conf["oled_display"]["controller"] == "SH1106":
         oled_display_installed = True
-
-    # print out the whole config if in debug mode
-    if arguments.debug == True:
-        print("DEUBG: Full content of the applied config:")
-        print(conf)
 
     if conf["force_time_sync"] == "True":
         time.sleep(5)  # pifi doesn't like being called early in boot
@@ -241,7 +253,7 @@ def main():
 
     boardRev = 0
 
-    if conf["motor_controller_board_version"] == None:
+    if conf["motor_controller"]["board_version"] == None:
         # Code to read board version from I2C
         # The I2C chip is only present on 5.0 and newer boards
         try:

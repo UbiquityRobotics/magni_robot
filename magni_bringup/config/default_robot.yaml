@@ -1,5 +1,8 @@
 
-# Robot Configuration
+# Default Robot Configuration
+
+# WARNING: Changing the content of this folder effects the working of magni_bringup/scripts/launch_core.py !!!
+# Make sure you understand what you're doing before changing anything in here. 
 
 # Check for lidar and camera extrinsics files in two places with following priorities:
 #  1.) in ~/.ros/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml
@@ -11,27 +14,34 @@ lidar_position : 'top_plate'  # to disable insert "None"
 sonars: None
 # sonars: 'pi_sonar_v1' # Use this to enable sonars
 
+motor_controller:
+  board_version : None 
+  serial_port: '/dev/ttyAMA0'
+  serial_baud: 38400
+  pid_proportional: 5000
+  pid_integral: 7
+  pid_derivative: -110
+  pid_denominator: 1000
+  pid_moving_buffer_size: 70bb
+  pid_velocity: 15000
+
 force_time_sync : 'True'
-oled_display_controller: None
+oled_display: {'controller': None}
 
-motor_controller_board_version : None 
-motor_controller_serial_port: '/dev/ttyAMA0'
-motor_controller_serial_baud: 38400
-motor_controller_pid_proportional: 5000
-motor_controller_pid_integral: 7
-motor_controller_pid_derivative: -110
-motor_controller_pid_denominator: 1000
-motor_controller_pid_moving_buffer_size: 70
-motor_controller_pid_velocity: 15000
-
-vel_controller_wheel_separation_multiplier: 1.0 # default: 1.0
-vel_controller_wheel_radius_multiplier    : 1.0 # default: 1.0
-
-vel_controller_lin_x_has_velocity_limits    : true
-vel_controller_lin_x_max_velocity           : 1.0   # m/s
-vel_controller_lin_x_has_acceleration_limits: true
-vel_controller_lin_x_max_acceleration       : 1.1   # m/s^2
-vel_controller_ang_z_has_velocity_limits    : true
-vel_controller_ang_max_velocity           : 2.0   # rad/s
-vel_controller_ang_has_acceleration_limits: true
-vel_controller_ang_max_acceleration       : 5.0   # rad/s^2
+ubiquity_velocity_controller:
+  wheel_separation_multiplier: 1.0 # default: 1.0
+  wheel_radius_multiplier    : 1.0 # default: 1.0
+  # Velocity and acceleration limits
+  # Whenever a min_* is unspecified, default to -max_*
+  linear:
+    x:
+      has_velocity_limits    : true
+      max_velocity           : 1.0   # m/s
+      has_acceleration_limits: true
+      max_acceleration       : 1.1   # m/s^2
+  angular:
+    z:
+      has_velocity_limits    : true
+      max_velocity           : 2.0   # rad/s
+      has_acceleration_limits: true
+      max_acceleration       : 5.0   # rad/s^2
