@@ -11,8 +11,7 @@
 raspicam_position: 'forward' # to disable insert "None"
 lidar_position : 'top_plate'  # to disable insert "None"
 
-sonars: None
-# sonars: 'pi_sonar_v1' # Use this to enable sonars
+sonars_installed: False # to enable set to True, to disable set to False
 
 motor_controller:
   board_version : None 
@@ -25,7 +24,7 @@ motor_controller:
   pid_moving_buffer_size: 70
   pid_velocity: 15000
 
-force_time_sync : 'True'
+force_time_sync : True
 oled_display: {'controller': None}
 
 ubiquity_velocity_controller:

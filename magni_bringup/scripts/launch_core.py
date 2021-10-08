@@ -54,7 +54,9 @@ def dict_replace_missing(d1, d2):
                 clr.WARN
                 + "WARN: Did not find '"
                 + str(k)
-                + "' in imported config. Adding it with value: "
+                + "' in "
+                + conf_path
+                + ". Adding it with value: "
                 + str(d2[k])
                 + clr.ENDC
             )
@@ -118,7 +120,7 @@ def create_core_launch_file(
                 {
                     "camera_extrinsics_file": camera_extrinsics_file,
                     "lidar_extrinsics_file": lidar_extrinsics_file,
-                    "sonars_installed": conf["sonars"],
+                    "sonars_installed": conf["sonars_installed"],
                     "oled_display": oled_display,
                     "controller_board_version": str(board_rev),
                     "serial_port": str(mot_cont["serial_port"]),
@@ -363,7 +365,7 @@ def main():
         output, success = feedback_popen("rosrun roslaunch roslaunch-check " + arguments.launch_generate_path, os.environ['HOME'])
         if str(output).find("FAILURE") > 0:
             print(clr.ERROR
-                + "LAUNCH FAILURE:")
+                + "LAUNCH CHECK FAILURE:")
             print(output)
         else:
             print(clr.OK
