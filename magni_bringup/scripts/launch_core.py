@@ -109,7 +109,7 @@ def create_core_launch_file(
     oled_display=0,
     board_rev=0,
 ):
-    mot_cont = conf["motor_controller"]
+    mot_cont = conf["ubiquity_motor"]
     vel_cont = conf["ubiquity_velocity_controller"]
     
     try:
@@ -123,24 +123,35 @@ def create_core_launch_file(
                     "sonars_installed": conf["sonars_installed"],
                     "oled_display": oled_display,
                     "controller_board_version": str(board_rev),
+
                     "serial_port": str(mot_cont["serial_port"]),
                     "serial_baud": str(mot_cont["serial_baud"]),
-                    "pid_proportional": str(
-                        mot_cont["pid_proportional"]
-                    ),
+                    "controller_loop_rate": str(mot_cont["controller_loop_rate"]),
+                    "pid_proportional": str(mot_cont["pid_proportional"]),
                     "pid_integral": str(mot_cont["pid_integral"]),
                     "pid_derivative": str(mot_cont["pid_derivative"]),
                     "pid_denominator": str(mot_cont["pid_denominator"]),
-                    "pid_moving_buffer_size": str(
-                        mot_cont["pid_moving_buffer_size"]
-                    ),
+                    "pid_control": str(mot_cont["pid_control"]),
+                    "drive_type": str(mot_cont["drive_type"]),
+                    "wheel_type": str(mot_cont["wheel_type"]),
+                    "wheel_gear_ratio": str(mot_cont["wheel_gear_ratio"]),
+                    "fw_max_pwm": str(mot_cont["fw_max_pwm"]),
+                    "pid_moving_buffer_size": str(mot_cont["pid_moving_buffer_size"]),
                     "pid_velocity": str(mot_cont["pid_velocity"]),
-                    "wheel_separation_multiplier": str(
-                        vel_cont["wheel_separation_multiplier"]
-                    ),
-                    "wheel_radius_multiplier": str(
-                        vel_cont["wheel_radius_multiplier"]
-                    ),
+                    
+                    "type": str(vel_cont["type"]),
+                    "left_wheel": str(vel_cont["left_wheel"]),
+                    "right_wheel": str(vel_cont["right_wheel"]),
+                    "publish_rate": str(vel_cont["publish_rate"]),
+                    "pose_covariance_diagonal": str(vel_cont["pose_covariance_diagonal"]),
+                    "twist_covariance_diagonal": str(vel_cont["twist_covariance_diagonal"]),
+                    "cmd_vel_timeout": str(vel_cont["cmd_vel_timeout"]),
+                    "enable_odom_tf": str(vel_cont["enable_odom_tf"]),
+                    "wheel_separation": str(vel_cont["wheel_separation"]),
+                    "base_frame_id": str(vel_cont["base_frame_id"]),
+
+                    "wheel_separation_multiplier": str(vel_cont["wheel_separation_multiplier"]),
+                    "wheel_radius_multiplier": str(vel_cont["wheel_radius_multiplier"]),
                     "lin_has_velocity_limits": str(vel_cont["linear"]["x"]["has_velocity_limits"]),
                     "lin_max_velocity": str(vel_cont["linear"]["x"]["max_velocity"]),
                     "lin_has_acceleration_limits": str(vel_cont["linear"]["x"]["has_acceleration_limits"]),

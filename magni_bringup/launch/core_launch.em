@@ -31,16 +31,21 @@
 	    <param name="/ubiquity_motor/controller_board_version" value="$(arg controller_board_version)"/>
     </group>
 
+    <!-- Ubiquity motor params -->
     <param name="/ubiquity_motor/serial_port" value="@(serial_port)"/>
     <param name="/ubiquity_motor/serial_baud" value="@(serial_baud)"/>
-
-    <!-- PID Params -->
+    <param name="/ubiquity_motor/controller_loop_rate" value="@(controller_loop_rate)"/>
     <param name="/ubiquity_motor/pid_proportional" value="@(pid_proportional)"/>
     <param name="/ubiquity_motor/pid_integral" value="@(pid_integral)"/>
     <param name="/ubiquity_motor/pid_derivative" value="@(pid_derivative)"/>
     <param name="/ubiquity_motor/pid_denominator" value="@(pid_denominator)"/>
     <param name="/ubiquity_motor/pid_moving_buffer_size" value="@(pid_moving_buffer_size)"/>
     <param name="/ubiquity_motor/pid_velocity" value="@(pid_velocity)"/>
+    <param name="/ubiquity_motor/pid_control" value="@(pid_control)"/>
+    <param name="/ubiquity_motor/drive_type" value="@(drive_type)"/>
+    <param name="/ubiquity_motor/wheel_type" value="@(wheel_type)"/>
+    <param name="/ubiquity_motor/wheel_gear_ratio" value="@(wheel_gear_ratio)"/>
+    <param name="/ubiquity_motor/fw_max_pwm" value="@(fw_max_pwm)"/>
 
 
     <!-- Launch the roscontrol controllers needed -->
@@ -52,6 +57,17 @@
         <remap from="/ubiquity_velocity_controller/cmd_vel" to="/cmd_vel"/>
         <remap from="/ubiquity_velocity_controller/odom" to="/odom"/>
 
+        <param name="/ubiquity_velocity_controller/type" value="@(type)"/>
+        <param name="/ubiquity_velocity_controller/left_wheel" value="@(left_wheel)"/>
+        <param name="/ubiquity_velocity_controller/right_wheel" value="@(right_wheel)"/>
+        <param name="/ubiquity_velocity_controller/publish_rate" value="@(publish_rate)"/>
+        <param name="/ubiquity_velocity_controller/pose_covariance_diagonal" value="@(pose_covariance_diagonal)"/>
+        <param name="/ubiquity_velocity_controller/twist_covariance_diagonal" value="@(twist_covariance_diagonal)"/>
+        <param name="/ubiquity_velocity_controller/cmd_vel_timeout" value="@(cmd_vel_timeout)"/>
+        <param name="/ubiquity_velocity_controller/enable_odom_tf" value="@(enable_odom_tf)"/>
+        <param name="/ubiquity_velocity_controller/wheel_separation" value="@(wheel_separation)"/>
+        <param name="/ubiquity_velocity_controller/base_frame_id" value="@(base_frame_id)"/>
+        
         <param name="/ubiquity_velocity_controller/wheel_separation_multiplier" value="@(wheel_separation_multiplier)"/>
         <param name="/ubiquity_velocity_controller/wheel_radius_multiplier" value="@(wheel_radius_multiplier)"/>
         <param name="/ubiquity_velocity_controller/linear/x/has_velocity_limits" value="@(lin_has_velocity_limits)"/>
