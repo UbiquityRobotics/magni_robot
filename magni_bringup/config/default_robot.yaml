@@ -24,13 +24,14 @@ oled_display: {'controller': None}
 ubiquity_motor:
   serial_port: '/dev/ttyAMA0'
   serial_baud: 38400
+  serial_loop_rate: 200
   controller_loop_rate: 20
   pid_proportional: 5000
-  pid_integral: 7
+  pid_integral: 5
   pid_derivative: -110
   pid_denominator: 1000
   pid_moving_buffer_size: 70
-  pid_velocity: 15000
+  pid_velocity: 0
   pid_control:  0
   drive_type: "standard"
   wheel_type: "standard"

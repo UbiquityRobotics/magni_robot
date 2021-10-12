@@ -34,6 +34,7 @@
     <!-- Ubiquity motor params -->
     <param name="/ubiquity_motor/serial_port" value="@(serial_port)"/>
     <param name="/ubiquity_motor/serial_baud" value="@(serial_baud)"/>
+    <param name="/ubiquity_motor/serial_loop_rate" value="@(serial_loop_rate)"/>
     <param name="/ubiquity_motor/controller_loop_rate" value="@(controller_loop_rate)"/>
     <param name="/ubiquity_motor/pid_proportional" value="@(pid_proportional)"/>
     <param name="/ubiquity_motor/pid_integral" value="@(pid_integral)"/>

@@ -126,6 +126,7 @@ def create_core_launch_file(
 
                     "serial_port": str(mot_cont["serial_port"]),
                     "serial_baud": str(mot_cont["serial_baud"]),
+                    "serial_loop_rate": str(mot_cont["serial_loop_rate"]),
                     "controller_loop_rate": str(mot_cont["controller_loop_rate"]),
                     "pid_proportional": str(mot_cont["pid_proportional"]),
                     "pid_integral": str(mot_cont["pid_integral"]),
