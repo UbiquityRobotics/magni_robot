@@ -9,8 +9,8 @@ ubiquity_motor:
   pid_control:  0
   drive_type: "standard"
   wheel_type: "standard"
-  wheel_gear_ratio: 5.17
-  fw_max_pwm: 350
+  wheel_gear_ratio: 4.294
+  fw_max_pwm: 325
 
 ubiquity_joint_publisher:
   type: "joint_state_controller/JointStateController"
