@@ -1,5 +1,8 @@
 ubiquity_motor:
+  serial_port: "/dev/ttyAMA0"
+  serial_baud: 38400
   controller_loop_rate: 20
+  serial_loop_rate: 200
   pid_proportional: 5000
   pid_integral: 5
   pid_derivative: -110
