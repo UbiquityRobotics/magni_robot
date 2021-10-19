@@ -23,9 +23,6 @@
         <rosparam command="load" file="$(find magni_bringup)/param/diagnostics_agg.yaml"/>
     </node>
 
-    <!-- Load the parameters used by the following nodes -->
-    <rosparam command="load" file="$(find magni_bringup)/param/base.yaml" />
-
     <!-- If a board version was passed in, use it -->
     <group if="$(eval controller_board_version != 0)">
 	    <param name="/ubiquity_motor/controller_board_version" value="$(arg controller_board_version)"/>
