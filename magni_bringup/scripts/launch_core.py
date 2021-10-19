@@ -230,12 +230,6 @@ def main():
         print("DEUBG: Full content of the applied config:")
         print(conf)
 
-    # We only support 1 version of the Sonars right now
-    if conf["sonars"] == "pi_sonar_v1":
-        conf["sonars"] = True
-    else:
-        conf["sonars"] = False
-
     # We only support 1 display type right now
     oled_display_installed = False
     if conf["oled_display"]["controller"] == "SH1106":
@@ -273,7 +267,7 @@ def main():
 
     boardRev = 0
 
-    if conf["motor_controller"]["board_version"] == None:
+    if conf["ubiquity_motor"]["board_version"] == None:
         # Code to read board version from I2C
         # The I2C chip is only present on 5.0 and newer boards
         try:

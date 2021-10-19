@@ -22,6 +22,7 @@ oled_display: {'controller': None}
 # ============================================ ADMIN PARAMETERS FROM HERE DOWN ==============================================
 
 ubiquity_motor:
+  board_version : None 
   serial_port: '/dev/ttyAMA0'
   serial_baud: 38400
   serial_loop_rate: 200
