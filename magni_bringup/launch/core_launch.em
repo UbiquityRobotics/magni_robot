@@ -60,26 +60,26 @@
     <param name="/ubiquity_velocity_controller/enable_odom_tf" value="@(enable_odom_tf)"/>
     <param name="/ubiquity_velocity_controller/wheel_separation" value="@(wheel_separation)"/>
     <param name="/ubiquity_velocity_controller/base_frame_id" value="@(base_frame_id)"/>
+    <param name="/ubiquity_velocity_controller/wheel_separation_multiplier" value="@(wheel_separation_multiplier)"/>
+    <param name="/ubiquity_velocity_controller/wheel_radius_multiplier" value="@(wheel_radius_multiplier)"/>
+    <param name="/ubiquity_velocity_controller/wheel_radius" value="@(wheel_radius)"/>
+    <param name="/ubiquity_velocity_controller/linear/x/has_velocity_limits" value="@(lin_has_velocity_limits)"/>
+    <param name="/ubiquity_velocity_controller/linear/x/max_velocity" value="@(lin_max_velocity)"/>
+    <param name="/ubiquity_velocity_controller/linear/x/has_acceleration_limits" value="@(lin_has_acceleration_limits)"/>
+    <param name="/ubiquity_velocity_controller/linear/x/max_acceleration" value="@(lin_max_acceleration)"/>
+
+    <param name="/ubiquity_velocity_controller/angular/z/has_velocity_limits" value="@(ang_has_velocity_limits)"/>
+    <param name="/ubiquity_velocity_controller/angular/z/max_velocity" value="@(ang_max_velocity)"/>
+    <param name="/ubiquity_velocity_controller/angular/z/has_acceleration_limits" value="@(ang_has_acceleration_limits)"/>
+    <param name="/ubiquity_velocity_controller/angular/z/max_acceleration" value="@(ang_max_acceleration)"/>
 
     <!-- Launch the roscontrol controllers needed -->
-    <!-- <node name="controller_spawner" pkg="controller_manager" type="spawner"
-        args="ubiquity_velocity_controller ubiquity_joint_publisher"/> -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner"
+        args="ubiquity_velocity_controller ubiquity_joint_publisher"/>
 
     <!-- Launch the motor node with the topic remapped to standard names -->
     <node name="motor_node" pkg="ubiquity_motor" type="motor_node">
         <remap from="/ubiquity_velocity_controller/cmd_vel" to="/cmd_vel"/>
         <remap from="/ubiquity_velocity_controller/odom" to="/odom"/>
-        
-        <param name="/ubiquity_velocity_controller/wheel_separation_multiplier" value="@(wheel_separation_multiplier)"/>
-        <param name="/ubiquity_velocity_controller/wheel_radius_multiplier" value="@(wheel_radius_multiplier)"/>
-        <param name="/ubiquity_velocity_controller/linear/x/has_velocity_limits" value="@(lin_has_velocity_limits)"/>
-        <param name="/ubiquity_velocity_controller/linear/x/max_velocity" value="@(lin_max_velocity)"/>
-        <param name="/ubiquity_velocity_controller/linear/x/has_acceleration_limits" value="@(lin_has_acceleration_limits)"/>
-        <param name="/ubiquity_velocity_controller/linear/x/max_acceleration" value="@(lin_max_acceleration)"/>
-
-        <param name="/ubiquity_velocity_controller/angular/z/has_velocity_limits" value="@(ang_has_velocity_limits)"/>
-        <param name="/ubiquity_velocity_controller/angular/z/max_velocity" value="@(ang_max_velocity)"/>
-        <param name="/ubiquity_velocity_controller/angular/z/has_acceleration_limits" value="@(ang_has_acceleration_limits)"/>
-        <param name="/ubiquity_velocity_controller/angular/z/max_acceleration" value="@(ang_max_acceleration)"/>
     </node>
 </launch>

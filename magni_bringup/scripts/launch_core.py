@@ -156,6 +156,7 @@ def create_core_launch_file(
                     "base_frame_id": str(vel_cont["base_frame_id"]),
 
                     "wheel_separation_multiplier": str(vel_cont["wheel_separation_multiplier"]),
+                    "wheel_radius": str(vel_cont["wheel_radius"]),
                     "wheel_radius_multiplier": str(vel_cont["wheel_radius_multiplier"]),
                     "lin_has_velocity_limits": str(vel_cont["linear"]["x"]["has_velocity_limits"]),
                     "lin_max_velocity": str(vel_cont["linear"]["x"]["max_velocity"]),
