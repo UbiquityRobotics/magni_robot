@@ -54,8 +54,6 @@
     <param name="/ubiquity_velocity_controller/left_wheel" value="@(left_wheel)"/>
     <param name="/ubiquity_velocity_controller/right_wheel" value="@(right_wheel)"/>
     <param name="/ubiquity_velocity_controller/publish_rate" value="@(publish_rate)"/>
-    <param name="/ubiquity_velocity_controller/pose_covariance_diagonal" value="@(pose_covariance_diagonal)"/>
-    <param name="/ubiquity_velocity_controller/twist_covariance_diagonal" value="@(twist_covariance_diagonal)"/>
     <param name="/ubiquity_velocity_controller/cmd_vel_timeout" value="@(cmd_vel_timeout)"/>
     <param name="/ubiquity_velocity_controller/enable_odom_tf" value="@(enable_odom_tf)"/>
     <param name="/ubiquity_velocity_controller/wheel_separation" value="@(wheel_separation)"/>
@@ -67,6 +65,9 @@
     <param name="/ubiquity_velocity_controller/linear/x/max_velocity" value="@(lin_max_velocity)"/>
     <param name="/ubiquity_velocity_controller/linear/x/has_acceleration_limits" value="@(lin_has_acceleration_limits)"/>
     <param name="/ubiquity_velocity_controller/linear/x/max_acceleration" value="@(lin_max_acceleration)"/>
+
+    <rosparam param="/ubiquity_velocity_controller/pose_covariance_diagonal">@(pose_covariance_diagonal)</rosparam>
+    <rosparam param="/ubiquity_velocity_controller/twist_covariance_diagonal">@(twist_covariance_diagonal)</rosparam>
 
     <param name="/ubiquity_velocity_controller/angular/z/has_velocity_limits" value="@(ang_has_velocity_limits)"/>
     <param name="/ubiquity_velocity_controller/angular/z/max_velocity" value="@(ang_max_velocity)"/>
