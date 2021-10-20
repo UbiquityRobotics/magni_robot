@@ -22,7 +22,7 @@ oled_display: {'controller': None}
 # ============================================ ADMIN PARAMETERS FROM HERE DOWN ==============================================
 
 ubiquity_motor:
-  board_version : None 
+  board_version : None  # non ROS param - for launch_core.py to know which UR MCB board revision is present in the robot
   serial_port: '/dev/ttyAMA0'
   serial_baud: 38400
   serial_loop_rate: 200

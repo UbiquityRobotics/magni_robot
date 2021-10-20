@@ -111,6 +111,7 @@ def create_core_launch_file(
 ):
     mot_cont = conf["ubiquity_motor"]
     vel_cont = conf["ubiquity_velocity_controller"]
+    joint_pub = conf["ubiquity_joint_publisher"]
     
     try:
         with open(em_path) as em_launch_file:
@@ -140,7 +141,10 @@ def create_core_launch_file(
                     "pid_moving_buffer_size": str(mot_cont["pid_moving_buffer_size"]),
                     "pid_velocity": str(mot_cont["pid_velocity"]),
                     
-                    "type": str(vel_cont["type"]),
+                    "joint_controller_type": str(joint_pub["type"]),
+                    "joint_controller_publish_rate": str(joint_pub["publish_rate"]),
+
+                    "vel_controller_type": str(vel_cont["type"]),
                     "left_wheel": str(vel_cont["left_wheel"]),
                     "right_wheel": str(vel_cont["right_wheel"]),
                     "publish_rate": str(vel_cont["publish_rate"]),
