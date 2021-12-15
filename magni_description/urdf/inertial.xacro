@@ -30,7 +30,7 @@ OF SUCH DAMAGE.
 -->
 
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
-    <property name="M_PI" value="3.1415926535897931" />
+    <xacro:property name="M_PI" value="3.1415926535897931" />
 
     <!-- see https://secure.wikimedia.org/wikipedia/en/wiki/List_of_moment_of_inertia_tensors -->
 
