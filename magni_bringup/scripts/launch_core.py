@@ -10,62 +10,93 @@ import roslaunch, rospkg
 import yaml
 import smbus  # used for the hw rev stuff
 import em
+from collections import abc
 
 rp = rospkg.RosPack()
 
 # Path to the robot.yaml on the robot (not tracked by git)
-conf_path_1 = "/etc/ubiquity/robot.yaml"
+conf_path = "/etc/ubiquity/robot.yaml"
 
 # Path to the default_robot.yaml config inside magni_robot repo (git tracked)
-conf_path_2 = rp.get_path("magni_bringup") + "/config/default_robot.yaml"
+default_conf_path = rp.get_path("magni_bringup") + "/config/default_robot.yaml"
 
 # Path to the .em file from which the core.launch is generated
 core_em_path = rp.get_path("magni_bringup") + "/launch/core_launch.em"
 
-# We rely on the conf_path_2 always existing since its inside the repo.
+#Color codes for printing in shell
+class clr:
+    OK = '\033[92m'
+    WARN = '\033[93m'
+    ERROR = '\033[91m'
+    ENDC = '\033[0m'
+
+# We rely on the default_conf_path always existing since its inside the repo.
 # The default config is always loaded because specific elements are loaded from it if
-# they are missing in conf_path_1 yaml (see get_yaml() function).
+# they are missing in conf_path yaml (see get_config_replace_missing() function).
 try:
-    with open(conf_path_2) as cf:
+    with open(default_conf_path) as cf:
         default_conf = yaml.safe_load(cf)
 except Exception as e:
-    print("Error reading " + conf_path_2)
+    print(clr.ERROR + "Error reading " + default_conf_path + clr.ENDC)
     print(e)
     exit
 
+# Looks recursevly (can be nested dicts) if any key from dictionary 2 (d2) is missing
+# in dictionary 1 (d1). If a key is found in d2 but not in d1, it is placed into d1.
+# Any keys that are in d1 but not in d2 are left alone. d2 is unchanged.
+def dict_replace_missing(d1, d2):
+    for k in d2:
+        if k in d1:
+            if type(d2[k]) is dict:
+                dict_replace_missing(d1[k],d2[k])
+        else:
+            print(
+                clr.WARN
+                + "WARN: Did not find '"
+                + str(k)
+                + "' in "
+                + conf_path
+                + ". Adding it with value: "
+                + str(d2[k])
+                + clr.ENDC
+            )
+            d1[k] = d2[k]
 
-def get_yaml(yaml_path, default_yaml):
+
+def get_config_replace_missing(conf_path, default_conf):
     try:
-        with open(yaml_path) as conf_file:
+        with open(conf_path) as conf_file:
             try:
                 y_conf = yaml.safe_load(conf_file)
             except Exception as e:
-                print("Error reading yaml file, using default configuration")
+                print(clr.ERROR + 
+                    + "Error reading yaml file from "
+                    + conf_path
+                    + ", using default configuration"
+                    + clr.ENDC)
                 print(e)
-                return default_yaml
+                return default_conf
 
             if y_conf is None:
-                print("WARN " + yaml_path + " is empty, using default configuration")
-                return default_yaml
+                print("WARN " + conf_path + " is empty, using default configuration")
+                return default_conf
 
-            for key, value in default_yaml.items():
-                if key not in y_conf:
-                    print(
-                        "WARN: Did not find '"
-                        + str(key)
-                        + "' in "
-                        + yaml_path
-                        + ". Replacing it with: "
-                        + str(value)
-                    )
-                    y_conf[key] = value
+            print(clr.OK + "Found config file: " + conf_path + clr.ENDC)
 
+            # if any key missing in y_conf replace it individually from default_conf
+            dict_replace_missing(y_conf, default_conf)
+
+            # print(y_conf)    
             return y_conf
     except IOError:
-        print("WARN " + yaml_path + " doesn't exist, using default configuration")
+        print(clr.WARN 
+            + "WARN "
+            + conf_path 
+            + " doesn't exist, using default configuration"
+            + clr.ENDC)
         return default_conf
     except yaml.parser.ParserError:
-        print("WARN failed to parse " + yaml_path + ", using default configuration")
+        print("WARN failed to parse " + conf_path + ", using default configuration")
         return default_conf
 
 
@@ -78,27 +109,10 @@ def create_core_launch_file(
     oled_display=0,
     board_rev=0,
 ):
-    try:
-        sonars_installed = conf["sonars"]
-        motor_controller_params = conf["motor_controller"]
-        # velocity controller params
-        vc_params = conf["ubiquity_velocity_controller"]
-    except Exception as e:
-        print("There is an error with the conf: " + str(e))
-        return False
-
-    if len(motor_controller_params) != 9:
-        print(
-            "Motor_controller_params dictionary must contain 9 items. Instead it has:",
-            str(len(motor_controller_params)),
-        )
-        return False
-
-    # TODO should I be doing more checks here -> maybe if dictionary and such
-
-    vc_lin = vc_params["linear"]["x"]
-    vc_ang = vc_params["angular"]["z"]
-
+    mot_cont = conf["ubiquity_motor"]
+    vel_cont = conf["ubiquity_velocity_controller"]
+    joint_pub = conf["ubiquity_joint_publisher"]
+    
     try:
         with open(em_path) as em_launch_file:
             em_launch = em_launch_file.read()
@@ -107,42 +121,59 @@ def create_core_launch_file(
                 {
                     "camera_extrinsics_file": camera_extrinsics_file,
                     "lidar_extrinsics_file": lidar_extrinsics_file,
-                    "sonars_installed": sonars_installed,
+                    "sonars_installed": conf["sonars_installed"],
                     "oled_display": oled_display,
                     "controller_board_version": str(board_rev),
-                    "serial_port": str(motor_controller_params["serial_port"]),
-                    "serial_baud": str(motor_controller_params["serial_baud"]),
-                    "pid_proportional": str(
-                        motor_controller_params["pid_proportional"]
-                    ),
-                    "pid_integral": str(motor_controller_params["pid_integral"]),
-                    "pid_derivative": str(motor_controller_params["pid_derivative"]),
-                    "pid_denominator": str(motor_controller_params["pid_denominator"]),
-                    "pid_moving_buffer_size": str(
-                        motor_controller_params["pid_moving_buffer_size"]
-                    ),
-                    "pid_velocity": str(motor_controller_params["pid_velocity"]),
-                    "wheel_separation_multiplier": str(
-                        vc_params["wheel_separation_multiplier"]
-                    ),
-                    "wheel_radius_multiplier": str(
-                        vc_params["wheel_radius_multiplier"]
-                    ),
-                    "has_velocity_limits": str(vc_lin["has_velocity_limits"]),
-                    "has_velocity_limits": str(vc_lin["max_velocity"]),
-                    "has_acceleration_limits": str(vc_lin["has_acceleration_limits"]),
-                    "max_acceleration": str(vc_lin["max_acceleration"]),
-                    "has_velocity_limits": str(vc_ang["has_velocity_limits"]),
-                    "max_velocity": str(vc_ang["max_velocity"]),
-                    "has_acceleration_limits": str(vc_ang["has_acceleration_limits"]),
-                    "max_acceleration": str(vc_ang["max_acceleration"]),
+
+                    "serial_port": str(mot_cont["serial_port"]),
+                    "serial_baud": str(mot_cont["serial_baud"]),
+                    "serial_loop_rate": str(mot_cont["serial_loop_rate"]),
+                    "controller_loop_rate": str(mot_cont["controller_loop_rate"]),
+                    "pid_proportional": str(mot_cont["pid_proportional"]),
+                    "pid_integral": str(mot_cont["pid_integral"]),
+                    "pid_derivative": str(mot_cont["pid_derivative"]),
+                    "pid_denominator": str(mot_cont["pid_denominator"]),
+                    "pid_control": str(mot_cont["pid_control"]),
+                    "drive_type": str(mot_cont["drive_type"]),
+                    "wheel_type": str(mot_cont["wheel_type"]),
+                    "wheel_gear_ratio": str(mot_cont["wheel_gear_ratio"]),
+                    "fw_max_pwm": str(mot_cont["fw_max_pwm"]),
+                    "pid_moving_buffer_size": str(mot_cont["pid_moving_buffer_size"]),
+                    "pid_velocity": str(mot_cont["pid_velocity"]),
+                    
+                    "joint_controller_type": str(joint_pub["type"]),
+                    "joint_controller_publish_rate": str(joint_pub["publish_rate"]),
+
+                    "vel_controller_type": str(vel_cont["type"]),
+                    "left_wheel": str(vel_cont["left_wheel"]),
+                    "right_wheel": str(vel_cont["right_wheel"]),
+                    "publish_rate": str(vel_cont["publish_rate"]),
+                    "pose_covariance_diagonal": str(vel_cont["pose_covariance_diagonal"]),
+                    "twist_covariance_diagonal": str(vel_cont["twist_covariance_diagonal"]),
+                    "cmd_vel_timeout": str(vel_cont["cmd_vel_timeout"]),
+                    "enable_odom_tf": str(vel_cont["enable_odom_tf"]),
+                    "wheel_separation": str(vel_cont["wheel_separation"]),
+                    "base_frame_id": str(vel_cont["base_frame_id"]),
+
+                    "wheel_separation_multiplier": str(vel_cont["wheel_separation_multiplier"]),
+                    "wheel_radius": str(vel_cont["wheel_radius"]),
+                    "wheel_radius_multiplier": str(vel_cont["wheel_radius_multiplier"]),
+                    "lin_has_velocity_limits": str(vel_cont["linear"]["x"]["has_velocity_limits"]),
+                    "lin_max_velocity": str(vel_cont["linear"]["x"]["max_velocity"]),
+                    "lin_has_acceleration_limits": str(vel_cont["linear"]["x"]["has_acceleration_limits"]),
+                    "lin_max_acceleration": str(vel_cont["linear"]["x"]["max_acceleration"]),
+
+                    "ang_has_velocity_limits": str(vel_cont["angular"]["z"]["has_velocity_limits"]),
+                    "ang_max_velocity": str(vel_cont["angular"]["z"]["max_velocity"]),
+                    "ang_has_acceleration_limits": str(vel_cont["angular"]["z"]["has_acceleration_limits"]),
+                    "ang_max_acceleration": str(vel_cont["angular"]["z"]["max_acceleration"]),
                 },
             )
     except FileNotFoundError:
-        print("WARN " + em_path + " doesn't exist!")
+        print(clr.WARN + "WARN " + em_path + " doesn't exist!" + clr.ENDC)
         return False
-    except (JSONDecodeError, NameError) as e:
-        print("WARN failed to parse " + em_path)
+    except Exception as e:
+        print(clr.ERROR + "ERROR failed to parse " + em_path + clr.ENDC)
         print(e)
         return False
 
@@ -175,6 +206,13 @@ def find_file_by_priority(first_path, second_path):
         print("Error finding file by priority: " + e)
         return "noFileFound"
 
+"""
+Execute popen with feedback
+"""
+def feedback_popen(command, cwd):
+    proc = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, close_fds=True, cwd=cwd)
+    return proc.communicate()[0], proc.returncode
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -185,39 +223,22 @@ def main():
     )
     parser.add_argument(
         "--launch_generate_path",
-        default="/tmp/core.launch",
-        help="Generated the launch file to this path",
+        default=rp.get_path("magni_bringup")+"/launch/generated_core.launch",
+        help="Generate the launch file to this path",
     )
     arguments, unknown = parser.parse_known_args()
 
-    conf_path = find_file_by_priority(conf_path_1, conf_path_2)
-    if conf_path == "":
-        print(
-            "ERROR: configuration file robot.yaml could not be found in either:\n"
-            + conf_path_1
-            + " OR\n"
-            + conf_path_2
-        )
-        return
-    else:
-        print("Found config file: " + conf_path)
+    conf = get_config_replace_missing(conf_path, default_conf)
 
-    conf = get_yaml(conf_path, default_conf)
-
-    # We only support 1 version of the Sonars right now
-    if conf["sonars"] == "pi_sonar_v1":
-        conf["sonars"] = True
-    else:
-        conf["sonars"] = False
+    # print out the whole config if in debug mode
+    if arguments.debug == True:
+        print("DEUBG: Full content of the applied config:")
+        print(conf)
 
     # We only support 1 display type right now
     oled_display_installed = False
     if conf["oled_display"]["controller"] == "SH1106":
         oled_display_installed = True
-
-    # print out the whole config if in debug mode
-    if arguments.debug == True:
-        print(conf)
 
     if conf["force_time_sync"] == "True":
         time.sleep(5)  # pifi doesn't like being called early in boot
@@ -251,7 +272,7 @@ def main():
 
     boardRev = 0
 
-    if conf["motor_controller"]["board_version"] == None:
+    if conf["ubiquity_motor"]["board_version"] == None:
         # Code to read board version from I2C
         # The I2C chip is only present on 5.0 and newer boards
         try:
@@ -275,48 +296,41 @@ def main():
     camera_extr_file = ""
     lidar_extr_file = ""
 
-    # this may happen with older robot.yaml where conf["raspicam"] did not have camera_installed entry yet
-    if not "camera_installed" in conf["raspicam"]:
-        print("ERROR: 'camera_installed' entry was not found in conf['raspicam']")
-        return
-
     # check for camera extrinsics
-    if (
-        conf["raspicam"]["camera_installed"] == "True"
-        or conf["raspicam"]["camera_installed"] == "true"
-    ):
+    if (conf["raspicam_position"] != None and conf["raspicam_position"] != "None"):
         # get camera extrinsics
         path1 = (
-            "~/.ros/extrinsics/camera_extrinsics_%s.yaml" % conf["raspicam"]["position"]
+            "~/.ros/extrinsics/camera_extrinsics_%s.yaml" % conf["raspicam_position"]
         )
         path2 = (
             magni_description_path
-            + "/extrinsics/camera_extrinsics_%s.yaml" % conf["raspicam"]["position"]
+            + "/extrinsics/camera_extrinsics_%s.yaml" % conf["raspicam_position"]
         )
         camera_extr_file = find_file_by_priority(path1, path2)
         if camera_extr_file == "":
             print(
-                "WARN: Camera will NOT be enabled in urdf, because extrinsics file not found in neither: "
+                clr.WARN
+                +"WARN: Camera will NOT be enabled in urdf, because extrinsics file not found in neither: "
                 + path1
                 + " OR\n"
                 + path2
+                + clr.ENDC
             )
             # In this case, the camera_extr_file as empty string is passed to create the core.launch. Upon ros-launching that, URDF
             # detects that the extrinsics yaml path string is empty and does not load it into robot_description. That is why it is important
             # that this string is "" if any error with getting extrinsics.
         else:
-            print("Camera extrinsics found: " + camera_extr_file)
+            print(clr.OK + "Camera enabled with extrinsics: " + camera_extr_file + clr.ENDC)
+    else:
+        print("Camera not enabled in robot.yaml")
 
     # check for lidar extrinsics
-    if (
-        conf["lidar"]["lidar_installed"] == "True"
-        or conf["lidar"]["lidar_installed"] == "true"
-    ):
+    if (conf["lidar_position"] != None and conf["lidar_position"] != "None"):
         # get lidar extrinsics
-        path1 = "~/.ros/extrinsics/lidar_extrinsics_%s.yaml" % conf["lidar"]["position"]
+        path1 = "~/.ros/extrinsics/lidar_extrinsics_%s.yaml" % conf["lidar_position"]
         path2 = (
             magni_description_path
-            + "/extrinsics/lidar_extrinsics_%s.yaml" % conf["lidar"]["position"]
+            + "/extrinsics/lidar_extrinsics_%s.yaml" % conf["lidar_position"]
         )
         lidar_extr_file = find_file_by_priority(path1, path2)
         if lidar_extr_file == "":
@@ -330,7 +344,9 @@ def main():
             # detects that the extrinsics yaml path string is empty and does not load it into robot_description. That is why it is important
             # that this string is "" if any error with getting extrinsics.
         else:
-            print("Lidar extrinsics found: " + lidar_extr_file)
+            print(clr.OK + "Lidar enabled with extrinsics:: " + lidar_extr_file + clr.ENDC)
+    else:
+        print("Lidar not enabled in robot.yaml")
 
     create_success = create_core_launch_file(
         core_em_path,
@@ -343,10 +359,10 @@ def main():
     )
 
     if not create_success:
-        print("ERROR: Creating launch file did not succeed")
+        print(clr.ERROR + "ERROR: Creating launch file did not succeed" + clr.ENDC)
         return
     else:
-        print("Launch file generated at " + arguments.launch_generate_path)
+        print(clr.OK + "Launch file generated at " + arguments.launch_generate_path + clr.ENDC)
 
     # only launch the generated launch if not in debug mode
     if arguments.debug != True:
@@ -356,6 +372,17 @@ def main():
     else:
         print("In debug mode the generated roslaunch is not launched")
 
+        print("Executing 'rosrun roslaunch roslaunch-check " + arguments.launch_generate_path+"'")
+        output, success = feedback_popen("rosrun roslaunch roslaunch-check " + arguments.launch_generate_path, os.environ['HOME'])
+        if str(output).find("FAILURE") > 0:
+            print(clr.ERROR
+                + "LAUNCH CHECK FAILURE:")
+            print(output)
+        else:
+            print(clr.OK
+                + "Launch check OK"
+                + clr.ENDC)
+        
 
 if __name__ == "__main__":
     main()
