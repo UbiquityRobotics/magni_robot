@@ -1,4 +1,4 @@
-# This file must be formated in the following way
+# This file must be formatted in the following way
 #
 # x: 0.0
 # y: 0.0
@@ -11,8 +11,8 @@
 
 
 
-x: 0.0
-y: 0.0
+x: -0.092
+y: -0.066
 z: 0.2
 roll: 0.0
 pitch: 0.0
