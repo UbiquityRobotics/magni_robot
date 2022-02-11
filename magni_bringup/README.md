@@ -57,7 +57,7 @@ If new additions need to be added to `generated_core.launch`, add them into `mag
     - Debugging is much easier: you can actually see the parameters that were used by opening the generated launch file in the `launch` directory of `magni_bringup` package. The alternative is that you leave the param calculation to statements in urdf files which are much harder to debug.
     - Creating the core.launch from python gives much more freedom to do stuff programmatically now and for possible changes in the future
 
- - internal base.yaml is still kept for non-user editable "parameters".
+ - ~~internal base.yaml is still kept for non-user editable "parameters".~~ As per discussions [here](https://github.com/UbiquityRobotics/magni_robot/pull/177#issuecomment-993958770) we've moved ALL parameters from `base.yaml` to `robot.yaml` so we don't have confusing situations where people don't know which yaml the parameters are actually being loaded from. `base.yaml` file is kept with a message for pre-noetic users to know where the parameters are aggregated in the noetic architecture.
 
  - extrinsics of camera and lidar are passed to magni.urdf.xacro from one of the following directories by priority a)`/.ros/extrinsics/`, b)`magni_description/extrinsics/`. This is done by passing the path of the yaml file into the urdf file where the x,y,z,roll,pitch,yaw are extracted from it. This is done because 
    - a) passing down the extrinsics params is in the same format both for launching on real robot (robot.yaml) and for launching in Gazebo (param in empty_world.launch)

@@ -33,14 +33,9 @@ To be run on a workstation, not the pi. This brings up rviz in a way suitable to
 
 ## Internal
 
-### magni_bringup core.launch
-This brings up the essential nodes for communicating with the motor node. After launch, teleop_twist_keyboard should work.
-
-You should not have to run this launch file directly.
-
 ### magni_bringup base.launch
 
-Runs everything needed for teleop, including Robot Commander based teleop (no navigation). Runs on robot boot. 
+Runs everything needed for teleop, including Robot Commander based teleop (no navigation). Runs on robot boot. To see the full detailed documented boot procedure see [magni_bringup README](magni_bringup/README.md)
 
 ### magni_description description.launch
 Internal launch file for making the URDF load and robot_state_publisher work.
