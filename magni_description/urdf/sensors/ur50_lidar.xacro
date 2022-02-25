@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:macro name="hokuyo_lidar" params="name:='' connected_to:='' *origin">
+  <xacro:macro name="ur50_lidar" params="name:='' connected_to:='' *origin">
 
   <xacro:unless value="${connected_to == ''}">
     <joint name="${name}_joint" type="fixed">
@@ -15,7 +15,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://magni_description/meshes/sensors/hokuyo.dae" />
+        <mesh filename="package://magni_description/meshes/sensors/ur50_lidar.dae" />
       </geometry>
     </visual>
     <collision>
