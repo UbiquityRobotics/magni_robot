@@ -138,6 +138,8 @@ def create_core_launch_file(
                     "wheel_type": str(mot_cont["wheel_type"]),
                     "wheel_gear_ratio": str(mot_cont["wheel_gear_ratio"]),
                     "fw_max_pwm": str(mot_cont["fw_max_pwm"]),
+                    "fw_max_speed_fwd": str(mot_cont["fw_max_speed_fwd"]),
+                    "fw_max_speed_rev": str(mot_cont["fw_max_speed_rev"]),
                     "pid_moving_buffer_size": str(mot_cont["pid_moving_buffer_size"]),
                     "pid_velocity": str(mot_cont["pid_velocity"]),
                     
