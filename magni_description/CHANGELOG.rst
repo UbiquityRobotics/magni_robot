@@ -2,8 +2,8 @@
 Changelog for package magni_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.0 (2022-03-15)
+------------------
 * Changed default top plate lidar position
 * Added ur50 lidar to mesh
 * Added install rules for extrinsics

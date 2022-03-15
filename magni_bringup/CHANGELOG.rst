@@ -2,8 +2,8 @@
 Changelog for package magni_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.0 (2022-03-15)
+------------------
 * Slight documentation update
 * Slightly improved architecture of robot.yaml
 * Added redirection comments into base.yaml
