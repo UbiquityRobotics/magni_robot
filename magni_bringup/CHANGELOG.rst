@@ -2,6 +2,28 @@
 Changelog for package magni_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Slight documentation update
+* Slightly improved architecture of robot.yaml
+* Added redirection comments into base.yaml
+* Pose covariance params setting fix
+* Added missing wheel radius
+* Added join pub stuff to launch_core.py
+* Added board version to def settings and deleted sonars from launch core
+* Adding new serial params into robot yaml, deleted base yaml after merge
+* Put all prams form base to robot yaml, deleted base yaml
+* Adding back in serial port and other serial params
+* Back down pid_velocity to 0 and pid_integral to 5, that is less aggressive behavior
+* Change base.yaml gear ratio and max pwm back to good values
+* Adding new motor node and firmware parameters
+* readme update
+* Added per param robot.yaml corection, robot.yaml revert
+* Max linear velocity increased to 1.1m/s
+* converted whole robot.yaml into one-level thing for clearness
+* lidar and camera enabled with one-level robot.yaml
+* Contributors: Janez, Janez Cimerman, Mark Johnston, Teodor
+
 0.5.1 (2021-08-06)
 ------------------
 * Install magni-base.service here, but don't enable it
