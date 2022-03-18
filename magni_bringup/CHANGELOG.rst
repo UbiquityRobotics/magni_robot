@@ -2,8 +2,8 @@
 Changelog for package magni_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.1 (2022-03-18)
+------------------
 * generated_core.launch gets generated in /tmp fixing `#196 <https://github.com/UbiquityRobotics/magni_robot/issues/196>`_
 * Contributors: Janez Cimerman
 
