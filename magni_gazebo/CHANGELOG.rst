@@ -2,6 +2,9 @@
 Changelog for package magni_gazebo
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 0.6.0 (2022-03-15)
 ------------------
 * Fixed extrinsics folder for gazebo launches, fixed fiducial world spawn
