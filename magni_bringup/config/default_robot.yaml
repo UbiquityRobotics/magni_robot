@@ -17,7 +17,7 @@ lidar_position : 'top_plate'  # to disable insert "None"
 sonars_installed: False # to enable set to True, to disable set to False
 
 force_time_sync : True
-oled_display: {'controller': None}
+oled_display: {'controller': SH1106}
 
 # ============================================ ADMIN PARAMETERS FROM HERE DOWN ==============================================
 
