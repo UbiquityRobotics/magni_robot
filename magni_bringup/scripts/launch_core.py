@@ -41,7 +41,7 @@ except Exception as e:
     print(e)
     exit
 
-# Looks recursevly (can be nested dicts) if any key from dictionary 2 (d2) is missing
+# Looks recursively (can be nested dicts) if any key from dictionary 2 (d2) is missing
 # in dictionary 1 (d1). If a key is found in d2 but not in d1, it is placed into d1.
 # Any keys that are in d1 but not in d2 are left alone. d2 is unchanged.
 def dict_replace_missing(d1, d2):
