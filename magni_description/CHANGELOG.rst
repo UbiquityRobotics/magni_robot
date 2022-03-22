@@ -2,6 +2,18 @@
 Changelog for package magni_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.1 (2022-03-18)
+------------------
+
+0.6.0 (2022-03-15)
+------------------
+* Changed default top plate lidar position
+* Added ur50 lidar to mesh
+* Added install rules for extrinsics
+* Fixed extrinsics folder for gazebo launches, fixed fiducial world spawn
+* "Deprecated: xacro tag..." warning fixed
+* Contributors: Janez, Janez Cimerman, Rohan Agrawal
+
 0.5.1 (2021-08-06)
 ------------------
 

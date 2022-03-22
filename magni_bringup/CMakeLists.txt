@@ -127,6 +127,9 @@ install(PROGRAMS scripts/launch_core.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
+install(PROGRAMS scripts/ros_log_clean.bash
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 # Adapted from https://github.com/realtime-neil/ros-bloom-debhelper/tree/master/src/my_project
 # Expands the template service file, and installs it to the correct place for systemd

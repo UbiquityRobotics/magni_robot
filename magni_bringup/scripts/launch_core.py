@@ -225,7 +225,7 @@ def main():
     )
     parser.add_argument(
         "--launch_generate_path",
-        default=rp.get_path("magni_bringup")+"/launch/generated_core.launch",
+        default="/tmp/generated_core.launch",
         help="Generate the launch file to this path",
     )
     arguments, unknown = parser.parse_known_args()

@@ -2,6 +2,17 @@
 Changelog for package magni_gazebo
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.1 (2022-03-18)
+------------------
+
+0.6.0 (2022-03-15)
+------------------
+* Fixed extrinsics folder for gazebo launches, fixed fiducial world spawn
+* "Deprecated: xacro tag..." warning fixed
+* Camera mount rename
+* Changed extrinsics folder for gazebo launches
+* Contributors: Janez, Janez Cimerman
+
 0.5.1 (2021-08-06)
 ------------------
 
