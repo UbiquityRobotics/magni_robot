@@ -41,7 +41,7 @@ except Exception as e:
     print(e)
     exit
 
-# Looks recursevly (can be nested dicts) if any key from dictionary 2 (d2) is missing
+# Looks recursively (can be nested dicts) if any key from dictionary 2 (d2) is missing
 # in dictionary 1 (d1). If a key is found in d2 but not in d1, it is placed into d1.
 # Any keys that are in d1 but not in d2 are left alone. d2 is unchanged.
 def dict_replace_missing(d1, d2):
@@ -138,6 +138,8 @@ def create_core_launch_file(
                     "wheel_type": str(mot_cont["wheel_type"]),
                     "wheel_gear_ratio": str(mot_cont["wheel_gear_ratio"]),
                     "fw_max_pwm": str(mot_cont["fw_max_pwm"]),
+                    "fw_max_speed_fwd": str(mot_cont["fw_max_speed_fwd"]),
+                    "fw_max_speed_rev": str(mot_cont["fw_max_speed_rev"]),
                     "pid_moving_buffer_size": str(mot_cont["pid_moving_buffer_size"]),
                     "pid_velocity": str(mot_cont["pid_velocity"]),
                     

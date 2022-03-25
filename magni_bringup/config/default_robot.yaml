@@ -38,6 +38,8 @@ ubiquity_motor:
   wheel_type: "standard"
   wheel_gear_ratio: 4.294
   fw_max_pwm: 325
+  fw_max_speed_fwd: 104
+  fw_max_speed_rev: -104
 
 ubiquity_joint_publisher:
   type: "joint_state_controller/JointStateController"

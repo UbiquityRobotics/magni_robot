@@ -44,6 +44,8 @@
     <param name="/ubiquity_motor/wheel_type" value="@(wheel_type)"/>
     <param name="/ubiquity_motor/wheel_gear_ratio" value="@(wheel_gear_ratio)"/>
     <param name="/ubiquity_motor/fw_max_pwm" value="@(fw_max_pwm)"/>
+    <param name="/ubiquity_motor/fw_max_speed_fwd" value="@(fw_max_speed_fwd)"/>
+    <param name="/ubiquity_motor/fw_max_speed_rev" value="@(fw_max_speed_rev)"/>
 
     <!-- Joint publisher params -->
     <param name="/ubiquity_joint_publisher/type" value="@(joint_controller_type)"/>
