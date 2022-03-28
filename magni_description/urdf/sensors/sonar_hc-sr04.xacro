@@ -18,12 +18,13 @@
           <mesh filename="package://magni_description/meshes/sensors/sonar_hc-sr04.dae" />
         </geometry>
       </visual>
-      <collision>
+      <!-- removing colisions from sonars solves issue https://github.com/UbiquityRobotics/magni_robot/issues/200 -->
+      <!-- <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
           <box size="0.02 0.044 0.021"/>
         </geometry>
-      </collision>
+      </collision> -->
     </link>
 
 
