@@ -17,6 +17,11 @@
     <param name="ubiquity_robot_mode" type="string" value="teleop"/>
 
     <node name="magni_launch_core" pkg="magni_bringup" type="launch_core.py" output="screen"/>
+    
+    
+    <!-- These last two lines can be commented out if you  wish to disable operation from a joystick or a web enabled 
+       external device like a computer or cell phone. It adds security but doesn't improve performance.  -->
+    
     <include file="$(find magni_teleop)/launch/logitech.launch" />
     <include file="$(find magni_teleop)/launch/rosbridge.launch" />
 </launch>
