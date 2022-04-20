@@ -4,6 +4,12 @@
   <xacro:arg name="sonars_installed" default="true"/>
   <xacro:property name="sonars_installed" value="$(arg sonars_installed)"/>
 
+  <xacro:arg name="shell_installed" default="false"/>
+  <xacro:property name="shell_installed" value="$(arg shell_installed)"/>
+
+  <xacro:arg name="tower_installed" default="false"/>
+  <xacro:property name="tower_installed" value="$(arg tower_installed)"/>
+
   <xacro:arg name="camera_extrinsics_file" default=""/>
   <xacro:property name="camera_extrinsics_file" value="$(arg camera_extrinsics_file)"/>
 
@@ -69,59 +75,61 @@
     <xacro:box_inertial_with_origin  x="0.398" y="0.221" z="0.150" mass="10.0">
       <origin xyz="-0.15 0 0.03" rpy="0 0 0" />
     </xacro:box_inertial_with_origin>
-
-   <!-- Robot Tower -->
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="package://magni_description/meshes/magni_tower.dae" />
-      </geometry>
-    </visual>
-    <!-- Collision for screen -->
-    <collision>
-      <origin xyz="0.115 0 0.635" rpy="0 0.56 0" />
-      <geometry>
-        <box size="0.04 0.23 0.15"/>
-      </geometry>
-    </collision>
-    <!-- Collision for tower -->
-    <collision>
-      <origin xyz="0.08 0 0.37" rpy="0 0 0" />
-      <geometry>
-        <box size="0.06 0.24 0.40"/>
-      </geometry>
-    </collision>
-    <!-- Robot shell -->
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="package://magni_description/meshes/magni_shell.dae" />
-      </geometry>
-    </visual>
-    <!-- Collision for shell -->
-    <collision>
-      <origin xyz="-0.11 0 0.07" rpy="0 0.0 0" />
-      <geometry>
-        <box size="0.45 0.33 0.2"/>
-      </geometry>
-    </collision>
-    <!-- Lower shelf -->
-    <collision>
-      <origin xyz="-0.18 0 0.2" rpy="0 0 0" />
-      <geometry>
-        <box size="0.35 0.408 0.005"/>
-      </geometry>
-    </collision>
-    <!-- Upper shelf -->
-    <collision>
-      <origin xyz="-0.1 0 0.53" rpy="0 0 0" />
-      <geometry>
-        <box size="0.32 0.42 0.02"/>
-      </geometry>
-    </collision>
     
-    
+    <xacro:if value="${tower_installed}">
+      <!-- Robot Tower -->
+      <visual>
+        <origin xyz="0 0 0.005" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://magni_description/meshes/magni_tower.dae" />
+        </geometry>
+      </visual>
+      <!-- Collision for screen -->
+      <collision>
+        <origin xyz="0.115 0 0.635" rpy="0 0.56 0" />
+        <geometry>
+          <box size="0.04 0.23 0.15"/>
+        </geometry>
+      </collision>
+      <!-- Collision for tower -->
+      <collision>
+        <origin xyz="0.08 0 0.37" rpy="0 0 0" />
+        <geometry>
+          <box size="0.06 0.24 0.40"/>
+        </geometry>
+      </collision>
+    </xacro:if>
 
+    <xacro:if value="${shell_installed}">
+      <!-- Robot shell -->
+      <visual>
+        <origin xyz="0 0 0.005" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://magni_description/meshes/magni_shell.dae" />
+        </geometry>
+      </visual>
+      <!-- Collision for shell -->
+      <collision>
+        <origin xyz="-0.11 0 0.07" rpy="0 0.0 0" />
+        <geometry>
+          <box size="0.45 0.33 0.2"/>
+        </geometry>
+      </collision>
+      <!-- Lower shelf -->
+      <collision>
+        <origin xyz="-0.18 0 0.2" rpy="0 0 0" />
+        <geometry>
+          <box size="0.35 0.408 0.005"/>
+        </geometry>
+      </collision>
+      <!-- Upper shelf -->
+      <collision>
+        <origin xyz="-0.1 0 0.53" rpy="0 0 0" />
+        <geometry>
+          <box size="0.32 0.42 0.02"/>
+        </geometry>
+      </collision>
+    </xacro:if>
   </link>
 
   <!-- Fixed offset from the floor to the center of the wheels -->

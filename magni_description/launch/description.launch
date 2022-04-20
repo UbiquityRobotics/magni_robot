@@ -1,4 +1,6 @@
 <launch>
+  <arg name="tower_installed" default="false"/>
+  <arg name="shell_installed" default="false"/>
   <arg name="sonars_installed" default="true"/>
   <arg name="camera_extrinsics_file" default=""/>
   <arg name="lidar_extrinsics_file" default=""/>
@@ -6,6 +8,8 @@
   <param name="robot_description" 
       command="$(find xacro)/xacro --inorder
         '$(find magni_description)/urdf/magni.urdf.xacro' 
+        tower_installed:=$(arg tower_installed)
+        shell_installed:=$(arg shell_installed)
         sonars_installed:=$(arg sonars_installed)
         lidar_extrinsics_file:=$(arg lidar_extrinsics_file)
         camera_extrinsics_file:=$(arg camera_extrinsics_file)
