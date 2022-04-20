@@ -9,9 +9,11 @@
 #
 # Otherwise you might experience "No such key" errors when running robot description urdfs
 
-x: 0.050
-y: 0.115
-z: 0.10
+
+
+x: 0.120
+y: 0.171
+z: 0.1833
 roll: 0.0
 pitch: 0.0
-yaw: 0.0
+yaw: 0.785 #-pi/4
