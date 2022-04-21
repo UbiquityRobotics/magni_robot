@@ -1,10 +1,5 @@
 #!/usr/bin/python3
 
-###
-# Eventually this should do something smarter, like launch sonars
-# 3DTOF, etc, if they are installed.
-###
-
 import sys, os, subprocess, time, argparse
 import roslaunch, rospkg
 import yaml
@@ -30,9 +25,11 @@ class clr:
     ERROR = '\033[91m'
     ENDC = '\033[0m'
 
-# We rely on the default_conf_path always existing since its inside the repo.
-# The default config is always loaded because specific elements are loaded from it if
-# they are missing in conf_path yaml (see get_config_replace_missing() function).
+"""
+We rely on the default_conf_path always existing since its inside the repo.
+The default config is always loaded because specific elements are loaded from it if
+they are missing in conf_path yaml (see get_config_replace_missing() function).
+"""
 try:
     with open(default_conf_path) as cf:
         default_conf = yaml.safe_load(cf)
@@ -41,9 +38,14 @@ except Exception as e:
     print(e)
     exit
 
-# Looks recursively (can be nested dicts) if any key from dictionary 2 (d2) is missing
-# in dictionary 1 (d1). If a key is found in d2 but not in d1, it is placed into d1.
-# Any keys that are in d1 but not in d2 are left alone. d2 is unchanged.
+"""
+If a key in `d2` is not in `d1`, add it to `d1` with the value from `d2`.
+Any keys that are in `d1` but not in `d2` are left alone. `d2` is unchanged.
+`d1` and `d2` can be nested dictionaries.
+
+:param d1: The dictionary that you want to add/replace missing keys to
+:param d2: The default configuration dictionary
+"""
 def dict_replace_missing(d1, d2):
     for k in d2:
         if k in d1:
@@ -63,6 +65,14 @@ def dict_replace_missing(d1, d2):
             d1[k] = d2[k]
 
 
+"""
+It reads a yaml file and if any key is missing in the yaml file, it replaces it with the default
+value
+
+:param conf_path: The path to the configuration file
+:param default_conf: This is the default configuration, where replacement keys are taken from
+:return: A dictionary with the configuration
+"""
 def get_config_replace_missing(conf_path, default_conf):
     try:
         with open(conf_path) as conf_file:
@@ -100,6 +110,19 @@ def get_config_replace_missing(conf_path, default_conf):
         return default_conf
 
 
+"""
+It takes a template file, and replaces all the variables in it with the values in the `conf`
+dictionary
+
+:param em_path: The path to the em file to use as a template
+:param path: The path to the launch file to be created
+:param conf: The configuration dictionary
+:param camera_extrinsics_file: The path to the camera extrinsics file
+:param lidar_extrinsics_file: The path to the lidar extrinsics file
+:param oled_display: oled_display number, defaults to 0 (optional)
+:param board_rev: The revision of the controller board, defaults to 0 (optional)
+:return: A boolean value of success - if true the generation of launch file at path was successfull.
+"""
 def create_core_launch_file(
     em_path,
     path,
@@ -185,10 +208,14 @@ def create_core_launch_file(
     return True
 
 
-# finds file path by priority:
-# 1.) Checks first path and returns it if it exists
-# 2.) Checks second path and returns it if it exists
-# 3.) If none of them exists returns empty string
+"""
+If the first file exists, return it, otherwise return the second file. 
+If none of them exists returns empty string.
+
+:param first_path: The path to the file you want to find
+:param second_path: The path to the default config file
+:return: The path to the file that was found.
+"""
 def find_file_by_priority(first_path, second_path):
     first_path = os.path.expanduser(first_path)
     try:
