@@ -145,6 +145,8 @@ def create_core_launch_file(
                     "camera_extrinsics_file": camera_extrinsics_file,
                     "lidar_extrinsics_file": lidar_extrinsics_file,
                     "sonars_installed": conf["sonars_installed"],
+                    "shell_installed": conf["shell_installed"],
+                    "tower_installed": conf["tower_installed"],
                     "oled_display": oled_display,
                     "controller_board_version": str(board_rev),
 

@@ -91,28 +91,18 @@
           <box size="0.04 0.23 0.15"/>
         </geometry>
       </collision>
-      <!-- Collision for tower -->
+      <!-- Collision for tower vertical-->
       <collision>
         <origin xyz="0.08 0 0.37" rpy="0 0 0" />
         <geometry>
           <box size="0.06 0.24 0.40"/>
         </geometry>
       </collision>
-    </xacro:if>
-
-    <xacro:if value="${shell_installed}">
-      <!-- Robot shell -->
-      <visual>
-        <origin xyz="0 0 0.005" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://magni_description/meshes/magni_shell.dae" />
-        </geometry>
-      </visual>
-      <!-- Collision for shell -->
+      <!-- Collision for tower horizontal -->
       <collision>
-        <origin xyz="-0.11 0 0.07" rpy="0 0.0 0" />
+        <origin xyz="-0.1 0 0.18" rpy="0 0 0" />
         <geometry>
-          <box size="0.45 0.33 0.2"/>
+          <box size="0.42 0.24 0.03"/>
         </geometry>
       </collision>
       <!-- Lower shelf -->
@@ -127,6 +117,22 @@
         <origin xyz="-0.1 0 0.53" rpy="0 0 0" />
         <geometry>
           <box size="0.32 0.42 0.02"/>
+        </geometry>
+      </collision>
+    </xacro:if>
+    <xacro:if value="${shell_installed}">
+      <!-- Robot shell -->
+      <visual>
+        <origin xyz="0 0 0.005" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://magni_description/meshes/magni_shell.dae" />
+        </geometry>
+      </visual>
+      <!-- Collision for shell -->
+      <collision>
+        <origin xyz="-0.175 0 0.07" rpy="0 0.0 0" />
+        <geometry>
+          <box size="0.3 0.33 0.2"/>
         </geometry>
       </collision>
     </xacro:if>
