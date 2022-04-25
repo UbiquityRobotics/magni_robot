@@ -8,8 +8,8 @@
         <arg name="camera_extrinsics_file" value="@(camera_extrinsics_file)"/>
         <arg name="lidar_extrinsics_file" value="@(lidar_extrinsics_file)"/>
         <arg name="sonars_installed" value="$(arg sonars_installed)"/>
-        <arg name="shell_installed" value="$(arg shell_installed)"/>
-        <arg name="tower_installed" value="$(arg tower_installed)"/>
+        <arg name="shell_installed" value="@(shell_installed)"/>
+        <arg name="tower_installed" value="@(tower_installed)"/>
     </include>
 
     <group if="$(arg sonars_installed)">
