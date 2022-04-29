@@ -16,6 +16,13 @@ lidar_position : 'top_plate'  # to disable insert "None"
 
 sonars_installed: False # to enable set to True, to disable set to False
 
+# Set to true if shell is installed on the robot. This only enables shell visualization
+shell_installed: False
+
+# Set to true if tower is installed on the robot.This enables tower visualization and also laser filter
+# which filters out lidar detecting the installed tower. Filtered scan is published to /scan_filtered topic
+tower_installed: False
+
 force_time_sync : True
 oled_display: {'controller': SH1106}
 

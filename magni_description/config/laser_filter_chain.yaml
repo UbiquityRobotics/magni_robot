@@ -1,0 +1,15 @@
+scan_filter_chain:
+- name: box
+  # filter out the box that is the robot
+  type: laser_filters/LaserScanBoxFilter
+  params:
+    box_frame: base_link
+    min_x: -0.6 
+    max_x: 0.13
+    min_y: -0.2
+    max_y: 0.2
+    min_z: -1.0
+    max_z: 1.0
+
+
+# more filter options can be found: http://wiki.ros.org/laser_filters
