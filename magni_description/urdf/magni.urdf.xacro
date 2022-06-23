@@ -15,6 +15,9 @@
 
   <xacro:arg name="lidar_extrinsics_file" default=""/>
   <xacro:property name="lidar_extrinsics_file" value="$(arg lidar_extrinsics_file)"/>
+
+  <xacro:arg name="gps_extrinsics_file" default=""/>
+  <xacro:property name="gps_extrinsics_file" value="$(arg gps_extrinsics_file)"/>
   
   <xacro:property name="wheel_r" value="0.1" />
   <xacro:property name="wheel_xpos" value="0.11" />
@@ -240,6 +243,18 @@
       <origin xyz="${lidar_extrinsics['x']} ${lidar_extrinsics['y']} ${lidar_extrinsics['z']}"
         rpy="${lidar_extrinsics['roll']} ${lidar_extrinsics['pitch']} ${lidar_extrinsics['yaw']}"/>
     </xacro:ur50_lidar>
+  </xacro:if>
+
+  <!-- Define GNSS -->
+  <xacro:if value="${gps_extrinsics_file != ''}">
+    <xacro:property name="gps_extrinsics" value="${load_yaml(gps_extrinsics_file)}"/>
+    <link name="gps"/>
+    <joint name="gps_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="gps"/>
+      <origin xyz="${gps_extrinsics['x']} ${gps_extrinsics['y']} ${gps_extrinsics['z']}"
+        rpy="${gps_extrinsics['roll']} ${gps_extrinsics['pitch']} ${gps_extrinsics['yaw']}"/>
+    </joint>
   </xacro:if>
 
 </robot>
