@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Possible options are "ls_lidar" and "ld_lidar" -->
+  <arg name="ld_lidar" default="false"/>
+  <arg name="ls_lidar" default="true"/>
+
+  <arg name="device_IP" default="192.168.42.222" />
+  <arg name="device_Port" default="2368" />
+  <arg name="laser_link" default="laser" />
+  <arg name="angle_disable_min" default="-1" />
+  <arg name="angle_disable_max" default="-1" />
+
+  <group if="$(arg ls_lidar)">
+    <node pkg="ur50_lidar_driver" type="ur50_lidar_driver_node" name="ur50_lidar_driver_node" output="screen">
+      <param name="frame_id" value="$(arg laser_link)"/>
+      <param name="device_ip" value="$(arg device_IP)"/>
+      <param name="device_port" value="$(arg device_Port)"/>
+    </node>
+
+    <node pkg="ur50_lidar_decoder" type="ur50_lidar_decoder_node" name="ur50_lidar_decoder_node" output="screen">
+      <param name="child_frame_id" value="$(arg laser_link)"/>
+      <param name="point_num" value="2000"/>
+      <param name="angle_disable_min" value="$(arg angle_disable_min)"/>
+      <param name="angle_disable_max" value="$(arg angle_disable_max)"/>
+     <param name="min_range" value="0.1"/>
+      <param name="max_range" value="50.0"/>
+      <param name="frequency" value="10.0"/>
+      <param name="publish_point_cloud" value="false"/>
+    </node>
+  </group>
+
+  <group if="$(arg ld_lidar)">
+       <include file="$(find ld06_lidar)/launch/ld06.launch" />
+  </group>
+
+  <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="screen" name="laser_filter">
+    <param name="target_frame" value="laser" />
+	    <!--    <rosparam command="load" file="$(find breadcrumb_nav)/param/laser_filters.yaml" subst_value="true" /> -->
+  </node>
+
+  <node pkg="tf" type="static_transform_publisher" name="base_link_laser_broadcaster" args="0.12 0.17 0.2 0.0 0 0 base_link laser 100" />
+</launch>
