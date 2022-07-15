@@ -1,8 +1,7 @@
 global_costmap:
   global_frame: map
   robot_base_frame: base_footprint
-  static_map: true
-  inflation_radius: 0.5
+   inflation_radius: 0.5
   plugins:
 #    - {name: static_layer,            type: "costmap_2d::StaticLayer"}
     - {name: inflation_layer,         type: "costmap_2d::InflationLayer"}
@@ -12,7 +11,6 @@ global_costmap:
     inflation_radius:     0.5  # max. distance from an obstacle at which costs are incurred for planning paths.
 
   update_frequency: 5.0
-  static_map: false
   rolling_window: true
   width: 6.0
   height: 6.0
