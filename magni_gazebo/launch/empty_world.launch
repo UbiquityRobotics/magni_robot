@@ -51,6 +51,8 @@
 
     <!-- Additional nodes (optional)  -->
 
+    <include file="$(find magni_nav)/launch/move_base.launch"/>
+
 
     <!-- RViz to visualize robot state -->
     <arg unless="$(arg rviz_config)" name="rviz_args" value="" />
