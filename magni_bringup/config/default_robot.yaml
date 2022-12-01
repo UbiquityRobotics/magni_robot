@@ -11,7 +11,7 @@
 #  1.) in ~/.ros/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml
 #  2.) in package magni_description/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml
 # where <SENSOR> is either "camera" or "lidar" and <POSITION> is an arbitrary string with which the extrinsics file is identified
-raspicam_position: 'forward' # to disable insert "None"
+raspicam_position: 'ahead' # to disable insert "None"
 lidar_position : 'front'  # to disable insert "None"
 
 sonars_installed: False # to enable set to True, to disable set to False
@@ -34,19 +34,19 @@ ubiquity_motor:
   serial_baud: 38400
   serial_loop_rate: 200
   controller_loop_rate: 20
-  pid_proportional: 5000
+  pid_proportional: 7000
   pid_integral: 0
-  pid_derivative: -110
+  pid_derivative: -200
   pid_denominator: 1000
   pid_moving_buffer_size: 70
-  pid_velocity: 0
+  pid_velocity: 40000
   pid_control:  0
   drive_type: "standard"
   wheel_type: "standard"
   wheel_gear_ratio: 4.294
-  fw_max_pwm: 325
-  fw_max_speed_fwd: 104
-  fw_max_speed_rev: -104
+  fw_max_pwm: 200
+  fw_max_speed_fwd: 100
+  fw_max_speed_rev: -100
 
 ubiquity_joint_publisher:
   type: "joint_state_controller/JointStateController"
