@@ -12,7 +12,7 @@
 #  2.) in package magni_description/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml
 # where <SENSOR> is either "camera" or "lidar" and <POSITION> is an arbitrary string with which the extrinsics file is identified
 raspicam_position: 'forward' # to disable insert "None"
-lidar_position : 'top_plate'  # to disable insert "None"
+lidar_position : 'front'  # to disable insert "None"
 
 sonars_installed: False # to enable set to True, to disable set to False
 
