@@ -133,8 +133,8 @@ def create_core_launch_file(
     board_rev=0,
 ):
     mot_cont = conf["ubiquity_motor"]
-    vel_cont = conf["ubiquity_velocity_controller"]
-    joint_pub = conf["ubiquity_joint_publisher"]
+    vel_cont = conf["ubiquity_velocity_controller_rear"]
+    joint_pub = conf["ubiquity_joint_publisher_rear"]
     
     try:
         with open(em_path) as em_launch_file:
