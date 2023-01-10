@@ -48,11 +48,11 @@ ubiquity_motor:
   fw_max_speed_fwd: 104
   fw_max_speed_rev: -104
 
-ubiquity_joint_publisher:
+ubiquity_joint_publisher_rear:
   type: "joint_state_controller/JointStateController"
   publish_rate: 50
 
-ubiquity_velocity_controller:
+ubiquity_velocity_controller_rear:
   type: "diff_drive_controller/DiffDriveController"
   left_wheel: 'left_wheel_joint'
   right_wheel: 'right_wheel_joint'
