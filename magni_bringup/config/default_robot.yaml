@@ -36,17 +36,17 @@ ubiquity_motor:
   serial_baud: 38400
   serial_loop_rate: 200
   controller_loop_rate: 20
-  pid_proportional: 7000
-  pid_integral: 0
-  pid_derivative: -200
+  pid_proportional: 9000
+  pid_integral: 14
+  pid_derivative: -60
   pid_denominator: 1000
-  pid_moving_buffer_size: 70
-  pid_velocity: 40000
+  pid_moving_buffer_size: 100
+  pid_velocity: 0
   pid_control:  0
   drive_type: "standard"
   wheel_type: "standard"
   wheel_gear_ratio: 4.294
-  fw_max_pwm: 200
+  fw_max_pwm: 230
   fw_max_speed_fwd: 100
   fw_max_speed_rev: -100
 
