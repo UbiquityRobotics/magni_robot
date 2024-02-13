@@ -79,7 +79,7 @@ def get_config_replace_missing(conf_path, default_conf):
             try:
                 y_conf = yaml.safe_load(conf_file)
             except Exception as e:
-                print(clr.ERROR + 
+                print(clr.ERROR +
                     + "Error reading yaml file from "
                     + conf_path
                     + ", using default configuration"
@@ -96,12 +96,12 @@ def get_config_replace_missing(conf_path, default_conf):
             # if any key missing in y_conf replace it individually from default_conf
             dict_replace_missing(y_conf, default_conf)
 
-            # print(y_conf)    
+            # print(y_conf)
             return y_conf
     except IOError:
-        print(clr.WARN 
+        print(clr.WARN
             + "WARN "
-            + conf_path 
+            + conf_path
             + " doesn't exist, using default configuration"
             + clr.ENDC)
         return default_conf
@@ -135,7 +135,7 @@ def create_core_launch_file(
     mot_cont = conf["ubiquity_motor"]
     vel_cont = conf["ubiquity_velocity_controller"]
     joint_pub = conf["ubiquity_joint_publisher"]
-    
+
     try:
         with open(em_path) as em_launch_file:
             em_launch = em_launch_file.read()
@@ -167,7 +167,7 @@ def create_core_launch_file(
                     "fw_max_speed_rev": str(mot_cont["fw_max_speed_rev"]),
                     "pid_moving_buffer_size": str(mot_cont["pid_moving_buffer_size"]),
                     "pid_velocity": str(mot_cont["pid_velocity"]),
-                    
+
                     "joint_controller_type": str(joint_pub["type"]),
                     "joint_controller_publish_rate": str(joint_pub["publish_rate"]),
 
@@ -189,11 +189,13 @@ def create_core_launch_file(
                     "lin_max_velocity": str(vel_cont["linear"]["x"]["max_velocity"]),
                     "lin_has_acceleration_limits": str(vel_cont["linear"]["x"]["has_acceleration_limits"]),
                     "lin_max_acceleration": str(vel_cont["linear"]["x"]["max_acceleration"]),
+                    "lin_min_acceleration": str(vel_cont["linear"]["x"]["min_acceleration"]),
 
                     "ang_has_velocity_limits": str(vel_cont["angular"]["z"]["has_velocity_limits"]),
                     "ang_max_velocity": str(vel_cont["angular"]["z"]["max_velocity"]),
                     "ang_has_acceleration_limits": str(vel_cont["angular"]["z"]["has_acceleration_limits"]),
                     "ang_max_acceleration": str(vel_cont["angular"]["z"]["max_acceleration"]),
+                    "ang_min_acceleration": str(vel_cont["angular"]["z"]["min_acceleration"]),
                 },
             )
     except FileNotFoundError:
@@ -211,7 +213,7 @@ def create_core_launch_file(
 
 
 """
-If the first file exists, return it, otherwise return the second file. 
+If the first file exists, return it, otherwise return the second file.
 If none of them exists returns empty string.
 
 :param first_path: The path to the file you want to find
@@ -413,7 +415,7 @@ def main():
             print(clr.OK
                 + "Launch check OK"
                 + clr.ENDC)
-        
+
 
 if __name__ == "__main__":
     main()
