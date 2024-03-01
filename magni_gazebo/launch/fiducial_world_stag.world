@@ -87,10 +87,10 @@
       <heading_deg>0</heading_deg>
     </spherical_coordinates>
     <state world_name='default'>
-      <sim_time>37703 664000000</sim_time>
-      <real_time>35940 327370626</real_time>
-      <wall_time>1709239795 773715289</wall_time>
-      <iterations>35898876</iterations>
+      <sim_time>40778 609000000</sim_time>
+      <real_time>274 453116898</real_time>
+      <wall_time>1709896326 71178832</wall_time>
+      <iterations>271302</iterations>
       <model name='brick_box_3x1x3'>
         <pose>-1.70274 7.74168 0 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -231,6 +231,16 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
+      <model name='brick_box_3x1x3_clone_3_clone_clone'>
+        <pose>-22.5575 -11.0392 0 0 -0 2.46081</pose>
+        <scale>1 1 1</scale>
+        <link name='chassis'>
+          <pose>-22.5575 -11.0392 1.5 0 -0 2.46081</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
       <model name='brick_box_3x1x3_clone_4'>
         <pose>10.5723 -4.69733 0 0 0 -1.57276</pose>
         <scale>1 1 1</scale>
@@ -292,100 +302,100 @@
         </link>
       </model>
       <model name='stag-2000'>
-        <pose>0.679903 0.016524 0 0 -0 0</pose>
+        <pose>1.00946 0.035142 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>0.679903 0.016524 0 0 -0 0</pose>
+          <pose>1.00946 0.035142 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-2000_0'>
-        <pose>-1.78814 5.36288 0 0 -0 0</pose>
+        <pose>-8.74811 9.04326 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-1.78814 5.36288 0 0 -0 0</pose>
+          <pose>-8.74811 9.04326 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-2001'>
-        <pose>0.498172 -4.73103 0 0 -0 0</pose>
+        <pose>-0.859211 -6.31872 0 0 0 -3.05789</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>0.498172 -4.73103 0 0 -0 0</pose>
+          <pose>-0.859211 -6.31872 0 0 0 -3.05789</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-2001_0'>
-        <pose>-5.12255 6.07818 0 0 -0 0</pose>
+        <pose>-5.12255 6.07818 0 0 0 -3.12462</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-5.12255 6.07818 0 0 -0 0</pose>
+          <pose>-5.12255 6.07818 0 0 0 -3.12462</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-2002'>
-        <pose>1.20881 -3.24627 0 0 -0 0</pose>
+        <pose>1.19885 -3.28434 0 0 0 -1.9888</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>1.20881 -3.24627 0 0 -0 0</pose>
+          <pose>1.19885 -3.28434 0 0 0 -1.9888</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-2003'>
-        <pose>-2.21603 0.027428 0 0 -0 0</pose>
+        <pose>-2.12113 0.034986 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-2.21603 0.027428 0 0 -0 0</pose>
+          <pose>-2.12113 0.034986 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-2003_0'>
-        <pose>-8.68718 6.10719 0 0 -0 0</pose>
+        <pose>-8.68718 6.10719 0 0 -0 1.57619</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-8.68718 6.10719 0 0 -0 0</pose>
+          <pose>-8.68718 6.10719 0 0 -0 1.57619</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-2004'>
-        <pose>5.09901 -3.22279 0 0 -0 0</pose>
+        <pose>5.09901 -3.22279 0 0 0 -1.11077</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>5.09901 -3.22279 0 0 -0 0</pose>
+          <pose>5.09901 -3.22279 0 0 0 -1.11077</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-2005'>
-        <pose>3.00845 -6.4097 0 0 -0 0</pose>
+        <pose>3.00845 -6.4097 0 0 -0 3.13807</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>3.00845 -6.4097 0 0 -0 0</pose>
+          <pose>3.00845 -6.4097 0 0 -0 3.13807</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-2006'>
-        <pose>-3.18775 -2.78376 0 0 -0 0</pose>
+        <pose>-3.56 -2.62137 0 0 -0 1.20236</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-3.18775 -2.78376 0 0 -0 0</pose>
+          <pose>-3.56 -2.62137 -0 0 -0 1.20236</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -402,30 +412,30 @@
         </link>
       </model>
       <model name='stag-500'>
-        <pose>3.63361 0.021224 0 0 -0 0</pose>
+        <pose>3.6975 -0.006963 0 0 0 -2.22259</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>3.63361 0.021224 0 0 -0 0</pose>
+          <pose>3.6975 -0.006963 0 0 0 -2.22259</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-500_0'>
-        <pose>3.29957 5.42899 0 0 -0 0</pose>
+        <pose>1.29753 5.39359 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>3.29957 5.42899 0 0 -0 0</pose>
+          <pose>1.29753 5.39359 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-500_1'>
-        <pose>-6.19286 9.02728 0 0 -0 0</pose>
+        <pose>-6.19286 9.02728 0 0 0 -2.27068</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-6.19286 9.02728 0 0 -0 0</pose>
+          <pose>-6.19286 9.02728 0 0 0 -2.27068</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -442,60 +452,60 @@
         </link>
       </model>
       <model name='stag-501'>
-        <pose>3.39026 -2.383 0 0 -0 0</pose>
+        <pose>3.9308 -0.226003 0 0 0 -1.0668</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>3.39026 -2.383 0 0 -0 0</pose>
+          <pose>3.9308 -0.226003 0 0 0 -1.0668</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-501_0'>
-        <pose>6.90478 5.71319 0 0 -0 0</pose>
+        <pose>3.66844 4.91263 -0.149948 0 -0 1.58321</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>6.90478 5.71319 0 0 -0 0</pose>
+          <pose>3.66844 4.91263 -0.149948 0 -0 1.58321</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-501_1'>
-        <pose>3.28026 5.09598 0 0 -0 0</pose>
+        <pose>1.16522 5.14746 0 0 0 -1.57872</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>3.28026 5.09598 0 0 -0 0</pose>
+          <pose>1.16522 5.14746 0 0 0 -1.57872</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-501_2'>
-        <pose>-5.82474 9.05538 0 0 -0 0</pose>
+        <pose>-5.82474 9.05538 0 0 0 -1.24877</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-5.82474 9.05538 0 0 -0 0</pose>
+          <pose>-5.82474 9.05538 0 0 0 -1.24877</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-502'>
-        <pose>-4.78622 -4.82692 0 0 -0 0</pose>
+        <pose>-4.87125 -6.31886 0 0 -0 1.27928</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-4.78622 -4.82692 0 0 -0 0</pose>
+          <pose>-4.87125 -6.31886 0 0 -0 1.27928</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-502_0'>
-        <pose>7.04436 7.94382 0 0 -0 0</pose>
+        <pose>6.98577 8.68503 0 0 0 -1.55286</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>7.04436 7.94382 0 0 -0 0</pose>
+          <pose>6.98577 8.68503 0 0 0 -1.55286</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -512,20 +522,20 @@
         </link>
       </model>
       <model name='stag-503'>
-        <pose>4.38301 -3.0756 0 0 -0 0</pose>
+        <pose>6.6827 -5.92098 0 0 0 -3.09858</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>4.38301 -3.0756 0 0 -0 0</pose>
+          <pose>6.6827 -5.92098 0 0 0 -3.09858</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-503_0'>
-        <pose>6.90601 8.28231 0 0 -0 0</pose>
+        <pose>6.72514 8.7904 0 0 0 -3.10739</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>6.90601 8.28231 0 0 -0 0</pose>
+          <pose>6.72514 8.7904 0 0 0 -3.10739</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -542,20 +552,20 @@
         </link>
       </model>
       <model name='stag-504'>
-        <pose>-5.01019 -4.66192 0 0 -0 0</pose>
+        <pose>-5.14523 -6.25426 0 0 -0 1.67214</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-5.01019 -4.66192 0 0 -0 0</pose>
+          <pose>-5.14523 -6.25426 0 0 -0 1.67214</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-504_0'>
-        <pose>6.78669 5.32138 0 0 -0 0</pose>
+        <pose>6.73316 5.3055 0 0 0 -3.11023</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>6.78669 5.32138 0 0 -0 0</pose>
+          <pose>6.73316 5.3055 0 0 0 -3.11023</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -572,20 +582,20 @@
         </link>
       </model>
       <model name='stag-505'>
-        <pose>-5.203 -0.033874 0 0 -0 0</pose>
+        <pose>-5.19033 -0.009099 0 -0.000184 -0.002064 0.08882</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-5.203 -0.033874 0 0 -0 0</pose>
+          <pose>-5.19033 -0.009099 0 -0.000184 -0.002064 0.08882</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-505_0'>
-        <pose>3.26402 2.745 0 0 -0 0</pose>
+        <pose>1.20226 2.39485 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>3.26402 2.745 0 0 -0 0</pose>
+          <pose>1.20226 2.39485 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -602,40 +612,40 @@
         </link>
       </model>
       <model name='stag-506_0'>
-        <pose>6.24315 2.56181 0 0 -0 0</pose>
+        <pose>6.5621 2.29429 0 0 -0 1.48854</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>6.24315 2.56181 0 0 -0 0</pose>
+          <pose>6.5621 2.29429 0 0 -0 1.48854</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-507'>
-        <pose>8.01455 -0.0043 0 0 -0 0</pose>
+        <pose>8.01455 -0.0043 0 0 0 -1.78121</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>8.01455 -0.0043 0 0 -0 0</pose>
+          <pose>8.01455 -0.0043 0 0 0 -1.78121</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-507_0'>
-        <pose>3.55502 5.28156 0 0 -0 0</pose>
+        <pose>6.85208 5.56319 0 0 -0 1.55348</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>3.55502 5.28156 0 0 -0 0</pose>
+          <pose>6.85208 5.56319 0 0 -0 1.55348</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-508'>
-        <pose>-5.29625 -0.033844 0 0 -0 0</pose>
+        <pose>-5.36882 0.246675 0 0 -0 1.61151</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-5.29625 -0.033844 0 0 -0 0</pose>
+          <pose>-5.36882 0.246675 0 0 -0 1.61151</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -652,10 +662,10 @@
         </link>
       </model>
       <model name='stag-509'>
-        <pose>-14.6673 -1.78376 0 0 0 -3.02734</pose>
+        <pose>-14.518 -1.76663 0 0 0 -3.02734</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-14.6673 -1.78376 0 0 0 -3.02734</pose>
+          <pose>-14.518 -1.76663 0 0 0 -3.02734</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -672,30 +682,30 @@
         </link>
       </model>
       <model name='stag-7000'>
-        <pose>4.87657 4.82094 0 0 -0 0</pose>
+        <pose>4.11074 8.80539 0 0 -0 0.017471</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>4.87657 4.82094 0 0 -0 0</pose>
+          <pose>4.11074 8.80539 0 0 -0 0.017471</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-7000_0'>
-        <pose>-18.0132 -4.60037 0 0 0 -1.56096</pose>
+        <pose>-18.0132 -4.60037 0 0 0 -1.59673</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-18.0132 -4.60037 0 0 0 -1.56096</pose>
+          <pose>-18.0132 -4.60037 0 0 0 -1.59673</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-7001'>
-        <pose>4.99587 7.71565 0 0 -0 0</pose>
+        <pose>4.24411 5.34387 0 0 0 -3.08038</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>4.99587 7.71565 0 0 -0 0</pose>
+          <pose>4.24411 5.34387 0 0 0 -3.08038</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -712,20 +722,20 @@
         </link>
       </model>
       <model name='stag-8000'>
-        <pose>-5.28529 2.85022 0 0 -0 0</pose>
+        <pose>-5.28529 2.85022 0 0 0 -1.59608</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-5.28529 2.85022 0 0 -0 0</pose>
+          <pose>-5.28529 2.85022 0 0 0 -1.59608</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='stag-8000_0'>
-        <pose>3.36003 8.17889 0 0 -0 0</pose>
+        <pose>1.38481 8.66301 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>3.36003 8.17889 0 0 -0 0</pose>
+          <pose>1.38481 8.66301 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -737,7 +747,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>-14.4884 -1.68191 48.5046 4e-06 1.5698 -1.49216</pose>
+        <pose>-13.5455 -0.823782 35.8004 0 1.40169 -1.56801</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
@@ -5110,6 +5120,51 @@
       <static>1</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose>-19.3171 -4.08769 0 0 -0 0</pose>
+    </model>
+    <model name='brick_box_3x1x3_clone_3_clone_clone'>
+      <static>1</static>
+      <link name='chassis'>
+        <pose>0 0 1.5 0 -0 0</pose>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>3 1 3</size>
+            </box>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>model://brick_box_3x1x3/meshes/simple_box.dae</uri>
+              <scale>3 1 3</scale>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>model://brick_box_3x1x3/materials/scripts</uri>
+              <uri>model://brick_box_3x1x3/materials/textures</uri>
+              <name>BrickBox/Diffuse</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>-20.682 -10.6546 0 0 0 -1.57276</pose>
     </model>
   </world>
 </sdf>
