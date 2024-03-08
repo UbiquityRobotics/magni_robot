@@ -1,0 +1,32 @@
+<?xml version='1.0'?>
+ 	<sdf version='1.6'>
+ 	<model name='stag-8061'>
+ 		<link name='link'>
+ 			<kinematic>0</kinematic>
+ 			<visual name='visual'>
+ 				<geometry>
+ 					<box>
+ 						<size>0.335 0.285 0.001</size>
+ 					</box>
+ 				</geometry>
+ 				<material>
+ 					<script>
+ 						<uri>model://STOP-stag-8061/material/scripts</uri>
+ 						<uri>model://STOP-stag-8061/material/texture</uri>
+ 						<name>stag-8061/Diffuse</name> 
+ 					</script>
+ 				</material>
+ 				<transparency>0</transparency>
+ 			</visual>
+ 			<collision name='collision'>
+ 				<geometry>
+ 					<box>
+ 					<size>0 0 0</size>
+ 					</box>
+ 				</geometry>
+ 		</collision>
+ 	</link>
+ 	<static>1</static>
+ 	<allow_auto_disable>1</allow_auto_disable>
+ 	</model>
+ </sdf>

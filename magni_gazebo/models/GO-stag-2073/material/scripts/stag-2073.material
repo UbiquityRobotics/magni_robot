@@ -1,0 +1,13 @@
+material stag-2073/Diffuse{
+ 	technique{
+ 		pass{
+ 			scene_blend alpha_blend
+ 			depth_write off
+ 			depth_check on
+ 			lighting off
+ 			texture_unit{
+ 				texture stag-2073.png
+ 			}
+ 		}
+ 	}
+  }

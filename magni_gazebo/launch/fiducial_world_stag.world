@@ -87,10 +87,10 @@
       <heading_deg>0</heading_deg>
     </spherical_coordinates>
     <state world_name='default'>
-      <sim_time>40778 609000000</sim_time>
-      <real_time>274 453116898</real_time>
-      <wall_time>1709896326 71178832</wall_time>
-      <iterations>271302</iterations>
+      <sim_time>46997 808000000</sim_time>
+      <real_time>6228 781894755</real_time>
+      <wall_time>1710704847 374425248</wall_time>
+      <iterations>6219199</iterations>
       <model name='brick_box_3x1x3'>
         <pose>-1.70274 7.74168 0 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -741,13 +741,23 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
+      <model name='stag-8000_clone'>
+        <pose>-16.2762 -1.96961 0 0 0 -3.01332</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>-16.2762 -1.96961 0 0 0 -3.01332</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
       <light name='sun'>
         <pose>0 0 10 0 -0 0</pose>
       </light>
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>-13.5455 -0.823782 35.8004 0 1.40169 -1.56801</pose>
+        <pose>-18.6837 -1.81221 11.8393 0 1.43369 -1.47202</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
@@ -5165,6 +5175,96 @@
         <kinematic>0</kinematic>
       </link>
       <pose>-20.682 -10.6546 0 0 0 -1.57276</pose>
+    </model>
+    <model name='stag-8000_clone'>
+      <link name='link'>
+        <inertial>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.19</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.19</iyy>
+            <iyz>0</iyz>
+            <izz>0.19</izz>
+          </inertia>
+        </inertial>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>0.335 0.285 0.001</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>model://STOP-stag-8000/material/scripts</uri>
+              <uri>model://STOP-stag-8000/material/texture</uri>
+              <name>stag-8000/Diffuse</name>
+            </script>
+          </material>
+          <transparency>0</transparency>
+        </visual>
+        <collision name='collision'>
+          <laser_retro>0</laser_retro>
+          <max_contacts>10</max_contacts>
+          <geometry>
+            <box>
+              <size>0.335 0.285 0.001</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
+              </ode>
+              <torsional>
+                <coefficient>1</coefficient>
+                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
+                <use_patch_radius>1</use_patch_radius>
+                <ode>
+                  <slip>0</slip>
+                </ode>
+              </torsional>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0</restitution_coefficient>
+              <threshold>1e+06</threshold>
+            </bounce>
+            <contact>
+              <collide_without_contact>0</collide_without_contact>
+              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+              <collide_bitmask>1</collide_bitmask>
+              <ode>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+                <max_vel>0.01</max_vel>
+                <min_depth>0</min_depth>
+              </ode>
+              <bullet>
+                <split_impulse>1</split_impulse>
+                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+              </bullet>
+            </contact>
+          </surface>
+        </collision>
+        <enable_wind>0</enable_wind>
+      </link>
+      <static>1</static>
+      <allow_auto_disable>1</allow_auto_disable>
+      <pose>-16.2824 -1.90932 0 0 0 -1.59608</pose>
     </model>
   </world>
 </sdf>
