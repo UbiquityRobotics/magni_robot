@@ -311,7 +311,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-2000_0'>
+      <model name='stag-2007'>
         <pose>-8.74811 9.04326 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -331,7 +331,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-2001_0'>
+      <model name='stag-2008'>
         <pose>-5.12255 6.07818 0 0 0 -3.12462</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -361,7 +361,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-2003_0'>
+      <model name='stag-2009'>
         <pose>-8.68718 6.10719 0 0 -0 1.57619</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -421,7 +421,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-500_0'>
+      <model name='stag-1'>
         <pose>1.29753 5.39359 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -431,7 +431,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-500_1'>
+      <model name='stag-2'>
         <pose>-6.19286 9.02728 0 0 0 -2.27068</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -441,7 +441,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-500_2'>
+      <model name='stag-3'>
         <pose>-14.5586 -2.9824 0 0 -0 1.58359</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -461,7 +461,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-501_0'>
+      <model name='stag-4'>
         <pose>3.66844 4.91263 -0.149948 0 -0 1.58321</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -471,7 +471,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-501_1'>
+      <model name='stag-16'>
         <pose>1.16522 5.14746 0 0 0 -1.57872</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -481,7 +481,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-501_2'>
+      <model name='stag-6'>
         <pose>-5.82474 9.05538 0 0 0 -1.24877</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -501,7 +501,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-502_0'>
+      <model name='stag-7'>
         <pose>6.98577 8.68503 0 0 0 -1.55286</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -511,7 +511,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-502_1'>
+      <model name='stag-8'>
         <pose>-17.9975 -6.07174 0 0 -0 1.58204</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -531,7 +531,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-503_0'>
+      <model name='stag-9'>
         <pose>6.72514 8.7904 0 0 0 -3.10739</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -541,7 +541,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-503_1'>
+      <model name='stag-10'>
         <pose>-17.8691 -3.01093 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -561,7 +561,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-504_0'>
+      <model name='stag-510'>
         <pose>6.73316 5.3055 0 0 0 -3.11023</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -571,7 +571,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-504_1'>
+      <model name='stag-11'>
         <pose>-18.1437 -3.03862 0 0 0 -1.52966</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -591,7 +591,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-505_0'>
+      <model name='stag-12'>
         <pose>1.20226 2.39485 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -611,7 +611,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-506_0'>
+      <model name='stag-13'>
         <pose>6.5621 2.29429 0 0 -0 1.48854</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -631,7 +631,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-507_0'>
+      <model name='stag-14'>
         <pose>6.85208 5.56319 0 0 -0 1.55348</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -651,7 +651,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-508_0'>
+      <model name='stag-15'>
         <pose>-17.9163 -2.14987 0 0 -0 2.81361</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -671,7 +671,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-510'>
+      <model name='stag-0'>
         <pose>-21.1092 -1.26122 0.001242 0 0 -0.929659</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -691,7 +691,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-7000_0'>
+      <model name='stag-7002'>
         <pose>-18.0132 -4.60037 0 0 0 -1.59673</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -731,7 +731,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-8000_0'>
+      <model name='stag-8002'>
         <pose>1.38481 8.66301 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -741,7 +741,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='stag-8000_clone'>
+      <model name='stag-8001'>
         <pose>-16.2762 -1.96961 0 0 0 -3.01332</pose>
         <scale>1 1 1</scale>
         <link name='link'>
@@ -2476,7 +2476,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>4.99587 7.71565 0 0 -0 0</pose>
     </model>
-    <model name='stag-8000_0'>
+    <model name='stag-8002'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -2499,9 +2499,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://STOP-stag-8000/material/scripts</uri>
-              <uri>model://STOP-stag-8000/material/texture</uri>
-              <name>stag-8000/Diffuse</name>
+              <uri>model://STOP-stag-8002/material/scripts</uri>
+              <uri>model://STOP-stag-8002/material/texture</uri>
+              <name>stag-8002/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -2566,7 +2566,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>3.36003 8.17889 0 0 -0 0</pose>
     </model>
-    <model name='stag-503_0'>
+    <model name='stag-9'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -2589,9 +2589,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://TURN-stag-503/material/scripts</uri>
-              <uri>model://TURN-stag-503/material/texture</uri>
-              <name>stag-503/Diffuse</name>
+              <uri>model://TURN-stag-9/material/scripts</uri>
+              <uri>model://TURN-stag-9/material/texture</uri>
+              <name>stag-9/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -2656,7 +2656,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>6.90601 8.28231 0 0 -0 0</pose>
     </model>
-    <model name='stag-502_0'>
+    <model name='stag-7'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -2679,9 +2679,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://TURN-stag-502/material/scripts</uri>
-              <uri>model://TURN-stag-502/material/texture</uri>
-              <name>stag-502/Diffuse</name>
+              <uri>model://TURN-stag-7/material/scripts</uri>
+              <uri>model://TURN-stag-7/material/texture</uri>
+              <name>stag-7/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -2746,7 +2746,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>7.04436 7.94382 0 0 -0 0</pose>
     </model>
-    <model name='stag-501_0'>
+    <model name='stag-4'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -2769,9 +2769,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://TURN-stag-501/material/scripts</uri>
-              <uri>model://TURN-stag-501/material/texture</uri>
-              <name>stag-501/Diffuse</name>
+              <uri>model://TURN-stag-4/material/scripts</uri>
+              <uri>model://TURN-stag-4/material/texture</uri>
+              <name>stag-4/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -2836,7 +2836,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>6.90478 5.71319 0 0 -0 0</pose>
     </model>
-    <model name='stag-507_0'>
+    <model name='stag-14'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -2859,9 +2859,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://TURN-stag-507/material/scripts</uri>
-              <uri>model://TURN-stag-507/material/texture</uri>
-              <name>stag-507/Diffuse</name>
+              <uri>model://TURN-stag-14/material/scripts</uri>
+              <uri>model://TURN-stag-14/material/texture</uri>
+              <name>stag-14/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -2926,7 +2926,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>3.55502 5.28156 0 0 -0 0</pose>
     </model>
-    <model name='stag-504_0'>
+    <model name='stag-510'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -2949,9 +2949,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://TURN-stag-504/material/scripts</uri>
-              <uri>model://TURN-stag-504/material/texture</uri>
-              <name>stag-504/Diffuse</name>
+              <uri>model://TURN-stag-510/material/scripts</uri>
+              <uri>model://TURN-stag-510/material/texture</uri>
+              <name>stag-510/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -3016,7 +3016,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>6.78669 5.32138 0 0 -0 0</pose>
     </model>
-    <model name='stag-500_0'>
+    <model name='stag-1'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -3039,9 +3039,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://TURN-stag-500/material/scripts</uri>
-              <uri>model://TURN-stag-500/material/texture</uri>
-              <name>stag-500/Diffuse</name>
+              <uri>model://TURN-stag-1/material/scripts</uri>
+              <uri>model://TURN-stag-1/material/texture</uri>
+              <name>stag-1/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -3106,7 +3106,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>3.29957 5.42899 0 0 -0 0</pose>
     </model>
-    <model name='stag-501_1'>
+    <model name='stag-16'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -3129,9 +3129,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://TURN-stag-501/material/scripts</uri>
-              <uri>model://TURN-stag-501/material/texture</uri>
-              <name>stag-501/Diffuse</name>
+              <uri>model://TURN-stag-16/material/scripts</uri>
+              <uri>model://TURN-stag-16/material/texture</uri>
+              <name>stag-16/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -3196,7 +3196,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>3.28026 5.09598 0 0 -0 0</pose>
     </model>
-    <model name='stag-506_0'>
+    <model name='stag-13'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -3219,9 +3219,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://TURN-stag-506/material/scripts</uri>
-              <uri>model://TURN-stag-506/material/texture</uri>
-              <name>stag-506/Diffuse</name>
+              <uri>model://TURN-stag-13/material/scripts</uri>
+              <uri>model://TURN-stag-13/material/texture</uri>
+              <name>stag-13/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -3286,7 +3286,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>6.24315 2.56181 0 0 -0 0</pose>
     </model>
-    <model name='stag-505_0'>
+    <model name='stag-12'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -3309,9 +3309,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://TURN-stag-505/material/scripts</uri>
-              <uri>model://TURN-stag-505/material/texture</uri>
-              <name>stag-505/Diffuse</name>
+              <uri>model://TURN-stag-12/material/scripts</uri>
+              <uri>model://TURN-stag-12/material/texture</uri>
+              <name>stag-12/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -3376,7 +3376,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>3.26402 2.745 0 0 -0 0</pose>
     </model>
-    <model name='stag-2000_0'>
+    <model name='stag-2007'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -3399,9 +3399,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://GO-stag-2000/material/scripts</uri>
-              <uri>model://GO-stag-2000/material/texture</uri>
-              <name>stag-2000/Diffuse</name>
+              <uri>model://GO-stag-2007/material/scripts</uri>
+              <uri>model://GO-stag-2007/material/texture</uri>
+              <name>stag-2007/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -3466,7 +3466,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>-1.78814 5.36288 0 0 -0 0</pose>
     </model>
-    <model name='stag-500_1'>
+    <model name='stag-2'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -3489,9 +3489,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://TURN-stag-500/material/scripts</uri>
-              <uri>model://TURN-stag-500/material/texture</uri>
-              <name>stag-500/Diffuse</name>
+              <uri>model://TURN-stag-2/material/scripts</uri>
+              <uri>model://TURN-stag-2/material/texture</uri>
+              <name>stag-2/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -3556,7 +3556,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>-6.19286 9.02728 0 0 -0 0</pose>
     </model>
-    <model name='stag-501_2'>
+    <model name='stag-6'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -3579,9 +3579,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://TURN-stag-501/material/scripts</uri>
-              <uri>model://TURN-stag-501/material/texture</uri>
-              <name>stag-501/Diffuse</name>
+              <uri>model://TURN-stag-6/material/scripts</uri>
+              <uri>model://TURN-stag-6/material/texture</uri>
+              <name>stag-6/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -3646,7 +3646,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>-5.82474 9.05538 0 0 -0 0</pose>
     </model>
-    <model name='stag-2001_0'>
+    <model name='stag-2008'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -3669,9 +3669,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://GO-stag-2001/material/scripts</uri>
-              <uri>model://GO-stag-2001/material/texture</uri>
-              <name>stag-2001/Diffuse</name>
+              <uri>model://GO-stag-2008/material/scripts</uri>
+              <uri>model://GO-stag-2008/material/texture</uri>
+              <name>stag-2008/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -3736,7 +3736,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>-5.12255 6.07818 0 0 -0 0</pose>
     </model>
-    <model name='stag-2003_0'>
+    <model name='stag-2009'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -3759,9 +3759,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://GO-stag-2003/material/scripts</uri>
-              <uri>model://GO-stag-2003/material/texture</uri>
-              <name>stag-2003/Diffuse</name>
+              <uri>model://GO-stag-2009/material/scripts</uri>
+              <uri>model://GO-stag-2009/material/texture</uri>
+              <name>stag-2009/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -4591,7 +4591,7 @@
       </link>
       <pose>-0.245056 -9.60493 0 0 0 -3.11959</pose>
     </model>
-    <model name='stag-7000_0'>
+    <model name='stag-7002'>
       <link name='link'>
         <kinematic>0</kinematic>
         <visual name='visual'>
@@ -4602,9 +4602,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://BIDIR-stag-7000/material/scripts</uri>
-              <uri>model://BIDIR-stag-7000/material/texture</uri>
-              <name>stag-7000/Diffuse</name>
+              <uri>model://BIDIR-stag-7002/material/scripts</uri>
+              <uri>model://BIDIR-stag-7002/material/texture</uri>
+              <name>stag-7002/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -4636,7 +4636,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>-23.3599 -5.32125 0 0 -0 0</pose>
     </model>
-    <model name='stag-502_1'>
+    <model name='stag-8'>
       <link name='link'>
         <kinematic>0</kinematic>
         <visual name='visual'>
@@ -4647,9 +4647,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://TURN-stag-502/material/scripts</uri>
-              <uri>model://TURN-stag-502/material/texture</uri>
-              <name>stag-502/Diffuse</name>
+              <uri>model://TURN-stag-8/material/scripts</uri>
+              <uri>model://TURN-stag-8/material/texture</uri>
+              <name>stag-8/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -4681,7 +4681,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>-23.2968 -7.40421 0 0 -0 0</pose>
     </model>
-    <model name='stag-503_1'>
+    <model name='stag-10'>
       <link name='link'>
         <kinematic>0</kinematic>
         <visual name='visual'>
@@ -4692,9 +4692,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://TURN-stag-503/material/scripts</uri>
-              <uri>model://TURN-stag-503/material/texture</uri>
-              <name>stag-503/Diffuse</name>
+              <uri>model://TURN-stag-10/material/scripts</uri>
+              <uri>model://TURN-stag-10/material/texture</uri>
+              <name>stag-10/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -4726,7 +4726,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>-23.1 -2.97391 0 0 -0 0</pose>
     </model>
-    <model name='stag-504_1'>
+    <model name='stag-11'>
       <link name='link'>
         <kinematic>0</kinematic>
         <visual name='visual'>
@@ -4737,9 +4737,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://TURN-stag-504/material/scripts</uri>
-              <uri>model://TURN-stag-504/material/texture</uri>
-              <name>stag-504/Diffuse</name>
+              <uri>model://TURN-stag-11/material/scripts</uri>
+              <uri>model://TURN-stag-11/material/texture</uri>
+              <name>stag-11/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -4861,7 +4861,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>-19.8457 -3.06064 0 0 -0 0</pose>
     </model>
-    <model name='stag-508_0'>
+    <model name='stag-15'>
       <link name='link'>
         <kinematic>0</kinematic>
         <visual name='visual'>
@@ -4872,9 +4872,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://TURN-stag-508/material/scripts</uri>
-              <uri>model://TURN-stag-508/material/texture</uri>
-              <name>stag-508/Diffuse</name>
+              <uri>model://TURN-stag-15/material/scripts</uri>
+              <uri>model://TURN-stag-15/material/texture</uri>
+              <name>stag-15/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -4906,7 +4906,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>-17.9296 -1.6404 0 0 -0 0</pose>
     </model>
-    <model name='stag-500_2'>
+    <model name='stag-3'>
       <link name='link'>
         <kinematic>0</kinematic>
         <visual name='visual'>
@@ -4917,9 +4917,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://TURN-stag-500/material/scripts</uri>
-              <uri>model://TURN-stag-500/material/texture</uri>
-              <name>stag-500/Diffuse</name>
+              <uri>model://TURN-stag-3/material/scripts</uri>
+              <uri>model://TURN-stag-3/material/texture</uri>
+              <name>stag-3/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -4951,7 +4951,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>-15.3647 -2.98382 0 0 -0 0</pose>
     </model>
-    <model name='stag-510'>
+    <model name='stag-0'>
       <link name='link'>
         <kinematic>0</kinematic>
         <visual name='visual'>
@@ -4962,9 +4962,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://TURN-stag-510/material/scripts</uri>
-              <uri>model://TURN-stag-510/material/texture</uri>
-              <name>stag-510/Diffuse</name>
+              <uri>model://TURN-stag-0/material/scripts</uri>
+              <uri>model://TURN-stag-0/material/texture</uri>
+              <name>stag-0/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
@@ -5176,7 +5176,7 @@
       </link>
       <pose>-20.682 -10.6546 0 0 0 -1.57276</pose>
     </model>
-    <model name='stag-8000_clone'>
+    <model name='stag-8001'>
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -5199,9 +5199,9 @@
           </geometry>
           <material>
             <script>
-              <uri>model://STOP-stag-8000/material/scripts</uri>
-              <uri>model://STOP-stag-8000/material/texture</uri>
-              <name>stag-8000/Diffuse</name>
+              <uri>model://STOP-stag-8001/material/scripts</uri>
+              <uri>model://STOP-stag-8001/material/texture</uri>
+              <name>stag-8001/Diffuse</name>
             </script>
           </material>
           <transparency>0</transparency>
