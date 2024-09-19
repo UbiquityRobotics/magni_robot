@@ -242,4 +242,25 @@
     </xacro:ur50_lidar>
   </xacro:if>
 
+ <!-- ROS 2 Control block -->
+  <ros2_control name="ubiquity_motor_ros2/MotorHardware" type="system">
+    <hardware>
+      <plugin>ubiquity_motor_ros2/MotorHardware</plugin>
+    </hardware>
+
+    <joint name="left_wheel_joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+
+    <joint name="right_wheel_joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+  </ros2_control>
+
 </robot>
