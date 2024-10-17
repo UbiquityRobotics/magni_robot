@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package format="2">
+<package format="3">
   <name>magni_desktop</name>
   <version>0.6.1</version>
   <description>Meta package for all the desktop side utilities for magni</description>
@@ -17,5 +17,6 @@
   <export>
     <!-- Other tools can request additional information be placed here -->
     <metapackage />
+    <!-- <build_type>ament_cmake</build_type> -->
   </export>
 </package>

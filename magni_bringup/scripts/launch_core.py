@@ -1,22 +1,25 @@
 #!/usr/bin/python3
 
 import sys, os, subprocess, time, argparse
-import roslaunch, rospkg
+import launch, rospkg
 import yaml
 import smbus  # used for the hw rev stuff
 import em
 from collections import abc
+from ament_index_python.packages import get_package_share_directory
 
 rp = rospkg.RosPack()
+
+print(rp.get_path("magni_teleop"))
 
 # Path to the robot.yaml on the robot (not tracked by git)
 conf_path = "/etc/ubiquity/robot.yaml"
 
 # Path to the default_robot.yaml config inside magni_robot repo (git tracked)
-default_conf_path = rp.get_path("magni_bringup") + "/config/default_robot.yaml"
+default_conf_path = get_package_share_directory("magni_bringup") + "/config/default_robot.yaml"
 
 # Path to the .em file from which the core.launch is generated
-core_em_path = rp.get_path("magni_bringup") + "/launch/core_launch.em"
+core_em_path = get_package_share_directory("magni_bringup") + "/launch/core_launch.em"
 
 #Color codes for printing in shell
 class clr:
@@ -322,7 +325,7 @@ def main():
         2.) in package magni_description/extrinsics/<SENSOR>_extrinsics_<POSITION>.yaml
     If no file was found, do not load the sensor in urdf
     """
-    magni_description_path = rp.get_path("magni_description")
+    magni_description_path = get_package_share_directory("magni_description")
 
     camera_extr_file = ""
     lidar_extr_file = ""
@@ -389,30 +392,35 @@ def main():
         board_rev=boardRev,
     )
 
+
     if not create_success:
         print(clr.ERROR + "ERROR: Creating launch file did not succeed" + clr.ENDC)
         return
     else:
         print(clr.OK + "Launch file generated at " + arguments.launch_generate_path + clr.ENDC)
 
-    # only launch the generated launch if not in debug mode
-    if arguments.debug != True:
-        print("Launching with command: roslaunch " + arguments.launch_generate_path)
-        sys.argv = ["roslaunch", arguments.launch_generate_path]
-        roslaunch.main(sys.argv)
-    else:
-        print("In debug mode the generated roslaunch is not launched")
+    # If not in debug mode, launch the generated launch file
+    if not arguments.debug:
+        print("Launching with command: ros2 launch " + arguments.launch_generate_path)
 
-        print("Executing 'rosrun roslaunch roslaunch-check " + arguments.launch_generate_path+"'")
-        output, success = feedback_popen("rosrun roslaunch roslaunch-check " + arguments.launch_generate_path, os.environ['HOME'])
-        if str(output).find("FAILURE") > 0:
-            print(clr.ERROR
-                + "LAUNCH CHECK FAILURE:")
-            print(output)
+        # Set the arguments for launching the file
+        launch_service = launch.LaunchService(argv=['ros2', 'launch', arguments.launch_generate_path])
+        launch_service.run()
+    else:
+        print("In debug mode, the generated ROS 2 launch is not launched")
+
+        # Launch-check for debugging purposes
+        print(f"Executing 'ros2 launch-check {arguments.launch_generate_path}'")
+        command = f"ros2 launch-check {arguments.launch_generate_path}"
+        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output, error = process.communicate()
+
+        if "FAILURE" in str(output):
+            print(clr.ERROR + "LAUNCH CHECK FAILURE:")
+            print(output.decode('utf-8'))
         else:
-            print(clr.OK
-                + "Launch check OK"
-                + clr.ENDC)
+            print(clr.OK + "Launch check OK" + clr.ENDC)
+
         
 
 if __name__ == "__main__":

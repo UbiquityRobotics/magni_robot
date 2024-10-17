@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package format="2">
+<package format="3">
   <name>magni_gazebo</name>
   <version>0.6.1</version>
   <description>The magni_gazebo package</description>
@@ -7,7 +7,7 @@
   <maintainer email="send2arohan@gmail.com">Rohan Agrawal</maintainer>
   <license>BSD</license>
 
-  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
   <exec_depend>magni_description</exec_depend>
   <exec_depend>gazebo_ros</exec_depend>
   <exec_depend>gazebo_ros_control</exec_depend>
@@ -19,6 +19,7 @@
 
   <export>
     <gazebo_ros gazebo_media_path="${prefix}"/>
+    <build_type>ament_cmake</build_type>
   </export>
 
 </package>

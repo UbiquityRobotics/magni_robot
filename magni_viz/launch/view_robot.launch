@@ -1,4 +1,0 @@
-<launch>
-  <node pkg="rviz" type="rviz" name="$(anon rviz)"
-        args="-d $(find magni_viz)/rviz/view_robot.rviz"/>
-</launch>
