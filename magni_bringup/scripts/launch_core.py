@@ -7,10 +7,13 @@ import smbus  # used for the hw rev stuff
 import em
 from collections import abc
 from ament_index_python.packages import get_package_share_directory
+from launch import LaunchService, LaunchDescription
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import AnyLaunchDescriptionSource
 
 rp = rospkg.RosPack()
 
-print(rp.get_path("magni_teleop"))
+#print(rp.get_path("magni_teleop"))
 
 # Path to the robot.yaml on the robot (not tracked by git)
 conf_path = "/etc/ubiquity/robot.yaml"
@@ -257,7 +260,7 @@ def main():
     )
     parser.add_argument(
         "--launch_generate_path",
-        default="/tmp/generated_core.launch",
+        default="/tmp/generated_core.launch.py",
         help="Generate the launch file to this path",
     )
     arguments, unknown = parser.parse_known_args()
@@ -403,8 +406,18 @@ def main():
     if not arguments.debug:
         print("Launching with command: ros2 launch " + arguments.launch_generate_path)
 
-        # Set the arguments for launching the file
-        launch_service = launch.LaunchService(argv=['ros2', 'launch', arguments.launch_generate_path])
+        #create new launch service
+        launch_service = LaunchService()
+
+        # Include a generated launch file
+        launch_description = LaunchDescription([
+            IncludeLaunchDescription(
+                AnyLaunchDescriptionSource(arguments.launch_generate_path)
+            )
+        ])
+
+        # Add and run the launch description
+        launch_service.include_launch_description(launch_description)
         launch_service.run()
     else:
         print("In debug mode, the generated ROS 2 launch is not launched")

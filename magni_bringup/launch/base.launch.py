@@ -9,12 +9,12 @@ import os
 def generate_launch_description():
     # Get package directories
     magni_bringup_pkg = get_package_share_directory('magni_bringup')
-    magni_teleop_pkg = get_package_share_directory('magni_teleop')
+    #magni_teleop_pkg = get_package_share_directory('magni_teleop')
 
     return LaunchDescription([
 
         # Set the robot mode parameter
-        SetParameter(name='ubiquity_robot_mode', value='teleop'),
+        #SetParameter(name='ubiquity_robot_mode', value='teleop'),
 
         # Launch core node from magni_bringup package
         Node(
