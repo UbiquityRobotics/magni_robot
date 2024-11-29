@@ -224,18 +224,18 @@
     </xacro:sonar_hc-sr04>
   </xacro:if>
 
-  <!-- Define camera -->
+  <!-- Define camera --> 
   <xacro:if value="${camera_extrinsics_file != ''}">
-    <xacro:property name="cam_extrinsics" value="${load_yaml(camera_extrinsics_file)}"/>
+    <xacro:property name="cam_extrinsics" value="${xacro.load_yaml(camera_extrinsics_file)}"/>
     <xacro:raspi_camera name="raspicam" connected_to="base_link">
       <origin xyz="${cam_extrinsics['x']} ${cam_extrinsics['y']} ${cam_extrinsics['z']}"
         rpy="${cam_extrinsics['roll']} ${cam_extrinsics['pitch']} ${cam_extrinsics['yaw']}"/>
     </xacro:raspi_camera>
   </xacro:if>
-
+ 
   <!-- Define Lidar -->
   <xacro:if value="${lidar_extrinsics_file != ''}">
-    <xacro:property name="lidar_extrinsics" value="${load_yaml(lidar_extrinsics_file)}"/>
+    <xacro:property name="lidar_extrinsics" value="${xacro.load_yaml(lidar_extrinsics_file)}"/>
     <xacro:ur50_lidar name="laser" connected_to="base_link">
       <origin xyz="${lidar_extrinsics['x']} ${lidar_extrinsics['y']} ${lidar_extrinsics['z']}"
         rpy="${lidar_extrinsics['roll']} ${lidar_extrinsics['pitch']} ${lidar_extrinsics['yaw']}"/>

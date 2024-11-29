@@ -1,0 +1,245 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="tower">
+
+  <xacro:arg name="sonars_installed" default="true"/>
+  <xacro:property name="sonars_installed" value="$(arg sonars_installed)"/>
+
+  <xacro:arg name="shell_installed" default="false"/>
+  <xacro:property name="shell_installed" value="$(arg shell_installed)"/>
+
+  <xacro:arg name="tower_installed" default="true"/>
+  <xacro:property name="tower_installed" value="$(arg tower_installed)"/>
+
+  <xacro:arg name="camera_extrinsics_file" default="camera_extrinsics_tower.yaml"/>
+  <xacro:property name="camera_extrinsics_file" value="$(arg camera_extrinsics_file)"/>
+
+  <xacro:arg name="lidar_extrinsics_file" default="lidar_extrinsics_shell_left.yaml"/>
+  <xacro:property name="lidar_extrinsics_file" value="$(arg lidar_extrinsics_file)"/>
+  
+  <xacro:property name="wheel_r" value="0.1" />
+  <xacro:property name="wheel_xpos" value="0.11" />
+
+  <xacro:include filename="$(find magni_description)/urdf/magni.transmission.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/magni.gazebo.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/inertial.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/sensors/sonar_hc-sr04.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/sensors/raspi_camera.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/sensors/ur50_lidar.xacro" />
+
+
+
+  <!-- Robot base_link -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="${-wheel_xpos} 0 ${-wheel_r+0.071}" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://magni_description/meshes/magni_body.dae" />
+      </geometry>
+    </visual>
+	<visual>
+      <origin xyz="${-wheel_xpos-0.169} 0.17 ${-wheel_r+0.09}" rpy="0 0 ${pi}" />
+      <geometry>
+        <mesh filename="package://magni_description/meshes/caster_wheel.dae" />
+      </geometry>
+    </visual>
+	<visual>
+      <origin xyz="${-wheel_xpos-0.169} -0.17 ${-wheel_r+0.09}" rpy="0 0 ${pi}" />
+      <geometry>
+        <mesh filename="package://magni_description/meshes/caster_wheel.dae" />
+      </geometry>
+    </visual>
+    <collision>
+	  <origin xyz="${-wheel_xpos} 0 ${-wheel_r+0.151}" rpy="0 0 0" />
+      <geometry>
+        <box size="0.398 0.268 0.160"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="${-wheel_xpos-0.026} 0 ${-wheel_r+0.248}" rpy="0 0 0" />
+      <geometry>
+        <box size="0.375 0.268 0.034"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="${-wheel_xpos-0.169} 0.169 ${-wheel_r+0.106}" rpy="0 0 0" />
+      <geometry>
+        <box size="0.1 0.07 0.07"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="${-wheel_xpos-0.169} -0.169 ${-wheel_r+0.106}" rpy="0 0 0" />
+      <geometry>
+        <box size="0.1 0.07 0.07"/>
+      </geometry>
+    </collision>
+    <xacro:box_inertial_with_origin  x="0.398" y="0.221" z="0.150" mass="10.0">
+      <origin xyz="-0.15 0 0.03" rpy="0 0 0" />
+    </xacro:box_inertial_with_origin>
+    
+    <xacro:if value="${tower_installed}">
+      <!-- Robot Tower -->
+      <visual>
+        <origin xyz="0 0 0.005" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://magni_description/meshes/magni_tower.dae" />
+        </geometry>
+      </visual>
+      <!-- Collision for screen -->
+      <collision>
+        <origin xyz="0.115 0 0.635" rpy="0 0.56 0" />
+        <geometry>
+          <box size="0.04 0.23 0.15"/>
+        </geometry>
+      </collision>
+      <!-- Collision for tower vertical-->
+      <collision>
+        <origin xyz="0.08 0 0.37" rpy="0 0 0" />
+        <geometry>
+          <box size="0.06 0.24 0.40"/>
+        </geometry>
+      </collision>
+      <!-- Collision for tower horizontal -->
+      <collision>
+        <origin xyz="-0.1 0 0.18" rpy="0 0 0" />
+        <geometry>
+          <box size="0.42 0.24 0.03"/>
+        </geometry>
+      </collision>
+      <!-- Lower shelf -->
+      <collision>
+        <origin xyz="-0.18 0 0.2" rpy="0 0 0" />
+        <geometry>
+          <box size="0.35 0.408 0.005"/>
+        </geometry>
+      </collision>
+      <!-- Upper shelf -->
+      <collision>
+        <origin xyz="-0.1 0 0.53" rpy="0 0 0" />
+        <geometry>
+          <box size="0.32 0.42 0.02"/>
+        </geometry>
+      </collision>
+    </xacro:if>
+    <xacro:if value="${shell_installed}">
+      <!-- Robot shell -->
+      <visual>
+        <origin xyz="0 0 0.005" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://magni_description/meshes/magni_shell.dae" />
+        </geometry>
+      </visual>
+      <!-- Collision for shell -->
+      <collision>
+        <origin xyz="-0.175 0 0.07" rpy="0 0.0 0" />
+        <geometry>
+          <box size="0.3 0.33 0.2"/>
+        </geometry>
+      </collision>
+    </xacro:if>
+  </link>
+
+  <!-- Fixed offset from the floor to the center of the wheels -->
+  <link name="base_footprint"/>
+  <joint name="base_footprint_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 ${wheel_r}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Macro for defining wheels -->
+  <xacro:macro name="wheel" params="prefix reflect">
+    <link name="${prefix}_wheel">
+      <visual>
+        <origin xyz="${-0.071*reflect} 0 0" rpy="0 ${(reflect-1)*pi/2} 0" />
+        <geometry>
+          <mesh filename="package://magni_description/meshes/front_wheel.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 ${pi/2} 0" />
+        <geometry>
+          <cylinder radius="${wheel_r}" length="0.05"/>
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="${0.033*reflect} 0 0" rpy="0 ${pi/2} 0" />
+        <geometry>
+          <cylinder radius="0.064" length="0.016"/>
+        </geometry>
+      </collision>
+      <xacro:cylinder_inertial_with_origin radius="${wheel_r}" length="0.05" mass="3.34">
+        <origin xyz="0 0 0" rpy="0 ${pi/2} 0" />
+      </xacro:cylinder_inertial_with_origin>
+    </link>
+    <joint name="${prefix}_wheel_joint" type="continuous">
+      <axis xyz="1 0 0" rpy="0 0 0" />
+      <parent link="base_link"/>
+      <child link="${prefix}_wheel"/>
+      <origin xyz="0 ${0.163*reflect} 0" rpy="0 0 ${pi/2}"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:wheel prefix="left" reflect="1"/>
+  <xacro:wheel prefix="right" reflect="-1"/>
+
+
+
+  <!-- Macro for defining caster wheels -->
+  <xacro:macro name="caster_wheel" params="prefix reflect">
+    <link name="${prefix}_caster_wheel">
+      <collision>
+        <origin xyz="${-wheel_xpos-0.19} ${reflect*0.169} ${-wheel_r+0.04}" rpy="0 0 0" />
+        <geometry>
+          <sphere radius="0.04"/>
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${prefix}_caster_wheel_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="${prefix}_caster_wheel"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:caster_wheel prefix="left" reflect="1"/>
+  <xacro:caster_wheel prefix="right" reflect="-1"/>
+
+
+
+  <!-- Define all sonars, if sonars_installed set to 1 -->
+  <xacro:if value="${sonars_installed}">
+    <xacro:sonar_hc-sr04 name="sonar_0" connected_to="base_link">
+      <origin xyz="0.01 -0.14 0.15" rpy="0 0 ${-pi/2}"/>
+    </xacro:sonar_hc-sr04>
+    <xacro:sonar_hc-sr04 name="sonar_1" connected_to="base_link">
+      <origin xyz="0.08 -0.07 0.15" rpy="0 0 0.785"/>
+    </xacro:sonar_hc-sr04>
+    <xacro:sonar_hc-sr04 name="sonar_2" connected_to="base_link">
+      <origin xyz="0.08 -0.01 0.15" rpy="0 0 -0.785"/>
+    </xacro:sonar_hc-sr04>
+    <xacro:sonar_hc-sr04 name="sonar_3" connected_to="base_link">
+      <origin xyz="0.08 0.04 0.15" rpy="0 0 0"/>
+    </xacro:sonar_hc-sr04>
+    <xacro:sonar_hc-sr04 name="sonar_4" connected_to="base_link">
+      <origin xyz="0.01 0.14 0.15" rpy="0 0 ${pi/2}"/>
+    </xacro:sonar_hc-sr04>
+  </xacro:if>
+
+  <!-- Define camera -->
+  <xacro:if value="${camera_extrinsics_file != ''}">
+    <xacro:property name="cam_extrinsics" value="${load_yaml(camera_extrinsics_file)}"/>
+    <xacro:raspi_camera name="raspicam" connected_to="base_link">
+      <origin xyz="${cam_extrinsics['x']} ${cam_extrinsics['y']} ${cam_extrinsics['z']}"
+        rpy="${cam_extrinsics['roll']} ${cam_extrinsics['pitch']} ${cam_extrinsics['yaw']}"/>
+    </xacro:raspi_camera>
+  </xacro:if>
+
+  <!-- Define Lidar -->
+  <xacro:if value="${lidar_extrinsics_file != ''}">
+    <xacro:property name="lidar_extrinsics" value="${load_yaml(lidar_extrinsics_file)}"/>
+    <xacro:ur50_lidar name="laser" connected_to="base_link">
+      <origin xyz="${lidar_extrinsics['x']} ${lidar_extrinsics['y']} ${lidar_extrinsics['z']}"
+        rpy="${lidar_extrinsics['roll']} ${lidar_extrinsics['pitch']} ${lidar_extrinsics['yaw']}"/>
+    </xacro:ur50_lidar>
+  </xacro:if>
+
+</robot>
