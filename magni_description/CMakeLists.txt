@@ -39,6 +39,7 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}/
 )
 
+
 # Install launch files.
 install(DIRECTORY
   launch
@@ -51,7 +52,7 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}/
 )
 
-# Install urdf files.
+# Install urdf files( *Now extrisics moved under urdf).
 install(DIRECTORY
   urdf
   DESTINATION share/${PROJECT_NAME}/
