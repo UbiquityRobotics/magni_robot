@@ -1,0 +1,11 @@
+[Unit]
+Require=NetworkManager.service time-sync.target
+
+[Service]
+Type=simple
+User=ubuntu
+Environment=ROS_HOME=/home/ubuntu/.ros
+ExecStart=/bin/bash -c '. /opt/ros/jazzy/setup.sh && . /home/ubuntu/ros2_ws/install/setup.bash && env | sort && ros2 launch magni_bringup base.launch.py'
+
+[Install]
+WantedBy=multi-user.target

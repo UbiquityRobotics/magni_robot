@@ -1,0 +1,9 @@
+[Unit]
+Description="Run magni-base.service 1 minute after boot"
+
+[Timer]
+OnBootSec=2min
+Unit=magni-base.service
+
+[Install]
+WantedBy=multi-user.target

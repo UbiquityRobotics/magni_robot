@@ -42,6 +42,7 @@ def generate_launch_description():
             {'use_sim_time': LaunchConfiguration('use_sim_time')},
             {'robot_description': Command([
                     'xacro',  ' ', xacro_file, ' ',
+
                     ' tower_installed:=', LaunchConfiguration('tower_installed'),
                     ' shell_installed:=', LaunchConfiguration('shell_installed'),
                     ' sonars_installed:=', LaunchConfiguration('sonars_installed'),
@@ -73,6 +74,3 @@ def generate_launch_description():
     ld.add_action(robot_state_publisher)
     ld.add_action(joint_state_publisher)
     return ld
-   
-
-
