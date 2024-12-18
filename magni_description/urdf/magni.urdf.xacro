@@ -28,6 +28,7 @@
   <xacro:include filename="$(find magni_description)/urdf/sensors/sonar_hc-sr04.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/raspi_camera.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/ur50_lidar.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/sensors/light_sensor.xacro" />
 
 
 
@@ -256,5 +257,12 @@
         rpy="${gps_extrinsics['roll']} ${gps_extrinsics['pitch']} ${gps_extrinsics['yaw']}"/>
     </joint>
   </xacro:if>
+  <!-- Define light sensor -->
+  
+  <xacro:light_sensor name="light_sensor" connected_to="base_link">
+    <origin xyz="0.37 0 0"
+      rpy="0 0 0"/>
+  </xacro:light_sensor>
+  
 
 </robot>
