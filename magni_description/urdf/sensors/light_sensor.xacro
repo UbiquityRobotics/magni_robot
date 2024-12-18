@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:macro name="ligth_sensor" params="name:='' connected_to:='' *origin">
+  <xacro:macro name="light_sensor" params="name:='' connected_to:='' *origin">
 
   <xacro:unless value="${connected_to == ''}">
     <joint name="${name}_joint" type="fixed">
