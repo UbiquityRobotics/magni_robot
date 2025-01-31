@@ -3,7 +3,7 @@
     <arg name="sonars_installed" default="@(sonars_installed)"/>
     <arg name="oled_display" default="@(oled_display)"/>
     <arg name="controller_board_version" default="@(controller_board_version)"/>
-    
+
     <include file="$(find magni_description)/launch/description.launch">
         <arg name="camera_extrinsics_file" value="@(camera_extrinsics_file)"/>
         <arg name="lidar_extrinsics_file" value="@(lidar_extrinsics_file)"/>
@@ -67,16 +67,20 @@
     <param name="/ubiquity_velocity_controller/wheel_radius" value="@(wheel_radius)"/>
     <param name="/ubiquity_velocity_controller/linear/x/has_velocity_limits" value="@(lin_has_velocity_limits)"/>
     <param name="/ubiquity_velocity_controller/linear/x/max_velocity" value="@(lin_max_velocity)"/>
+    <param name="/ubiquity_velocity_controller/linear/x/min_velocity" value="@(lin_min_velocity)"/>
     <param name="/ubiquity_velocity_controller/linear/x/has_acceleration_limits" value="@(lin_has_acceleration_limits)"/>
     <param name="/ubiquity_velocity_controller/linear/x/max_acceleration" value="@(lin_max_acceleration)"/>
+    <param name="/ubiquity_velocity_controller/linear/x/min_acceleration" value="@(lin_min_acceleration)"/>
 
     <rosparam param="/ubiquity_velocity_controller/pose_covariance_diagonal">@(pose_covariance_diagonal)</rosparam>
     <rosparam param="/ubiquity_velocity_controller/twist_covariance_diagonal">@(twist_covariance_diagonal)</rosparam>
 
     <param name="/ubiquity_velocity_controller/angular/z/has_velocity_limits" value="@(ang_has_velocity_limits)"/>
     <param name="/ubiquity_velocity_controller/angular/z/max_velocity" value="@(ang_max_velocity)"/>
+    <param name="/ubiquity_velocity_controller/angular/z/min_velocity" value="@(ang_min_velocity)"/>
     <param name="/ubiquity_velocity_controller/angular/z/has_acceleration_limits" value="@(ang_has_acceleration_limits)"/>
     <param name="/ubiquity_velocity_controller/angular/z/max_acceleration" value="@(ang_max_acceleration)"/>
+    <param name="/ubiquity_velocity_controller/angular/z/min_acceleration" value="@(ang_min_acceleration)"/>
 
     <!-- Launch the roscontrol controllers needed -->
     <node name="controller_spawner" pkg="controller_manager" type="spawner"
