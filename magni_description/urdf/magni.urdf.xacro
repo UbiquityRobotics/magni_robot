@@ -27,8 +27,9 @@
   <xacro:include filename="$(find magni_description)/urdf/inertial.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/sonar_hc-sr04.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/raspi_camera.xacro" />
-  <xacro:include filename="$(find magni_description)/urdf/sensors/ur50_lidar.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/sensors/ur_c1_lidar.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/light_sensor.xacro" />
+
 
 
 
@@ -240,10 +241,22 @@
   <!-- Define Lidar -->
   <xacro:if value="${lidar_extrinsics_file != ''}">
     <xacro:property name="lidar_extrinsics" value="${load_yaml(lidar_extrinsics_file)}"/>
-    <xacro:ur50_lidar name="laser" connected_to="base_link">
+    <xacro:ur_c1_lidar name="laser" connected_to="base_link">
       <origin xyz="${lidar_extrinsics['x']} ${lidar_extrinsics['y']} ${lidar_extrinsics['z']}"
         rpy="${lidar_extrinsics['roll']} ${lidar_extrinsics['pitch']} ${lidar_extrinsics['yaw']}"/>
-    </xacro:ur50_lidar>
+    </xacro:ur_c1_lidar>
+  </xacro:if>
+
+  <!-- Define GNSS -->
+  <xacro:if value="${gps_extrinsics_file != ''}">
+    <xacro:property name="gps_extrinsics" value="${load_yaml(gps_extrinsics_file)}"/>
+    <link name="gps"/>
+    <joint name="gps_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="gps"/>
+      <origin xyz="${gps_extrinsics['x']} ${gps_extrinsics['y']} ${gps_extrinsics['z']}"
+        rpy="${gps_extrinsics['roll']} ${gps_extrinsics['pitch']} ${gps_extrinsics['yaw']}"/>
+    </joint>
   </xacro:if>
 
   <!-- Define GNSS -->
