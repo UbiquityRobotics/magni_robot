@@ -28,6 +28,8 @@
   <xacro:include filename="$(find magni_description)/urdf/sensors/sonar_hc-sr04.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/raspi_camera.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/ur_c1_lidar.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/sensors/light_sensor.xacro" />
+
 
 
 
@@ -256,5 +258,24 @@
         rpy="${gps_extrinsics['roll']} ${gps_extrinsics['pitch']} ${gps_extrinsics['yaw']}"/>
     </joint>
   </xacro:if>
+
+  <!-- Define GNSS -->
+  <xacro:if value="${gps_extrinsics_file != ''}">
+    <xacro:property name="gps_extrinsics" value="${load_yaml(gps_extrinsics_file)}"/>
+    <link name="gps"/>
+    <joint name="gps_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="gps"/>
+      <origin xyz="${gps_extrinsics['x']} ${gps_extrinsics['y']} ${gps_extrinsics['z']}"
+        rpy="${gps_extrinsics['roll']} ${gps_extrinsics['pitch']} ${gps_extrinsics['yaw']}"/>
+    </joint>
+  </xacro:if>
+  <!-- Define light sensor -->
+  
+  <xacro:light_sensor name="light_sensor" connected_to="base_link">
+    <origin xyz="0.37 0 0"
+      rpy="0 0 0"/>
+  </xacro:light_sensor>
+  
 
 </robot>
