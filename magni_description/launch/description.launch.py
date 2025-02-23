@@ -196,4 +196,4 @@ def generate_launch_description():
         gz_bridge_node
     ]
 
-    return LaunchDescription(declared_arguments + nodes)
+    return LaunchDescription(ARGUMENTS + declared_arguments + nodes)
