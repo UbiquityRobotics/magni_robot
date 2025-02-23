@@ -15,7 +15,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
         <geometry>
-          <mesh filename="package://magni_description/meshes/sensors/raspi_camera.dae" />
+          <mesh filename="$(find magni_description)/meshes/sensors/raspi_camera.dae" />
         </geometry>
       </visual>
       <collision>

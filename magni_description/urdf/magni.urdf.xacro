@@ -152,7 +152,7 @@
       <visual>
         <origin xyz="${-0.071*reflect} 0 0" rpy="0 ${(reflect-1)*pi/2} 0" />
         <geometry>
-          <mesh filename="package://magni_description/meshes/front_wheel.dae" />
+          <mesh filename="$(find magni_description)/meshes/front_wheel.dae" />
         </geometry>
       </visual>
       <collision>
