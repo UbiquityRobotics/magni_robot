@@ -58,18 +58,6 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}/
 )
 
-# Install config files.
-install(DIRECTORY
-  config
-  DESTINATION share/${PROJECT_NAME}/
-)
-
-install(DIRECTORY
-  worlds
-  DESTINATION share/${PROJECT_NAME}/
-)
-
-
 ament_package()
 
 

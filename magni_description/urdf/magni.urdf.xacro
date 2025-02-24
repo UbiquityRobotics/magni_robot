@@ -24,7 +24,7 @@
   <xacro:include filename="$(find magni_description)/urdf/inertial.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/sonar_hc-sr04.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/raspi_camera.xacro" />
-  <xacro:include filename="$(find magni_description)/urdf/sensors/ur_c1_lidar.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/sensors/ur50_lidar.xacro" />
 
 
 
@@ -33,19 +33,19 @@
     <visual>
       <origin xyz="${-wheel_xpos} 0 ${-wheel_r+0.071}" rpy="0 0 0" />
       <geometry>
-        <mesh filename="$(find magni_description)/meshes/magni_body.dae" />
+        <mesh filename="package://magni_description/meshes/magni_body.dae" />
       </geometry>
     </visual>
 	<visual>
       <origin xyz="${-wheel_xpos-0.169} 0.17 ${-wheel_r+0.09}" rpy="0 0 ${pi}" />
       <geometry>
-        <mesh filename="$(find magni_description)/meshes/caster_wheel.dae" />
+        <mesh filename="package://magni_description/meshes/caster_wheel.dae" />
       </geometry>
     </visual>
 	<visual>
       <origin xyz="${-wheel_xpos-0.169} -0.17 ${-wheel_r+0.09}" rpy="0 0 ${pi}" />
       <geometry>
-        <mesh filename="$(find magni_description)/meshes/caster_wheel.dae" />
+        <mesh filename="package://magni_description/meshes/caster_wheel.dae" />
       </geometry>
     </visual>
     <collision>
@@ -81,7 +81,7 @@
       <visual>
         <origin xyz="0 0 0.005" rpy="0 0 0" />
         <geometry>
-          <mesh filename="$(find magni_description)/meshes/magni_tower.dae" />
+          <mesh filename="package://magni_description/meshes/magni_tower.dae" />
         </geometry>
       </visual>
       <!-- Collision for screen -->
@@ -125,7 +125,7 @@
       <visual>
         <origin xyz="0 0 0.005" rpy="0 0 0" />
         <geometry>
-          <mesh filename="$(find magni_description)/meshes/magni_shell.dae" />
+          <mesh filename="package://magni_description/meshes/magni_shell.dae" />
         </geometry>
       </visual>
       <!-- Collision for shell -->
@@ -152,7 +152,7 @@
       <visual>
         <origin xyz="${-0.071*reflect} 0 0" rpy="0 ${(reflect-1)*pi/2} 0" />
         <geometry>
-          <mesh filename="$(find magni_description)/meshes/front_wheel.dae" />
+          <mesh filename="package://magni_description/meshes/front_wheel.dae" />
         </geometry>
       </visual>
       <collision>
@@ -236,10 +236,10 @@
   <!-- Define Lidar -->
   <xacro:if value="${lidar_extrinsics_file != ''}">
     <xacro:property name="lidar_extrinsics" value="${xacro.load_yaml(lidar_extrinsics_file)}"/>
-    <xacro:ur_c1_lidar name="laser" connected_to="base_link">
+    <xacro:ur50_lidar name="laser" connected_to="base_link">
       <origin xyz="${lidar_extrinsics['x']} ${lidar_extrinsics['y']} ${lidar_extrinsics['z']}"
         rpy="${lidar_extrinsics['roll']} ${lidar_extrinsics['pitch']} ${lidar_extrinsics['yaw']}"/>
-    </xacro:ur_c1_lidar>
+    </xacro:ur50_lidar>
   </xacro:if>
 
  <!-- ROS 2 Control block -->

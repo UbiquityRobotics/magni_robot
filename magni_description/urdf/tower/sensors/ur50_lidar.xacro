@@ -15,7 +15,7 @@
     <visual>
       <origin xyz="0 0 -0.03" rpy="0 0 0" />
       <geometry>
-        <mesh filename="$(find magni_description)/meshes/sensors/ur50_lidar.dae" />
+        <mesh filename="package://magni_description/meshes/sensors/ur50_lidar.dae" />
       </geometry>
     </visual>
     <collision>

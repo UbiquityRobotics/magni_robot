@@ -15,7 +15,7 @@
     <visual>
       <origin xyz="0 0 -0.03" rpy="0 0 0" />
       <geometry>
-        <mesh filename="$(find magni_description)/meshes/sensors/ur50_lidar.dae" />
+        <mesh filename="package://magni_description/meshes/sensors/ur50_lidar.dae" />
       </geometry>
     </visual>
     <collision>
@@ -29,8 +29,7 @@
 
   <gazebo reference="${name}">
     <!--<sensor type="gpu_ray" name="${name}_sensor>-->
-    <!-- <sensor type="ray" name="${name}_sensor"> -->
-    <sensor type="gpu_lidar" name="${name}_sensor">
+    <sensor type="ray" name="${name}_sensor">
       <pose>0 0 0 0 0 0</pose>
       <visualize>false</visualize>
       <update_rate>20</update_rate>
@@ -59,10 +58,9 @@
         </noise>
       </ray>
       <!--<plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_gpu_laser.so">-->
-      <!-- <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so"> -->
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
         <topicName>/scan</topicName>
-        <!-- <frameName>${name}</frameName> -->
-        <gz_frame_id>${name}</gz_frame_id>
+        <frameName>${name}</frameName>
       </plugin>
     </sensor>
   </gazebo>
