@@ -26,8 +26,6 @@
   <xacro:include filename="$(find magni_description)/urdf/sensors/raspi_camera.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/ur_c1_lidar.xacro" />
 
-
-
   <!-- Robot base_link -->
   <link name="base_link">
     <visual>
@@ -234,9 +232,16 @@
   </xacro:if>
  
   <!-- Define Lidar -->
+
+<!-- hardcoded values for the lidar extrinsics -->
+  <xacro:property name="lidar_extrinsics_file" value="$(find magni_description)/urdf/extrinsics/lidar_extrinsics_top_plate_center.yaml"/>
+
+
   <xacro:if value="${lidar_extrinsics_file != ''}">
+  <!-- <xacro:if value="${lidar_extrinsics_file}"> -->
     <xacro:property name="lidar_extrinsics" value="${xacro.load_yaml(lidar_extrinsics_file)}"/>
-    <xacro:ur_c1_lidar name="laser" connected_to="base_link">
+    <!-- <xacro:ur_c1_lidar name="laser" connected_to="base_link"> -->
+    <xacro:ur_c1_lidar name="ur_c1_lidar" connected_to="base_link">
       <origin xyz="${lidar_extrinsics['x']} ${lidar_extrinsics['y']} ${lidar_extrinsics['z']}"
         rpy="${lidar_extrinsics['roll']} ${lidar_extrinsics['pitch']} ${lidar_extrinsics['yaw']}"/>
     </xacro:ur_c1_lidar>

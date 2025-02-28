@@ -55,7 +55,7 @@
           </range>
         </ray>
         <!-- Gazebo-ROS interface plugin -->
-        <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
+        <!-- <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
           <gaussianNoise>0.015</gaussianNoise>
           <alwaysOn>true</alwaysOn>
           <updateRate>5</updateRate>
@@ -63,7 +63,7 @@
           <frameName>${name}</frameName>
           <fov>0.5</fov>
           <radiation>ultrasound</radiation>
-        </plugin>
+        </plugin> -->
       </sensor>
     </gazebo>
 

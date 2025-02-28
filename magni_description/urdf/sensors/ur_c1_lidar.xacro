@@ -34,7 +34,8 @@
       <pose>0 0 0 0 0 0</pose>
       <visualize>false</visualize>
       <update_rate>20</update_rate>
-      <ray>
+      <!-- <ray> -->
+      <lidar>
         <scan>
           <horizontal>
             <samples>811</samples>
@@ -57,10 +58,12 @@
           <mean>0.0</mean>
           <stddev>0.01</stddev>
         </noise>
-      </ray>
+      <!-- </ray> -->
+      </lidar>
       <!--<plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_gpu_laser.so">-->
       <!-- <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so"> -->
-        <topicName>/scan</topicName>
+        <!-- <topicName>/scan</topicName> -->
+        <topic>/scan</topic>
         <!-- <frameName>${name}</frameName> -->
         <gz_frame_id>${name}</gz_frame_id>
       <!-- </plugin> -->

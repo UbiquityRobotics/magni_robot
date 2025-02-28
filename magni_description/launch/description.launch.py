@@ -8,6 +8,7 @@ from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.conditions import IfCondition
+
 import xacro
 
 import os
@@ -72,10 +73,23 @@ def generate_launch_description():
     rviz_config_file = PathJoinSubstitution([FindPackageShare(robot_description_package), "config", "robot_config.rviz"])
 
 
+    xacro_mappings = {
+    'tower_installed': LaunchConfiguration('tower_installed'),
+    'shell_installed': LaunchConfiguration('shell_installed'),
+    'sonars_installed': LaunchConfiguration('sonars_installed'),
+    'lidar_extrinsics_file': LaunchConfiguration('lidar_extrinsics_file'),
+    'camera_extrinsics_file': LaunchConfiguration('camera_extrinsics_file')
+}
+
+
+
 
     # Process the xacro file into URDF directly
     try:
-        robot_description_content = xacro.process_file(urdf_path).toxml()
+        robot_description_content = xacro.process_file(
+        urdf_path
+        # mappings=xacro_mappings   # This is not working for some reason. check xacro mappings
+    ).toxml()
     except Exception as e:
         raise RuntimeError(f"Error processing xacro file {urdf_path}: {str(e)}")
 
@@ -84,37 +98,37 @@ def generate_launch_description():
 
 
 
-    robot_state_publisher_node = Node(
-        package="robot_state_publisher",
-        executable="robot_state_publisher",
-        name='robot_state_publisher',
-        output="both",
-        parameters=[{'use_sim_time': use_sim_time, 'robot_description': robot_description_content}]
-    )
-
-
-    # robot_state_publisher = Node(
-    #     package='robot_state_publisher',
-    #     executable='robot_state_publisher',
+    # robot_state_publisher_node = Node(
+    #     package="robot_state_publisher",
+    #     executable="robot_state_publisher",
     #     name='robot_state_publisher',
-    #     output='screen',
-    #     parameters=[
-    #         {'use_sim_time': LaunchConfiguration('use_sim_time')},
-    #         {'robot_description': Command([
-    #                 'xacro',  ' ', xacro_file, ' ',
-
-    #                 ' tower_installed:=', LaunchConfiguration('tower_installed'),
-    #                 ' shell_installed:=', LaunchConfiguration('shell_installed'),
-    #                 ' sonars_installed:=', LaunchConfiguration('sonars_installed'),
-    #                 ' lidar_extrinsics_file:=', LaunchConfiguration('lidar_extrinsics_file'),
-    #                 ' camera_extrinsics_file:=', LaunchConfiguration('camera_extrinsics_file')
-    #                 ])},
-    #     ],
-    #     remappings=[
-    #         ('/tf', 'tf'),
-    #         ('/tf_static', 'tf_static')
-    #     ]
+    #     output="both",
+    #     parameters=[{'use_sim_time': use_sim_time, 'robot_description': robot_description_content}]
     # )
+
+
+    robot_state_publisher = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        name='robot_state_publisher',
+        output='screen',
+        parameters=[
+            {'use_sim_time': LaunchConfiguration('use_sim_time')},
+            {'robot_description': Command([
+                    'xacro',  ' ', xacro_file, ' ',
+
+                    ' tower_installed:=', LaunchConfiguration('tower_installed'),
+                    ' shell_installed:=', LaunchConfiguration('shell_installed'),
+                    ' sonars_installed:=', LaunchConfiguration('sonars_installed'),
+                    ' lidar_extrinsics_file:=', LaunchConfiguration('lidar_extrinsics_file'),
+                    ' camera_extrinsics_file:=', LaunchConfiguration('camera_extrinsics_file')
+                    ])},
+        ],
+        remappings=[
+            ('/tf', 'tf'),
+            ('/tf_static', 'tf_static')
+        ]
+    )
 
     #gazebo
     gazebo_pkg_launch = PythonLaunchDescriptionSource(
@@ -189,7 +203,8 @@ def generate_launch_description():
         LogInfo(msg=f"URDF Path: {urdf_path}"),
         LogInfo(msg=f"YAML Path: {yaml_path}"),
         LogInfo(msg=f"World Path: {world_file}"),
-        robot_state_publisher_node,
+        # robot_state_publisher_node,
+        robot_state_publisher,
         gazebo_launch,
         spawn_model_gazebo_node,
         rviz_node,
