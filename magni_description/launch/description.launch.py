@@ -1,7 +1,7 @@
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, LogInfo
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, LogInfo, ExecuteProcess
 from launch.substitutions import Command, PathJoinSubstitution
 from launch.substitutions.launch_configuration import LaunchConfiguration
 from launch_ros.substitutions import FindPackageShare
@@ -168,6 +168,32 @@ def generate_launch_description():
         output="screen",
     )
 
+    # Add teleop_twist_keyboard node
+    # teleop_twist_keyboard_node = Node(
+    #     package='teleop_twist_keyboard',
+    #     executable='teleop_twist_keyboard',
+    #     name='teleop_twist_keyboard',
+    #     output='screen',
+    #     # prefix='xterm -e',  # This opens the teleop in a separate terminal window
+    #     remappings=[
+    #         ('/cmd_vel', '/cmd_vel')  # Map to the existing cmd_vel topic
+    #     ]
+    # )
+
+
+    teleop_twist_keyboard_process = ExecuteProcess(
+    cmd=['gnome-terminal', '--', 'bash', '-c',
+         'ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/diff_drive_controller/cmd_vel -p stamped:=true; exec bash'],
+    output='screen'
+    )
+
+    keyboard = IncludeLaunchDescription(
+                    PythonLaunchDescriptionSource([os.path.join(
+                        get_package_share_directory('magni_description'),'launch','keyboard.launch.py'
+                    )]), launch_arguments={'use_sim_time': 'true'}.items()
+        )
+
+
     # Bridge for ROS2-Gazebo communication
     gz_bridge_node = Node(
         package='ros_gz_bridge',
@@ -208,7 +234,10 @@ def generate_launch_description():
         gazebo_launch,
         spawn_model_gazebo_node,
         rviz_node,
-        gz_bridge_node
+        gz_bridge_node,
+        # teleop_twist_keyboard_node,
+        # teleop_twist_keyboard_process
+
     ]
 
     return LaunchDescription(ARGUMENTS + declared_arguments + nodes)

@@ -1,5 +1,11 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
+<xacro:property name="wheel_r" value="0.1" />
+
+<xacro:property name="chassis_width" value="0.268"/>
+
+<xacro:property name="wheel_thickness" value="0.05" />
+<xacro:property name="wheel_separation" value="${chassis_width + wheel_thickness}"/>
 
     <!-- <gazebo>
         <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
@@ -20,8 +26,8 @@
         <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
             <right_joint>right_wheel_joint</right_joint>
             <left_joint>left_wheel_joint</left_joint>
-            <!-- <wheel_separation>${wheel_separation}</wheel_separation> -->
-            <!-- <wheel_radius>${wheel_radius}</wheel_radius> -->
+            <wheel_separation>${wheel_separation}</wheel_separation>
+            <wheel_radius>${wheel_r}</wheel_radius>
             <!-- <max_linear_acceleration>${max_linear_acceleration}</max_linear_acceleration> -->
             <odom_publish_frequency>100</odom_publish_frequency>
             <topic>cmd_vel</topic>

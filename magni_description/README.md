@@ -17,3 +17,5 @@ So far I have only tried the plain magni, I haven't tried the tower or loaded th
 Note there is no /launch file yet. the description.launch ROS1 file needs to be completely rewritten as
 
 description.launch.py for it to work in ROS2.
+
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/diff_drive_controller/cmd_vel -p stamped:=true
