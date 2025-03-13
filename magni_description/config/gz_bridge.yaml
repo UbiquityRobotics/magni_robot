@@ -47,17 +47,25 @@
   gz_type_name: "gz.msgs.Model"
   direction: "GZ_TO_ROS"
 
-# ROS topic for commanding velocity
+# # ROS topic for commanding velocity
+# - ros_topic_name: "cmd_vel"
+#   gz_topic_name: "cmd_vel"
+#   ros_type_name: "geometry_msgs/msg/Twist"
+#   gz_type_name: "gz.msgs.Twist"
+#   direction: "ROS_TO_GZ"
+
+
+# ROS topic for commanding velocity changed to TwistStamped
 - ros_topic_name: "cmd_vel"
   gz_topic_name: "cmd_vel"
-  ros_type_name: "geometry_msgs/msg/Twist"
+  ros_type_name: "geometry_msgs/msg/TwistStamped"
   gz_type_name: "gz.msgs.Twist"
   direction: "ROS_TO_GZ"
 
 #testing
 # ROS topic for teleop_twist_keyboard velocity command
-# - ros_topic_name: "diff_drive_controller/cmd_vel"
-#   gz_topic_name: "cmd_vel"
-#   ros_type_name: "geometry_msgs/msg/TwistStamped"
-#   gz_type_name: "gz.msgs.Twist"
-#   direction: "ROS_TO_GZ"
+- ros_topic_name: "diff_drive_controller/cmd_vel"
+  gz_topic_name: "cmd_vel"
+  ros_type_name: "geometry_msgs/msg/TwistStamped"
+  gz_type_name: "gz.msgs.Twist"
+  direction: "ROS_TO_GZ"
