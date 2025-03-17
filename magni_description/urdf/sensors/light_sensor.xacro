@@ -13,9 +13,9 @@
 
   <link name="${name}">
     <visual>
-      <origin xyz="0.37 0 0" rpy="0 0 0" />
+      <origin xyz="-0.255 0 0" rpy="1.57 0 1.57" />
       <geometry>
-        <mesh filename="package://magni_description/meshes/sensors/light_sensor.dae" />
+        <mesh filename="package://magni_description/meshes/sensors/light_sensor.dae"  scale="0.0012 0.0012 0.0012" />
       </geometry>
     </visual>
     <collision>
