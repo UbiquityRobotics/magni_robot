@@ -38,7 +38,6 @@ def generate_launch_description():
                                        'magni.urdf.xacro'])
     
 
-
     world_file_name = "empty.world"
     world_path = os.path.join(pkg_magni_description, "worlds", world_file_name)
     #debugging world path issue
@@ -235,6 +234,28 @@ def generate_launch_description():
         output='screen'
     )
 
+    # modifications for the odom
+    controller_manager = Node(
+        package="controller_manager",
+        executable="ros2_control_node",
+        parameters=[
+            {"robot_description": robot_description_content},
+            PathJoinSubstitution([
+                get_package_share_directory("magni_description"),
+                "config",
+                "diff_drive_controller.yaml"  # Create this YAML file (see Step 3)
+            ])
+        ],
+        output="screen",
+    )
+
+    diff_drive_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["diff_drive_controller", "--controller-manager", "/controller_manager"],
+        output="screen",
+    )
+
     nodes = [
         LogInfo(msg=f"URDF Path: {urdf_path}"),
         LogInfo(msg=f"YAML Path: {yaml_path}"),
@@ -245,6 +266,8 @@ def generate_launch_description():
         spawn_model_gazebo_node,
         rviz_node,
         gz_bridge_node,
+        controller_manager,
+        diff_drive_spawner,
         # teleop_twist_keyboard_node,
         # teleop_twist_keyboard_process
         battery_faker,
