@@ -1,0 +1,13 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+    diff_drive_controller:
+      type: diff_drive_controller/DiffDriveController
+      publish_rate: 50.0
+      left_wheel_names: ["left_wheel_joint"]
+      right_wheel_names: ["right_wheel_joint"]
+      wheel_separation: 0.318  # Adjust based on your robot's wheel separation (from URDF)
+      wheel_radius: 0.1        # Adjust based on your robot's wheel radius (from URDF)
+      use_stamped_vel: true
+      odom_frame_id: odom
+      base_frame_id: base_footprint
