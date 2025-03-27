@@ -8,6 +8,7 @@ from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.conditions import IfCondition
+from launch.actions import TimerAction
 
 import xacro
 
@@ -239,7 +240,7 @@ def generate_launch_description():
         package="controller_manager",
         executable="ros2_control_node",
         parameters=[
-            {"robot_description": robot_description_content},
+            # {"robot_description": robot_description_content},
             PathJoinSubstitution([
                 get_package_share_directory("magni_description"),
                 "config",
@@ -249,11 +250,17 @@ def generate_launch_description():
         output="screen",
     )
 
-    diff_drive_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["diff_drive_controller", "--controller-manager", "/controller_manager"],
-        output="screen",
+    # Spawn the diff_drive_controller
+    diff_drive_spawner = TimerAction(
+    period=5.0,  # INCREASED TO 5 SECONDS
+    actions=[
+        Node(
+            package="controller_manager",
+            executable="spawner",
+            arguments=["diff_drive_controller", "--controller-manager", "/controller_manager"],
+            output="screen",
+        )
+        ]
     )
 
     nodes = [
@@ -273,192 +280,6 @@ def generate_launch_description():
         battery_faker,
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
     ]
 
     return LaunchDescription(ARGUMENTS + declared_arguments + nodes)
