@@ -98,16 +98,6 @@ def generate_launch_description():
 
 
 
-
-    # robot_state_publisher_node = Node(
-    #     package="robot_state_publisher",
-    #     executable="robot_state_publisher",
-    #     name='robot_state_publisher',
-    #     output="both",
-    #     parameters=[{'use_sim_time': use_sim_time, 'robot_description': robot_description_content}]
-    # )
-
-
     robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -170,30 +160,7 @@ def generate_launch_description():
         output="screen",
     )
 
-    # Add teleop_twist_keyboard node
-    # teleop_twist_keyboard_node = Node(
-    #     package='teleop_twist_keyboard',
-    #     executable='teleop_twist_keyboard',
-    #     name='teleop_twist_keyboard',
-    #     output='screen',
-    #     # prefix='xterm -e',  # This opens the teleop in a separate terminal window
-    #     remappings=[
-    #         ('/cmd_vel', '/cmd_vel')  # Map to the existing cmd_vel topic
-    #     ]
-    # )
-
-
-    teleop_twist_keyboard_process = ExecuteProcess(
-    cmd=['gnome-terminal', '--', 'bash', '-c',
-         'ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/diff_drive_controller/cmd_vel -p stamped:=true; exec bash'],
-    output='screen'
-    )
-
-    keyboard = IncludeLaunchDescription(
-                    PythonLaunchDescriptionSource([os.path.join(
-                        get_package_share_directory('magni_description'),'launch','keyboard.launch.py'
-                    )]), launch_arguments={'use_sim_time': 'true'}.items()
-        )
+    
 
 
     # Bridge for ROS2-Gazebo communication
@@ -208,24 +175,6 @@ def generate_launch_description():
     )
 
 
-    # joint_state_publisher = Node(
-    #     package='joint_state_publisher',
-    #     executable='joint_state_publisher',
-    #     name='joint_state_publisher',
-    #     output='screen',
-    #     parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
-    #     remappings=[
-    #         ('/tf', 'tf'),
-    #         ('/tf_static', 'tf_static')
-    #     ]
-    # )
-
-    # Define LaunchDescription variable
-    # ld = LaunchDescription(ARGUMENTS)
-    # # Add nodes to LaunchDescription
-    # ld.add_action(robot_state_publisher)
-    # ld.add_action(joint_state_publisher)
-    # return ld
 
     battery_faker = ExecuteProcess(
         cmd=[
@@ -309,7 +258,7 @@ def generate_launch_description():
         delay_rviz_after_joint_state_broadcaster_spawner,
         delay_joint_state_broadcaster_after_robot_controller_spawner,
         # teleop_twist_keyboard_node,
-        # teleop_twist_keyboard_process
+        # teleop_twist_keyboard_process,
         battery_faker,
 
 
