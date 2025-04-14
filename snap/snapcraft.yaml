@@ -1,0 +1,19 @@
+name: magni-description-snap  # Unique name for your snap
+base: core22                  # Base snap (use core22 for modern snaps)
+version: '1.0'                # Version of your app
+summary: Magni Description Snap  # Short description of your snap
+description: |
+  This Snap packages the Magni robot description and launch files.
+
+grade: devel                  # Use 'devel' for testing, 'stable' for production
+confinement: strict           # Use strict confinement for production
+
+parts:
+  magni-description:
+    plugin: dump
+    source: magni_description  # Reference the folder directly
+
+apps:
+  description-launch:
+    command: launch/description.launch.py
+    plugs: [network, network-bind]
