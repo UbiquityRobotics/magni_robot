@@ -244,6 +244,12 @@ def generate_launch_description():
         )
     )
 
+    cmd_vel_watchdog_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory("magni_description"), 'launch', 'cmd_vel_watchdog_launch.py')
+        )
+    )
+
     nodes = [
         LogInfo(msg=f"URDF Path: {urdf_path}"),
         LogInfo(msg=f"YAML Path: {yaml_path}"),
@@ -260,6 +266,7 @@ def generate_launch_description():
         # teleop_twist_keyboard_node,
         # teleop_twist_keyboard_process,
         battery_faker,
+        cmd_vel_watchdog_launch,
 
 
     ]
