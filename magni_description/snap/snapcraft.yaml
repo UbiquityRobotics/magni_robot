@@ -8,12 +8,38 @@ description: |
 grade: devel
 confinement: strict
 
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+
 parts:
+  ros-packages:
+    plugin: nil
+    build-packages:
+      - ca-certificates
+      - apt-transport-https
+      - gnupg
+    override-build: |
+      # Add ROS 2 apt repository
+      echo "deb [arch=amd64,arm64] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" > /etc/apt/sources.list.d/ros2.list
+      curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.key | apt-key add -
+      apt-get update
+
+      # Install necessary tools
+      apt-get -y install python3-rosdep
+      rosdep init || true
+      rosdep update
+      
+      # No build needed for this part
+      snapcraftctl build
+
   magni-description:
+    after: [ros-packages]
     plugin: colcon
     source: ../  # if snap/ is inside magni_description/
-    build-environment:
-      - ROS_DISTRO: jazzy
+    source-type: local
+    colcon-rosdistro: jazzy
+    colcon-packages: [magni_description]
     build-packages:
       - build-essential
       - cmake
@@ -39,12 +65,11 @@ parts:
       - ros-jazzy-nav2-simple-commander
       - ros-jazzy-slam-toolbox
 
-    override-build: |
-      snapcraftctl build
-    override-stage: |
-      snapcraftctl stage
-
 apps:
   description-launch:
-    command: ros2 launch magni_description description.launch.py
-    plugs: [network, network-bind]
+    command: opt/ros/jazzy/bin/ros2 launch magni_description description.launch.py
+    plugs: [network, network-bind, hardware-observe, joystick, home]
+    environment:
+      ROS_DOMAIN_ID: '0'
+      LD_LIBRARY_PATH: $SNAP/opt/ros/jazzy/lib:${LD_LIBRARY_PATH}
+      ROS_HOME: $SNAP_USER_COMMON/.ros
