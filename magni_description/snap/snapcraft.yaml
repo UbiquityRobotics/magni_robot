@@ -1,0 +1,50 @@
+name: magni-description-snap
+base: core22
+version: '1.1'
+summary: Magni Description Snap
+description: |
+  This Snap packages the Magni robot description and launch files.
+
+grade: devel
+confinement: strict
+
+parts:
+  magni-description:
+    plugin: colcon
+    source: ../  # if snap/ is inside magni_description/
+    build-environment:
+      - ROS_DISTRO: jazzy
+    build-packages:
+      - build-essential
+      - cmake
+      - python3-colcon-common-extensions
+      - python3-pip
+      - python3-vcstool
+      - python3-rosdep
+    stage-packages:
+      - ros-jazzy-controller-manager
+      - ros-jazzy-diff-drive-controller
+      - ros-jazzy-ros2launch
+      - ros-jazzy-teleop-twist-keyboard
+      - ros-jazzy-xacro
+      - ros-jazzy-joint-state-publisher
+      - ros-jazzy-joint-state-publisher-gui
+      - ros-jazzy-robot-state-publisher
+      - ros-jazzy-rviz2
+      - ros-jazzy-gazebo-ros
+      - ros-jazzy-ros-gz-bridge
+      - ros-jazzy-robot-localization
+      - ros-jazzy-navigation2
+      - ros-jazzy-nav2-bringup
+      - ros-jazzy-nav2-simple-commander
+      - ros-jazzy-slam-toolbox
+
+    override-build: |
+      snapcraftctl build
+    override-stage: |
+      snapcraftctl stage
+
+apps:
+  description-launch:
+    command: ros2 launch magni_description description.launch.py
+    plugs: [network, network-bind]
