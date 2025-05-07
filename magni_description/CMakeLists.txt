@@ -53,9 +53,10 @@ install(DIRECTORY
 )
 
 # Install urdf files( *Now extrisics moved under urdf).
-install(DIRECTORY
-  urdf
-  DESTINATION share/${PROJECT_NAME}/
+install(DIRECTORY 
+  urdf/
+  DESTINATION share/${PROJECT_NAME}/urdf
+  FILES_MATCHING PATTERN "*.*"
 )
 
 ament_package()
