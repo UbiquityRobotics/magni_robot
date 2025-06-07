@@ -10,7 +10,15 @@ Package: ur-magni-sim-apt
 Version: 1.0
 Maintainer: Christy Jo <christyjo.manthara@gmail.com>
 # Pre-Depends: <comma-separated list of packages>
-Depends: ros-humble-desktop, ros-humble-ros-gz, ros-humble-ros-gz-sim
+Depends: ros-jazzy-desktop, ros-jazzy-controller-manager, \
+         ros-jazzy-diff-drive-controller, ros-jazzy-ros2launch, \
+         ros-jazzy-teleop-twist-keyboard, ros-jazzy-xacro, \
+         ros-jazzy-joint-state-publisher, ros-jazzy-joint-state-publisher-gui, \
+         ros-jazzy-robot-state-publisher, ros-jazzy-rviz2, \
+         ros-jazzy-gazebo-ros, ros-jazzy-ros-gz-bridge, \
+         ros-jazzy-robot-localization, ros-jazzy-navigation2, \
+         ros-jazzy-nav2-bringup, ros-jazzy-nav2-simple-commander, \
+         ros-jazzy-slam-toolbox
 # Recommends: <comma-separated list of packages>
 # Suggests: <comma-separated list of packages>
 # Provides: <comma-separated list of packages>
@@ -24,5 +32,6 @@ Architecture: all
 # Links: <pair of space-separated paths; First is path symlink points at, second is filename of link>
 # Files: <pair of space-separated paths; First is file to include, second is destination>
 #  <more pairs, if there's more than one file to include. Notice the starting space>
-Description: Meta-package to install ROS 2 Humble and Gazebo Harmonic integration
- This package installs ROS 2 Humble with support for Gazebo Harmonic (Ignition Gazebo 7).
+Description: Meta-package for magni_description ROS 2 Jazzy dependencies
+ This package installs all dependencies required for the magni_description
+ ROS 2 Jazzy package, including navigation, SLAM, and Gazebo integration.
