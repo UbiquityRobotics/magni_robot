@@ -1,0 +1,16 @@
+# prerm (Pre-removal script)
+#!/bin/bash
+set -e
+
+PACKAGE_NAME="magni_description"
+ROS_DISTRO="jazzy"
+
+echo "Preparing to remove ${PACKAGE_NAME}..."
+
+# Stop any running processes that might be using the package
+pkill -f "ros2.*${PACKAGE_NAME}" || true
+pkill -f "gazebo.*magni" || true
+
+exit 0
+
+# ================================

@@ -1,0 +1,80 @@
+#!/bin/bash
+set -e
+
+# Post-installation script for magni-description package
+
+PACKAGE_NAME="magni_description"
+ROS_DISTRO="jazzy"
+TEMP_WS="/tmp/magni_build_ws"
+SOURCE_DIR="/opt/ros/${ROS_DISTRO}/src/magni_robot/${PACKAGE_NAME}"
+INSTALL_DIR="/opt/ros/${ROS_DISTRO}/share/${PACKAGE_NAME}"
+
+echo "Installing ${PACKAGE_NAME} for ROS2 ${ROS_DISTRO}..."
+
+# Check if ROS2 is properly installed
+if [ ! -f "/opt/ros/${ROS_DISTRO}/setup.bash" ]; then
+    echo "Error: ROS2 ${ROS_DISTRO} not found. Please install ROS2 ${ROS_DISTRO} first."
+    exit 1
+fi
+
+# Source ROS2 environment
+source /opt/ros/${ROS_DISTRO}/setup.bash
+
+# Create temporary workspace
+echo "Creating temporary build workspace..."
+mkdir -p ${TEMP_WS}/src/magni_robot
+cd ${TEMP_WS}
+
+# Copy source files to temporary workspace
+echo "Copying source files..."
+cp -r ${SOURCE_DIR} ${TEMP_WS}/src/magni_robot/
+
+# Install build dependencies
+echo "Installing build dependencies..."
+cd ${TEMP_WS}
+rosdep update || true
+rosdep install --from-paths src --ignore-src -r -y || true
+
+# Build the package
+echo "Building ${PACKAGE_NAME}..."
+cd ${TEMP_WS}
+colcon build --packages-select ${PACKAGE_NAME} --cmake-args -DCMAKE_BUILD_TYPE=Release
+
+# Check if build was successful
+if [ ! -d "${TEMP_WS}/install/${PACKAGE_NAME}" ]; then
+    echo "Error: Build failed for ${PACKAGE_NAME}"
+    rm -rf ${TEMP_WS}
+    exit 1
+fi
+
+# Install built package to system location
+echo "Installing built package to system..."
+mkdir -p /opt/ros/${ROS_DISTRO}/share
+cp -r ${TEMP_WS}/install/${PACKAGE_NAME}/* /opt/ros/${ROS_DISTRO}/
+
+# Update package index if it exists
+if [ -f "/opt/ros/${ROS_DISTRO}/share/ament_index/resource_index/packages/${PACKAGE_NAME}" ]; then
+    echo "Package index already updated by colcon build"
+else
+    # Manually create package index entry
+    mkdir -p /opt/ros/${ROS_DISTRO}/share/ament_index/resource_index/packages
+    touch /opt/ros/${ROS_DISTRO}/share/ament_index/resource_index/packages/${PACKAGE_NAME}
+fi
+
+# Clean up temporary workspace
+echo "Cleaning up temporary files..."
+rm -rf ${TEMP_WS}
+
+# Set proper permissions
+echo "Setting permissions..."
+chown -R root:root /opt/ros/${ROS_DISTRO}/share/${PACKAGE_NAME}
+find /opt/ros/${ROS_DISTRO}/share/${PACKAGE_NAME} -type d -exec chmod 755 {} \;
+find /opt/ros/${ROS_DISTRO}/share/${PACKAGE_NAME} -type f -exec chmod 644 {} \;
+find /opt/ros/${ROS_DISTRO}/share/${PACKAGE_NAME}/scripts -type f -exec chmod 755 {} \; 2>/dev/null || true
+
+echo "Installation of ${PACKAGE_NAME} completed successfully!"
+echo "You can now use the package by sourcing ROS2 environment:"
+echo "  source /opt/ros/${ROS_DISTRO}/setup.bash"
+echo "  ros2 launch ${PACKAGE_NAME} <your_launch_file>"
+
+exit 0

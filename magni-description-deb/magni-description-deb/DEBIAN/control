@@ -1,0 +1,34 @@
+Package: magni-description
+Version: 1.0.0
+Section: misc
+Priority: optional
+Architecture: all
+Maintainer: Christy <metalliccj@gmail.com>
+Depends: ros-jazzy-desktop,
+ ros-jazzy-controller-manager,
+ ros-jazzy-diff-drive-controller,
+ ros-jazzy-ros2launch,
+ ros-jazzy-teleop-twist-keyboard,
+ ros-jazzy-xacro,
+ ros-jazzy-joint-state-publisher,
+ ros-jazzy-joint-state-publisher-gui,
+ ros-jazzy-robot-state-publisher,
+ ros-jazzy-rviz2,
+ ros-jazzy-gazebo-ros,
+ ros-jazzy-ros-gz-bridge,
+ ros-jazzy-robot-localization,
+ ros-jazzy-navigation2,
+ ros-jazzy-nav2-bringup,
+ ros-jazzy-nav2-simple-commander,
+ ros-jazzy-slam-toolbox,
+ python3-colcon-common-extensions,
+ build-essential,
+ cmake
+Description: Magni robot description package for ROS2 Jazzy
+ This package provides the robot description, launch files, and configuration
+ for the Magni robot in ROS2 Jazzy. It includes URDF models, Gazebo worlds,
+ navigation configurations, and launch files for simulation and real robot
+ operation.
+ .
+ The package is built and installed system-wide during installation.
+

@@ -1,0 +1,53 @@
+
+
+# postrm (Post-removal script)
+#!/bin/bash
+set -e
+
+PACKAGE_NAME="magni_description"
+ROS_DISTRO="jazzy"
+INSTALL_DIR="/opt/ros/${ROS_DISTRO}/share/${PACKAGE_NAME}"
+SOURCE_DIR="/opt/ros/${ROS_DISTRO}/src/magni_robot/${PACKAGE_NAME}"
+
+case "$1" in
+    remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+        echo "Removing ${PACKAGE_NAME} files..."
+        
+        # Remove installed package files
+        if [ -d "${INSTALL_DIR}" ]; then
+            rm -rf ${INSTALL_DIR}
+            echo "Removed ${INSTALL_DIR}"
+        fi
+        
+        # Remove source files
+        if [ -d "${SOURCE_DIR}" ]; then
+            rm -rf ${SOURCE_DIR}
+            echo "Removed ${SOURCE_DIR}"
+        fi
+        
+        # Remove from package index
+        if [ -f "/opt/ros/${ROS_DISTRO}/share/ament_index/resource_index/packages/${PACKAGE_NAME}" ]; then
+            rm -f /opt/ros/${ROS_DISTRO}/share/ament_index/resource_index/packages/${PACKAGE_NAME}
+            echo "Removed package index entry"
+        fi
+        
+        # Remove parent directory if empty
+        if [ -d "/opt/ros/${ROS_DISTRO}/src/magni_robot" ]; then
+            rmdir /opt/ros/${ROS_DISTRO}/src/magni_robot 2>/dev/null || true
+        fi
+        
+        echo "Removal of ${PACKAGE_NAME} completed."
+        ;;
+        
+    purge)
+        echo "Purging ${PACKAGE_NAME} configuration..."
+        # Add any additional cleanup for purge if needed
+        ;;
+        
+    *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
