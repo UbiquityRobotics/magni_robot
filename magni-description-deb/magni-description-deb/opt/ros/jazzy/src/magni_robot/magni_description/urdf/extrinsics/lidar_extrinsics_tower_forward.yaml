@@ -1,0 +1,19 @@
+# This file must be formatted in the following way
+#
+# x: 0.0
+# y: 0.0
+# z: 0.0
+# roll: 0.0
+# pitch: 0.0
+# yaw: 0.0
+#
+# Otherwise you might experience "No such key" errors when running robot description urdfs
+
+
+
+x: 0.153
+y: 0
+z: 0.3143
+roll: 0.0
+pitch: 0.0
+yaw: 0.0

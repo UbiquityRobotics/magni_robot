@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>magni_description</name>
+  <version>0.6.1</version>
+  <description>The ros2  magni_description package</description>
+
+  <maintainer email="alan.federman@gmail.com">Alan Federman</maintainer>
+  <license>BSD</license>
+
+<buildtool_depend>ament_cmake</buildtool_depend>
+
+
+  <exec_depend>controller_manager</exec_depend>
+  <exec_depend>diff_drive_controller</exec_depend>
+  <exec_depend>ros2launch</exec_depend>
+  
+  <exec_depend>teleop_twist_keyboard</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>joint_state_publisher</exec_depend>
+  <exec_depend>joint_state_publisher_gui</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>rviz</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>gazebo_ros</exec_depend>
+  <exec_depend>ros_gz_bridge</exec_depend>
+
+
+  <depend>robot_localization</depend>
+  <depend>navigation2</depend>
+  <depend>nav2_bringup</depend>
+  <depend>nav2_simple_commander</depend>
+  <depend>slam_toolbox</depend>
+
+  
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+
+</package>

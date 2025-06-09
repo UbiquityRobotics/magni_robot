@@ -1,0 +1,38 @@
+name: magni-description-snap
+base: core24
+version: '1.1'
+summary: Magni Description Snap
+description: |
+  This Snap packages the Magni robot description and launch files.
+
+grade: devel
+confinement: strict
+
+parts:
+  magni-description:
+    plugin: colcon
+    source: ../
+    source-type: local
+    build-environment:
+      - ROS_DISTRO: jazzy
+    build-packages:
+      - build-essential
+      - cmake
+    override-build: |
+      pip3 install colcon-common-extensions
+      colcon build --merge-install
+    stage-packages:
+      - ros-jazzy-xacro
+      - ros-jazzy-robot-state-publisher
+      - ros-jazzy-gazebo-ros
+      - ros-jazzy-ros-gz-bridge
+      - gz-harmonic
+
+apps:
+  description-launch:
+    command: opt/ros/jazzy/bin/ros2 launch magni_description description.launch.py
+    plugs: [network, network-bind, hardware-observe, joystick, home]
+    environment:
+      ROS_DOMAIN_ID: '0'
+      LD_LIBRARY_PATH: $SNAP/opt/ros/jazzy/lib:${LD_LIBRARY_PATH}
+      ROS_HOME: $SNAP_USER_COMMON/.ros
