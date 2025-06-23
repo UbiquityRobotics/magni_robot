@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <legacyModeNS>true</legacyModeNS>
+        </plugin>
+    </gazebo>
+
+    <gazebo>
+        <plugin name="gazebo_ros_p3d" filename="libgazebo_ros_p3d.so">
+            <updateRate>100</updateRate>
+            <bodyName>base_footprint</bodyName>
+            <topicName>exact_pose</topicName>
+            <frameName>map</frameName>
+        </plugin>
+    </gazebo>
+
+
+    <gazebo reference="left_wheel">
+        <mu1>1.0</mu1>
+        <mu2>1.0</mu2>
+        <fdir1>0 0 1</fdir1>
+        <minDepth>0.005</minDepth>
+        <kp>1e8</kp>
+    </gazebo>
+    <gazebo reference="right_wheel">
+        <mu1>1.0</mu1>
+        <mu2>1.0</mu2>
+        <fdir1>0 0 1</fdir1>
+        <minDepth>0.005</minDepth>
+        <kp>1e8</kp>
+    </gazebo>
+
+    <gazebo reference="left_caster_wheel">
+        <mu1>0.0</mu1>
+        <mu2>0.0</mu2>
+        <minDepth>0.005</minDepth>
+        <kp>1e8</kp>
+    </gazebo>
+    <gazebo reference="right_caster_wheel">
+        <mu1>0.0</mu1>
+        <mu2>0.0</mu2>
+        <minDepth>0.005</minDepth>
+        <kp>1e8</kp>
+    </gazebo>
+
+</robot>

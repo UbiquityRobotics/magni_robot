@@ -1,0 +1,8 @@
+Package: magni-description
+Version: 1.0.0
+Architecture: all
+Maintainer: Your Name <your.email@example.com>
+Depends: ros-jazzy-rclcpp, python3-colcon-common-extensions, python3-rosdep
+Description: Magni robot description package
+ URDF and mesh files for the Magni robot.
+ This package contains source files that will be compiled during installation.

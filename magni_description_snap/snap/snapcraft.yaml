@@ -1,0 +1,24 @@
+  name: magni-description-snap
+  base: core24
+  version: '1.0'
+  summary: Magni ROS 2 Description
+  description: Snap for Magni robot URDF and launch files.
+
+  grade: devel
+  confinement: devmode
+
+  parts:
+    magni-description:
+      plugin: colcon
+      source: .
+      build-packages:
+        - python3-pip
+        - python3-colcon-common-extensions
+      override-build: |
+        snapcraftctl build
+        pip3 install xacro
+
+  apps:
+    description-launch:
+      command: ros2 launch magni_description description.launch.py
+      extensions: [ros2-jazzy]

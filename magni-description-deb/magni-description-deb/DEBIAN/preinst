@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+
+PACKAGE_NAME="magni_description"
+ROS_DISTRO="jazzy"
+SOURCE_DIR="/opt/ros/${ROS_DISTRO}/src/magni_robot/${PACKAGE_NAME}"
+BACKUP_DIR="/tmp/${PACKAGE_NAME}_backup_$$"
+
+case "$1" in
+    install|upgrade)
+        # If this is an upgrade and source files exist, back them up
+        if [ -d "${SOURCE_DIR}" ]; then
+            echo "Backing up existing source files..."
+            mkdir -p "$(dirname ${BACKUP_DIR})"
+            cp -r "${SOURCE_DIR}" "${BACKUP_DIR}"
+            echo "Backup created at: ${BACKUP_DIR}"
+        fi
+        ;;
+    abort-upgrade)
+        ;;
+    *)
+        echo "preinst called with unknown argument \`$1'" >&2
+        exit 1
+        ;;
+esac
+
+exit 0

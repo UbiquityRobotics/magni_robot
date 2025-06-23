@@ -1,80 +1,206 @@
 #!/bin/bash
 set -e
 
-# Post-installation script for magni-description package
-
 PACKAGE_NAME="magni_description"
 ROS_DISTRO="jazzy"
 TEMP_WS="/tmp/magni_build_ws"
 SOURCE_DIR="/opt/ros/${ROS_DISTRO}/src/magni_robot/${PACKAGE_NAME}"
 INSTALL_DIR="/opt/ros/${ROS_DISTRO}/share/${PACKAGE_NAME}"
 
-echo "Installing ${PACKAGE_NAME} for ROS2 ${ROS_DISTRO}..."
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
 
-# Check if ROS2 is properly installed
-if [ ! -f "/opt/ros/${ROS_DISTRO}/setup.bash" ]; then
-    echo "Error: ROS2 ${ROS_DISTRO} not found. Please install ROS2 ${ROS_DISTRO} first."
-    exit 1
-fi
+log_info() {
+    echo -e "${GREEN}[INFO]${NC} $1"
+}
 
-# Source ROS2 environment
-source /opt/ros/${ROS_DISTRO}/setup.bash
+log_warn() {
+    echo -e "${YELLOW}[WARN]${NC} $1"
+}
 
-# Create temporary workspace
-echo "Creating temporary build workspace..."
-mkdir -p ${TEMP_WS}/src/magni_robot
-cd ${TEMP_WS}
+log_error() {
+    echo -e "${RED}[ERROR]${NC} $1"
+}
 
-# Copy source files to temporary workspace
-echo "Copying source files..."
-cp -r ${SOURCE_DIR} ${TEMP_WS}/src/magni_robot/
+# Function to cleanup on exit
+cleanup() {
+    if [ -d "${TEMP_WS}" ]; then
+        log_info "Cleaning up temporary workspace..."
+        rm -rf ${TEMP_WS}
+    fi
+    # Clean up any backup files older than 1 hour
+    find /tmp -name "${PACKAGE_NAME}_backup_*" -type d -mmin +60 -exec rm -rf {} + 2>/dev/null || true
+}
 
-# Install build dependencies
-echo "Installing build dependencies..."
-cd ${TEMP_WS}
-rosdep update || true
-rosdep install --from-paths src --ignore-src -r -y || true
+trap cleanup EXIT
 
-# Build the package
-echo "Building ${PACKAGE_NAME}..."
-cd ${TEMP_WS}
-colcon build --packages-select ${PACKAGE_NAME} --cmake-args -DCMAKE_BUILD_TYPE=Release
+case "$1" in
+    configure)
+        log_info "Configuring ${PACKAGE_NAME} for ROS2 ${ROS_DISTRO}..."
 
-# Check if build was successful
-if [ ! -d "${TEMP_WS}/install/${PACKAGE_NAME}" ]; then
-    echo "Error: Build failed for ${PACKAGE_NAME}"
-    rm -rf ${TEMP_WS}
-    exit 1
-fi
+        # Check if running as root
+        if [ "$EUID" -ne 0 ]; then
+            log_error "This script must be run as root"
+            exit 1
+        fi
 
-# Install built package to system location
-echo "Installing built package to system..."
-mkdir -p /opt/ros/${ROS_DISTRO}/share
-cp -r ${TEMP_WS}/install/${PACKAGE_NAME}/* /opt/ros/${ROS_DISTRO}/
+        # Check if ROS2 is installed
+        if [ ! -f "/opt/ros/${ROS_DISTRO}/setup.bash" ]; then
+            log_error "ROS2 ${ROS_DISTRO} not found. Please install ROS2 ${ROS_DISTRO} first."
+            exit 1
+        fi
 
-# Update package index if it exists
-if [ -f "/opt/ros/${ROS_DISTRO}/share/ament_index/resource_index/packages/${PACKAGE_NAME}" ]; then
-    echo "Package index already updated by colcon build"
-else
-    # Manually create package index entry
-    mkdir -p /opt/ros/${ROS_DISTRO}/share/ament_index/resource_index/packages
-    touch /opt/ros/${ROS_DISTRO}/share/ament_index/resource_index/packages/${PACKAGE_NAME}
-fi
+        # Verify source directory exists (should be installed by the deb package)
+        if [ ! -d "${SOURCE_DIR}" ]; then
+            log_error "Source directory not found: ${SOURCE_DIR}"
+            log_error "Package installation may have failed"
+            exit 1
+        fi
 
-# Clean up temporary workspace
-echo "Cleaning up temporary files..."
-rm -rf ${TEMP_WS}
+        # Verify essential package files
+        if [ ! -f "${SOURCE_DIR}/package.xml" ]; then
+            log_error "package.xml not found in ${SOURCE_DIR}"
+            exit 1
+        fi
 
-# Set proper permissions
-echo "Setting permissions..."
-chown -R root:root /opt/ros/${ROS_DISTRO}/share/${PACKAGE_NAME}
-find /opt/ros/${ROS_DISTRO}/share/${PACKAGE_NAME} -type d -exec chmod 755 {} \;
-find /opt/ros/${ROS_DISTRO}/share/${PACKAGE_NAME} -type f -exec chmod 644 {} \;
-find /opt/ros/${ROS_DISTRO}/share/${PACKAGE_NAME}/scripts -type f -exec chmod 755 {} \; 2>/dev/null || true
+        if [ ! -f "${SOURCE_DIR}/CMakeLists.txt" ]; then
+            log_error "CMakeLists.txt not found in ${SOURCE_DIR}"
+            exit 1
+        fi
 
-echo "Installation of ${PACKAGE_NAME} completed successfully!"
-echo "You can now use the package by sourcing ROS2 environment:"
-echo "  source /opt/ros/${ROS_DISTRO}/setup.bash"
-echo "  ros2 launch ${PACKAGE_NAME} <your_launch_file>"
+        # Source ROS2 environment
+        log_info "Sourcing ROS2 environment..."
+        source /opt/ros/${ROS_DISTRO}/setup.bash
+
+        # Check if required tools are available, install if needed
+        log_info "Checking build dependencies..."
+        MISSING_TOOLS=()
+        
+        if ! command -v colcon &> /dev/null; then
+            MISSING_TOOLS+=("python3-colcon-common-extensions")
+        fi
+        
+        if ! command -v rosdep &> /dev/null; then
+            MISSING_TOOLS+=("python3-rosdep")
+        fi
+
+        if [ ${#MISSING_TOOLS[@]} -gt 0 ]; then
+            log_info "Installing missing build tools: ${MISSING_TOOLS[*]}"
+            apt-get update
+            apt-get install -y "${MISSING_TOOLS[@]}" || {
+                log_error "Failed to install required build tools"
+                exit 1
+            }
+        fi
+
+        # Initialize rosdep if needed
+        if [ ! -f "/etc/ros/rosdep/sources.list.d/20-default.list" ]; then
+            log_info "Initializing rosdep..."
+            rosdep init || {
+                log_warn "Failed to initialize rosdep, but continuing..."
+            }
+        fi
+
+        # Create temporary workspace
+        log_info "Creating temporary build workspace..."
+        rm -rf ${TEMP_WS}
+        mkdir -p ${TEMP_WS}/src/magni_robot
+        cd ${TEMP_WS}
+
+        # Copy source files to temporary workspace
+        log_info "Copying source files..."
+        cp -r ${SOURCE_DIR} ${TEMP_WS}/src/magni_robot/
+
+        # Install build dependencies
+        log_info "Installing build dependencies..."
+        rosdep update || true
+        rosdep install --from-paths src --ignore-src -r -y || {
+            log_warn "Some dependencies may not have been installed correctly"
+        }
+
+        # Build the package
+        log_info "Building ${PACKAGE_NAME}..."
+        if ! colcon build --packages-select ${PACKAGE_NAME} --cmake-args -DCMAKE_BUILD_TYPE=Release; then
+            log_error "Build failed for ${PACKAGE_NAME}"
+            exit 1
+        fi
+
+        # Check if build was successful
+        if [ ! -d "${TEMP_WS}/install/${PACKAGE_NAME}" ]; then
+            log_error "Build output directory not found"
+            exit 1
+        fi
+
+        # Install built package to system location
+        log_info "Installing built package to system..."
+        mkdir -p /opt/ros/${ROS_DISTRO}/share
+        mkdir -p /opt/ros/${ROS_DISTRO}/lib
+
+        # Remove old installation if it exists
+        if [ -d "${INSTALL_DIR}" ]; then
+            rm -rf ${INSTALL_DIR}
+        fi
+
+        # Copy new installation
+        cp -r ${TEMP_WS}/install/${PACKAGE_NAME}/* /opt/ros/${ROS_DISTRO}/
+
+        # Update package index
+        log_info "Updating package index..."
+        PACKAGE_INDEX_DIR="/opt/ros/${ROS_DISTRO}/share/ament_index/resource_index/packages"
+        mkdir -p ${PACKAGE_INDEX_DIR}
+        touch ${PACKAGE_INDEX_DIR}/${PACKAGE_NAME}
+
+        # Set proper permissions
+        log_info "Setting permissions..."
+        chown -R root:root ${INSTALL_DIR} ${SOURCE_DIR}
+        find ${INSTALL_DIR} -type d -exec chmod 755 {} \;
+        find ${INSTALL_DIR} -type f -exec chmod 644 {} \;
+        find ${SOURCE_DIR} -type d -exec chmod 755 {} \;
+        find ${SOURCE_DIR} -type f -exec chmod 644 {} \;
+
+        # Make scripts executable if they exist
+        if [ -d "${INSTALL_DIR}/scripts" ]; then
+            find ${INSTALL_DIR}/scripts -type f -exec chmod 755 {} \;
+        fi
+
+        # Verify installation
+        log_info "Verifying installation..."
+        if [ ! -f "${INSTALL_DIR}/package.xml" ]; then
+            log_error "Installation verification failed"
+            exit 1
+        fi
+
+        log_info "Installation of ${PACKAGE_NAME} completed successfully!"
+        log_info ""
+        log_info "Source files location: ${SOURCE_DIR}"
+        log_info "Installed package location: ${INSTALL_DIR}"
+        log_info ""
+        log_info "To use the package:"
+        log_info "  source /opt/ros/${ROS_DISTRO}/setup.bash"
+        log_info "  ros2 pkg list | grep ${PACKAGE_NAME}"
+        log_info "  ros2 launch ${PACKAGE_NAME} <launch_file>"
+
+        # Show available launch files if any
+        if [ -d "${INSTALL_DIR}/launch" ]; then
+            LAUNCH_COUNT=$(find ${INSTALL_DIR}/launch -name "*.launch.*" -type f | wc -l)
+            if [ ${LAUNCH_COUNT} -gt 0 ]; then
+                log_info ""
+                log_info "Available launch files:"
+                find ${INSTALL_DIR}/launch -name "*.launch.*" -type f -exec basename {} \; | sort
+            fi
+        fi
+        ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+        ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+        ;;
+esac
 
 exit 0
