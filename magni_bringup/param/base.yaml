@@ -1,3 +1,0 @@
-# All parameters have been moved to /etc/ubiquity/robot.yaml and `magni_bringup/config/default_robot.yaml` 
-# How it works: if there are some parameters missing in `/etc/ubiquity/robot.yaml` they are taken individually from `magni_bringup/param/default_robot.yaml`. 
-# To get to know the details and explanations about this see the `magni_bringup/README.md`
