@@ -15,7 +15,10 @@
 
   <xacro:arg name="lidar_extrinsics_file" default=""/>
   <xacro:property name="lidar_extrinsics_file" value="$(arg lidar_extrinsics_file)"/>
-  
+
+  <xacro:arg name="gps_extrinsics_file" default=""/>
+  <xacro:property name="gps_extrinsics_file" value="$(arg gps_extrinsics_file)"/>
+
   <xacro:property name="wheel_r" value="0.1" />
   <xacro:property name="wheel_xpos" value="0.11" />
 
@@ -246,6 +249,52 @@
         rpy="${lidar_extrinsics['roll']} ${lidar_extrinsics['pitch']} ${lidar_extrinsics['yaw']}"/>
     </xacro:ur_c1_lidar>
   </xacro:if>
+
+
+  <xacro:if value="${gps_extrinsics_file != ''}">
+      <xacro:property name="gps_extrinsics" value="${xacro.load_yaml(gps_extrinsics_file)}"/>
+      
+      <link name="gps_link">
+        <visual>
+          <geometry>
+            <box size="0.05 0.05 0.02"/>
+          </geometry>
+          <material name="black"/>
+        </visual>
+      </link>
+
+      <joint name="gps_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="gps_link"/>
+        <origin xyz="${gps_extrinsics['x']} ${gps_extrinsics['y']} ${gps_extrinsics['z']}"
+          rpy="${gps_extrinsics['roll']} ${gps_extrinsics['pitch']} ${gps_extrinsics['yaw']}"/>
+      </joint>
+
+      <gazebo reference="gps_link">
+        <sensor name="navsat" type="navsat">
+          <always_on>1</always_on>
+          <update_rate>1</update_rate>
+          <topic>navsat</topic>
+          <navsat>
+            <position_sensing>
+              <horizontal>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>0.01</stddev>
+                </noise>
+              </horizontal>
+              <vertical>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>0.01</stddev>
+                </noise>
+              </vertical>
+            </position_sensing>
+          </navsat>
+        </sensor>
+      </gazebo>
+    </xacro:if>
+
 
  <!-- ROS 2 Control block -->
   <ros2_control name="ubiquity_motor_ros2/MotorHardware" type="system">

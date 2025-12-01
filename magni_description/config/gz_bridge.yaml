@@ -69,3 +69,10 @@
   ros_type_name: "geometry_msgs/msg/TwistStamped"
   gz_type_name: "gz.msgs.Twist"
   direction: "ROS_TO_GZ"
+
+# gz topic published by NavSat plugin
+- ros_topic_name: "gnss/fix"
+  gz_topic_name: "gnss/fix"
+  ros_type_name: "sensor_msgs/msg/NavSatFix"
+  gz_type_name: "gz.msgs.NavSat"
+  direction: "GZ_TO_ROS"

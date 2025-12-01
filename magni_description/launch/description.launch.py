@@ -34,6 +34,8 @@ ARGUMENTS = [
         DeclareLaunchArgument('lidar_extrinsics_file', default_value='extrinsics/lidar_extrinsics_top_plate_center.yaml', 
                           choices=['extrinsics/lidar_extrinsics_top_plate_center.yaml'],
                           description='Path to lidar extrinsics file'),
+        DeclareLaunchArgument('gps_extrinsics_file', default_value='extrinsics/gps_extrinsics_top_plate.yaml', 
+                          description='Path to gps extrinsics file'),
                                      ]
 
 def generate_launch_description():
@@ -82,7 +84,8 @@ def generate_launch_description():
     'shell_installed': LaunchConfiguration('shell_installed'),
     'sonars_installed': LaunchConfiguration('sonars_installed'),
     'lidar_extrinsics_file': LaunchConfiguration('lidar_extrinsics_file'),
-    'camera_extrinsics_file': LaunchConfiguration('camera_extrinsics_file')
+    'camera_extrinsics_file': LaunchConfiguration('camera_extrinsics_file'),
+    'gps_extrinsics_file': LaunchConfiguration('gps_extrinsics_file')
 }
 
 
@@ -115,7 +118,8 @@ def generate_launch_description():
                     ' shell_installed:=', LaunchConfiguration('shell_installed'),
                     ' sonars_installed:=', LaunchConfiguration('sonars_installed'),
                     ' lidar_extrinsics_file:=', LaunchConfiguration('lidar_extrinsics_file'),
-                    ' camera_extrinsics_file:=', LaunchConfiguration('camera_extrinsics_file')
+                    ' camera_extrinsics_file:=', LaunchConfiguration('camera_extrinsics_file'),
+                    ' gps_extrinsics_file:=', LaunchConfiguration('gps_extrinsics_file')
                     ])},
         ],
         remappings=[
@@ -140,7 +144,7 @@ def generate_launch_description():
         executable='create',
         arguments=[
             '-name', robotXacroName,
-            '-string', robot_description_content,
+            '-topic', '/robot_description',
             '-x', x,
             '-y', y,
             '-z', z,
