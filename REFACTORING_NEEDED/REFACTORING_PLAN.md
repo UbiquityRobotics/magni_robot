@@ -132,4 +132,4 @@ Create a dedicated launch file: `magni_gazebo/launch/sim_with_web.launch.py`.
 1.  **Clean Root:** Move packaging files.
 2.  **Split URDF:** Break `magni.urdf.xacro` into `common`, `sensors`, and `robots`.
 3.  **Fix Launch:** Rewrite `description.launch.py` to be pure (no Gazebo logic inside).
-4.  **Create Sim Launch:** Create the dedicated Gazebo launch file.
+4.  **Create Sim Launch:** Create the dedicated Gazebo file.
