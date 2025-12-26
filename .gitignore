@@ -1,0 +1,13 @@
+build/
+install/
+log/
+
+__pycache__/
+*.pyc
+
+create_distilled_version.sh
+ezmap_pro/
+
+#vims, code, nvims
+.vscode/
+*.swp
