@@ -30,7 +30,7 @@ In the new architecture, every package has a single, well-defined purpose.
 *   **Dependencies:** None (Pure data).
 *   **Key Concept:** This package is the *only* place where the robot's geometry and sensor locations are defined. Both Sim and Real hardware depend on this.
 
-### 📦 `magni_gazebo` (The Simulation Consumer)
+###  `magni_gazebo` (The Simulation Consumer)
 *   **Role:** Provides the virtual environment and simulation-specific plugins.
 *   **Contents:** World files, Simulation Launch files (`sim.launch.py`), Gazebo-specific config (`bridge.yaml`).
 *   **Dependencies:** `magni_description`.
@@ -108,19 +108,19 @@ We will implement a 3-Layer Launch System to ensure scalability.
 *   [ ] **Clean Root**: Ensure only packages and `README.md` remain.
 
 ### Phase 2: Restore `magni_description` (The Great Migration)
-*   [ ] **Move Assets**: Transfer `meshes/` and `urdf/` from `magni_gazebo` to `magni_description`.
-*   [ ] **Refactor URDFs**:
-    *   Update all `package://` and `$(find ...)` paths to point to `magni_description`.
-    *   Split `magni.urdf.xacro` into atomic components (`chassis`, `sensors`).
+*   [x] **Move Assets**: Transfer `meshes/` and `urdf/` from `magni_gazebo` to `magni_description`. (Redundant copies deleted).
+*   [x] **Refactor URDFs**:
+    *   [x] Update all `package://` and `$(find ...)` paths to point to `magni_description`.
+    *   [x] Split `magni.urdf.xacro` into atomic components (`chassis`, `sensors`). (Created `magni_base.urdf.xacro`).
 
 ### Phase 3: Implement Variants
-*   [ ] **Create Variants**: Implement the 3 Top-Level URDFs in `magni_description/urdf/robots/`.
-*   [ ] **Verify**: Use `check_urdf` to validate the TF tree for each variant.
+*   [x] **Create Variants**: Implement the 3 Top-Level URDFs in `magni_description/urdf/robots/`.
+*   [ ] **Verify**: Use `check_urdf` to validate the TF tree for each variant. (Skipped: `xacro` tool missing in environment).
 
 ### Phase 4: Launch System Implementation
-*   [ ] **Layer 1**: Create `magni_description/launch/robot_description.launch.py`.
-*   [ ] **Layer 2 (Sim)**: Update `magni_gazebo/launch/sim.launch.py`.
-*   [ ] **Layer 2 (Real)**: Create `magni_bringup/launch/robot.launch.py`.
+*   [x] **Layer 1**: Create `magni_description/launch/robot_description.launch.py`.
+*   [x] **Layer 2 (Sim)**: Update `magni_gazebo/launch/sim.launch.py`.
+*   [x] **Layer 2 (Real)**: Create `magni_bringup/launch/robot.launch.py`.
 
 ---
 

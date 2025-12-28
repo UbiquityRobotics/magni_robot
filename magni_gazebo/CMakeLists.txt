@@ -51,18 +51,6 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}/
 )
 
-# Install mesh files.
-install(DIRECTORY
-  meshes
-  DESTINATION share/${PROJECT_NAME}/
-)
-
-# Install urdf files( *Now extrisics moved under urdf).
-install(DIRECTORY
-  urdf
-  DESTINATION share/${PROJECT_NAME}/
-)
-
 # Install config files.
 install(DIRECTORY
   config

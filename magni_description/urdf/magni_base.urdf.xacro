@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="magni_base">
+
+  <xacro:arg name="use_sim" default="false"/>
+
+  <xacro:property name="wheel_r" value="0.1" />
+  <xacro:property name="wheel_xpos" value="0.11" />
+
+  <xacro:include filename="$(find magni_description)/urdf/magni.transmission.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/magni.gazebo.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/inertial.xacro" />
+
+  <!-- Robot base_link -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="${-wheel_xpos} 0 ${-wheel_r+0.071}" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://magni_description/meshes/gen5_silver/gen5_silver_body.dae" />
+      </geometry>
+    </visual>
+	<visual>
+      <origin xyz="${-wheel_xpos-0.169} 0.17 ${-wheel_r+0.09}" rpy="0 0 ${pi}" />
+      <geometry>
+        <mesh filename="package://magni_description/meshes/common/caster_wheel.dae" />
+      </geometry>
+    </visual>
+	<visual>
+      <origin xyz="${-wheel_xpos-0.169} -0.17 ${-wheel_r+0.09}" rpy="0 0 ${pi}" />
+      <geometry>
+        <mesh filename="package://magni_description/meshes/common/caster_wheel.dae" />
+      </geometry>
+    </visual>
+    <collision>
+	  <origin xyz="${-wheel_xpos} 0 ${-wheel_r+0.151}" rpy="0 0 0" />
+      <geometry>
+        <box size="0.398 0.268 0.160"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="${-wheel_xpos-0.026} 0 ${-wheel_r+0.248}" rpy="0 0 0" />
+      <geometry>
+        <box size="0.375 0.268 0.034"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="${-wheel_xpos-0.169} 0.169 ${-wheel_r+0.106}" rpy="0 0 0" />
+      <geometry>
+        <box size="0.1 0.07 0.07"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="${-wheel_xpos-0.169} -0.169 ${-wheel_r+0.106}" rpy="0 0 0" />
+      <geometry>
+        <box size="0.1 0.07 0.07"/>
+      </geometry>
+    </collision>
+    <xacro:box_inertial_with_origin  x="0.398" y="0.221" z="0.150" mass="10.0">
+      <origin xyz="-0.15 0 0.03" rpy="0 0 0" />
+    </xacro:box_inertial_with_origin>
+  </link>
+
+  <!-- Fixed offset from the floor to the center of the wheels -->
+  <link name="base_footprint"/>
+  <joint name="base_footprint_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 ${wheel_r}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Macro for defining wheels -->
+  <xacro:macro name="wheel" params="prefix reflect">
+    <link name="${prefix}_wheel">
+      <visual>
+        <origin xyz="${-0.071*reflect} 0 0" rpy="0 ${(reflect-1)*pi/2} 0" />
+        <geometry>
+          <mesh filename="package://magni_description/meshes/common/standard_wheel.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 ${pi/2} 0" />
+        <geometry>
+          <cylinder radius="${wheel_r}" length="0.05"/>
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="${0.033*reflect} 0 0" rpy="0 ${pi/2} 0" />
+        <geometry>
+          <cylinder radius="0.064" length="0.016"/>
+        </geometry>
+      </collision>
+      <xacro:cylinder_inertial_with_origin radius="${wheel_r}" length="0.05" mass="3.34">
+        <origin xyz="0 0 0" rpy="0 ${pi/2} 0" />
+      </xacro:cylinder_inertial_with_origin>
+    </link>
+    <joint name="${prefix}_wheel_joint" type="continuous">
+      <axis xyz="1 0 0" rpy="0 0 0" />
+      <parent link="base_link"/>
+      <child link="${prefix}_wheel"/>
+      <origin xyz="0 ${0.163*reflect} 0" rpy="0 0 ${pi/2}"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:wheel prefix="left" reflect="1"/>
+  <xacro:wheel prefix="right" reflect="-1"/>
+
+  <!-- Macro for defining caster wheels -->
+  <xacro:macro name="caster_wheel" params="prefix reflect">
+    <link name="${prefix}_caster_wheel">
+      <collision>
+        <origin xyz="${-wheel_xpos-0.19} ${reflect*0.169} ${-wheel_r+0.04}" rpy="0 0 0" />
+        <geometry>
+          <sphere radius="0.04"/>
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${prefix}_caster_wheel_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="${prefix}_caster_wheel"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:caster_wheel prefix="left" reflect="1"/>
+  <xacro:caster_wheel prefix="right" reflect="-1"/>
+
+ <!-- ROS 2 Control block -->
+  <ros2_control name="MagniSystem" type="system">
+    <hardware>
+      <xacro:if value="$(arg use_sim)">
+        <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+      </xacro:if>
+      <xacro:unless value="$(arg use_sim)">
+        <plugin>ubiquity_motor_ros2/MotorHardware</plugin>
+      </xacro:unless>
+    </hardware>
+
+    <joint name="left_wheel_joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+
+    <joint name="right_wheel_joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+  </ros2_control>
+
+  <xacro:if value="$(arg use_sim)">
+    <gazebo>
+        <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+            <parameters>$(find magni_gazebo)/config/diff_drive_controller.yaml</parameters>
+        </plugin>
+    </gazebo>
+  </xacro:if>
+
+</robot>
