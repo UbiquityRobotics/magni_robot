@@ -30,6 +30,9 @@ To ensure all simulation, control, and navigation features work correctly, you m
 *   `ros-jazzy-gps-umd`: Tools for parsing and processing GPS data (required by `iris_lama` SLAM).
 *   `libpcap-dev`: System library for network packet capture, required to compile the `lslidar_driver`.
 
+**Web Interface:**
+*   `ros-jazzy-rosbridge-server`: A WebSocket server that provides a JSON API to ROS 2 systems, required for the EzMap web interface to communicate with the robot.
+
 **Installation Command:**
 
 ```bash
@@ -47,6 +50,7 @@ sudo apt install -y \
   ros-jazzy-camera-info-manager \
   ros-jazzy-rviz-visual-tools \
   ros-jazzy-gps-umd \
+  ros-jazzy-rosbridge-server \
   libpcap-dev
 ```
 

@@ -78,6 +78,20 @@ def generate_launch_description():
     yaml_path = os.path.join(pkg_magni_gazebo, "config", yaml_file_name)
     rviz_config_file = PathJoinSubstitution([FindPackageShare("magni_gazebo"), "config", "robot_config.rviz"])
 
+    # Ensure Gazebo can find the meshes
+    pkg_share = get_package_share_directory('magni_description')
+    install_share = os.path.dirname(pkg_share)
+    
+    # Add both the package specific share and the general install/share
+    new_paths = [install_share, pkg_share]
+    
+    if 'GZ_SIM_RESOURCE_PATH' in os.environ:
+        os.environ['GZ_SIM_RESOURCE_PATH'] = os.environ['GZ_SIM_RESOURCE_PATH'] + ':' + ':'.join(new_paths)
+    else:
+        os.environ['GZ_SIM_RESOURCE_PATH'] = ':'.join(new_paths)
+    
+    print(f"DEBUG: GZ_SIM_RESOURCE_PATH set to: {os.environ['GZ_SIM_RESOURCE_PATH']}")
+
     # RViz2
     rviz_node = Node(
         package="rviz2",
