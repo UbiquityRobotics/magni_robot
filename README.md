@@ -59,8 +59,8 @@ sudo apt install -y \
 Navigate to your workspace root and build the packages using `colcon`. The `--symlink-install` flag is recommended for development to reflect changes in Python scripts and launch files without rebuilding.
 
 ```bash
-cd ~/code  # Adjust to your workspace root
-colcon build --symlink-install
+cd ~/ros2_ws  # Or whatever workspace root
+colcon build 
 ```
 
 ### 3. Launching the Simulation
@@ -69,7 +69,12 @@ To launch the full simulation stack, including the robot description, Gazebo env
 
 1.  **Source the workspace:**
     ```bash
-    source install/setup.bash
+    source install/setup.bash # or whatever shell you use
+    ```
+
+    **Zenoh RMW Nuance:** If you have `rmw_zenoh_cpp`, you not only need to set the `RMW_IMPLEMENTATION` environment variable but also must have the Zenoh router running first before you launch:
+    ```bash
+    ros2 run rmw_zenoh_cpp rmw_zenohd
     ```
 
 2.  **Run the main launch file:**
