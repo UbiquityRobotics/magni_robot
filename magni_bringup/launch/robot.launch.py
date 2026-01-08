@@ -54,7 +54,7 @@ def generate_launch_description():
     diff_drive_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["diffbot_base_controller"],
+        arguments=["diffbot_base_controller", "--controller-ros-args", "-r /diffbot_base_controller/cmd_vel:=/cmd_vel"],
     )
     
     delayed_jsb_spawner = TimerAction(
