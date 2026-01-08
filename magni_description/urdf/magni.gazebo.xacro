@@ -2,8 +2,8 @@
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
     <gazebo>
-        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-            <legacyModeNS>true</legacyModeNS>
+        <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+            <parameters>$(find magni_gazebo)/config/diff_drive_controller.yaml</parameters>
         </plugin>
     </gazebo>
 
