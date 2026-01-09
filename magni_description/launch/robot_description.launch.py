@@ -3,6 +3,7 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.substitutions import Command, PathJoinSubstitution, LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
     pkg_magni_description = get_package_share_directory('magni_description')
@@ -15,7 +16,7 @@ def generate_launch_description():
     )
     
     arg_use_sim_time = DeclareLaunchArgument(
-        'use_sim_time', default_value='false',
+        'use_sim_time', default_value='true',
         choices=['true', 'false'], description='sim time'
     )
 
@@ -39,7 +40,13 @@ def generate_launch_description():
         output='screen',
         parameters=[
             {'use_sim_time': use_sim_time},
-            {'robot_description': Command(['xacro', ' ', xacro_file, ' use_sim:=', use_sim_time])},
+            {
+                # Force xacro output to be treated as a plain string (not YAML) and ensure spacing
+                'robot_description': ParameterValue(
+                    Command(['xacro', ' ', xacro_file, ' ', 'use_sim:=', use_sim_time]),
+                    value_type=str,
+                )
+            },
         ],
         remappings=[
             ('/tf', 'tf'),

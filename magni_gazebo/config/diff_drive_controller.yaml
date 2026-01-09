@@ -39,13 +39,16 @@ diffbot_base_controller:
     publish_rate: 50.0
     odom_frame_id: odom
     base_frame_id: base_footprint
+    # Accept plain Twist to match move_smooth/route_executor; set teleop to stamped:=false
+    use_stamped_vel: false
     # pose_covariance_diagonal : [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
     # twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
 
     open_loop: true
     enable_odom_tf: true
 
-    cmd_vel_timeout: 0.5
+    # Short timeout to drop commands quickly when publishers stop
+    cmd_vel_timeout: 0.2
     #publish_limited_velocity: true
     #velocity_rolling_window_size: 10
 

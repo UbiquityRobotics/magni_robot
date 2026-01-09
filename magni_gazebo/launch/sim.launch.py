@@ -128,14 +128,19 @@ def generate_launch_description():
         [FindPackageShare("magni_gazebo"), "config", "diff_drive_controller.yaml"]
     )
 
-    joint_state_broadcaster_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["joint_state_broadcaster"],
+    joint_state_broadcaster_spawner = TimerAction(
+        period=5.0,
+        actions=[
+            Node(
+                package="controller_manager",
+                executable="spawner",
+                arguments=["joint_state_broadcaster", "--controller-manager-timeout", "15"],
+            )
+        ]
     )
 
     diff_drive_robot_controller_spawner = TimerAction(
-        period=10.0, # Give plenty of time for Gazebo to start CM
+        period=15.0, # Give Gazebo time to start CM
         actions=[
             Node(
                 package="controller_manager",
@@ -144,6 +149,8 @@ def generate_launch_description():
                     "diffbot_base_controller",
                     "--param-file",
                     robot_controllers,
+                    "--controller-manager-timeout",
+                    "15",
                     "--controller-ros-args",
                     "-r /diffbot_base_controller/cmd_vel:=/cmd_vel",
                 ],
@@ -152,12 +159,7 @@ def generate_launch_description():
         ]
     )
 
-    # Watchdog
-    cmd_vel_watchdog_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory("magni_gazebo"), 'launch', 'cmd_vel_watchdog_launch.py')
-        )
-    )
+    # Watchdog removed: cmd_vel is driven directly to ros2_control; watchdog caused cmd_vel hijack/duplication
 
     return LaunchDescription([
         arg_robot_type, arg_use_sim_time, arg_gui, arg_world,

@@ -148,12 +148,4 @@
     </joint>
   </ros2_control>
 
-  <xacro:if value="$(arg use_sim)">
-    <gazebo>
-        <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
-            <parameters>$(find magni_gazebo)/config/diff_drive_controller.yaml</parameters>
-        </plugin>
-    </gazebo>
-  </xacro:if>
-
 </robot>
