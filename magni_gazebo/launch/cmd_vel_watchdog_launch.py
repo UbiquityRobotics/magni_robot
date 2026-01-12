@@ -18,6 +18,7 @@ def generate_launch_description():
             name='cmd_vel_watchdog',
             output='screen',
             shell=True,
-            prefix='python3 ' + script_path + ' '
+            prefix='python3 ' + script_path + ' ',
+            remappings=[('/cmd_vel', '/cmd_vel_stamped')]
         )
     ])

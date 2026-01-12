@@ -28,8 +28,9 @@
 
 
   <gazebo reference="${name}">
-    <!--<sensor type="gpu_ray" name="${name}_sensor>-->
-    <sensor type="ray" name="${name}_sensor">
+    <sensor type="gpu_lidar" name="${name}_sensor">
+      <topic>scan</topic>
+      <gz_frame_id>${name}</gz_frame_id>
       <pose>0 0 0 0 0 0</pose>
       <visualize>false</visualize>
       <update_rate>20</update_rate>
@@ -57,11 +58,6 @@
           <stddev>0.01</stddev>
         </noise>
       </ray>
-      <!--<plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_gpu_laser.so">-->
-      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
-        <topicName>/scan</topicName>
-        <frameName>${name}</frameName>
-      </plugin>
     </sensor>
   </gazebo>
 

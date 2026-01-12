@@ -159,7 +159,12 @@ def generate_launch_description():
         ]
     )
 
-    # Watchdog removed: cmd_vel is driven directly to ros2_control; watchdog caused cmd_vel hijack/duplication
+    # Watchdog: republish zero on cmd_vel when idle to avoid lingering motion
+    cmd_vel_watchdog_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_magni_gazebo, 'launch', 'cmd_vel_watchdog_launch.py')
+        )
+    )
 
     return LaunchDescription([
         arg_robot_type, arg_use_sim_time, arg_gui, arg_world,
