@@ -1,6 +1,6 @@
-# Magni Robot Simulation Stack
+# Magni Robot Stack
 
-This repository contains the simulation and description files for the Ubiquity Robotics Magni robot, compatible with ROS 2 Jazzy.
+This repository contains the robot description, Gazebo simulation, and bringup for the Ubiquity Robotics Magni platform on ROS 2 Jazzy. It supports both the physical robot (hardware bringup) and simulation.
 
 ## System Requirements
 
