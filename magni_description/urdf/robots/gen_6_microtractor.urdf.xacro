@@ -9,7 +9,7 @@
   <xacro:property name="wheel_xpos" value="0.11" />
 
   <!-- Includes -->
-  <xacro:include filename="$(find magni_description)/urdf/magni.transmission.xacro" />
+  <!-- <xacro:include filename="$(find magni_description)/urdf/magni.transmission.xacro" /> -->
   <xacro:include filename="$(find magni_description)/urdf/magni.gazebo.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/inertial.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/ur50_lidar.xacro" />

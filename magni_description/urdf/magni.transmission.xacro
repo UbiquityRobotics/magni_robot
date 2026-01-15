@@ -1,4 +1,0 @@
-<?xml version="1.0"?>
-<robot xmlns:xacro="http://wiki.ros.org/xacro">
-  <!-- Intentionally empty: ros2_control is defined in each robot URDF to avoid duplicate controller_managers. -->
-</robot>
