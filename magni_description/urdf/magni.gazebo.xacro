@@ -32,17 +32,4 @@
         <kp>1e8</kp>
     </gazebo>
 
-    <gazebo reference="left_caster_wheel">
-        <mu1>0.0</mu1>
-        <mu2>0.0</mu2>
-        <minDepth>0.005</minDepth>
-        <kp>1e8</kp>
-    </gazebo>
-    <gazebo reference="right_caster_wheel">
-        <mu1>0.0</mu1>
-        <mu2>0.0</mu2>
-        <minDepth>0.005</minDepth>
-        <kp>1e8</kp>
-    </gazebo>
-
 </robot>

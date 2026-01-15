@@ -117,6 +117,10 @@
         </geometry>
       </collision>
     </link>
+    <gazebo reference="${prefix}_caster_wheel">
+      <mu1>0.01</mu1>
+      <mu2>0.01</mu2>
+    </gazebo>
     <joint name="${prefix}_caster_wheel_joint" type="fixed">
       <parent link="base_link"/>
       <child link="${prefix}_caster_wheel"/>

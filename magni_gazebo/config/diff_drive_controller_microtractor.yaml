@@ -1,0 +1,26 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 50  # Hz
+    use_sim_time: true
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+diffbot_base_controller:
+  ros__parameters:
+    type: diff_drive_controller/DiffDriveController
+
+    # 4-WHEEL CONFIG (Skid Steer)
+    left_wheel_names: ["front_left_wheel_joint", "rear_left_wheel_joint"]
+    right_wheel_names: ["front_right_wheel_joint", "rear_right_wheel_joint"]
+
+    wheel_separation: 0.72  # Matches URDF
+    wheel_radius: 0.27      # Matches URDF
+
+    publish_rate: 50.0
+    odom_frame_id: odom
+    base_frame_id: base_footprint
+    use_sim_time: true
+
+    open_loop: true
+    enable_odom_tf: true

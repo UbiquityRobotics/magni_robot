@@ -4,63 +4,87 @@
   <!-- Arguments -->
   <xacro:arg name="use_sim" default="false"/>
 
-  <!-- Properties -->
-  <xacro:property name="wheel_r" value="0.1" />
-  <xacro:property name="wheel_xpos" value="0.11" />
+  <!-- ======================================================================== -->
+  <!--                             TUNING DASHBOARD                             -->
+  <!-- ======================================================================== -->
+  
+  <!-- 1. ROBOT DIMENSIONS (Where the wheels sit) -->
+  <xacro:property name="wheel_separation" value="0.72" /> <!-- RESTORED: Physical Track Width for Physics/RViz -->
+  <xacro:property name="wheel_wheelbase"  value="0.68" /> <!-- Wheelbase: Front-to-Back distance -->
+  <xacro:property name="axle_stagger_x"   value="0.00" /> <!-- Stagger REMOVED -->
+
+  <!-- 2. CHASSIS POSITION (Where the body sits) -->
+  <xacro:property name="wheel_xpos"       value="0.11" /> <!-- Moves Blue Chassis BACKWARDS relative to wheels -->
+  
+  <!-- 3. WHEEL GEOMETRY -->
+  <xacro:property name="wheel_r" value="0.27" />
+
+  <!-- 4. VISUAL MESH CONSTANTS (DO NOT CHANGE unless mesh changes) -->
+  <!-- Calculated from Fusion 360 [166.483, 262.155, -606.833] -->
+  <xacro:property name="fusion_x" value="0.166483" />
+  <xacro:property name="fusion_y" value="0.262155" />
+  <xacro:property name="fusion_z" value="-0.606833" />
+  
+  <!-- 5. MANUAL VISUAL CORRECTION (Decouples Visuals from Physics) -->
+  <!-- PULLS the meshes inward while keeping the Red Physics Boxes at 0.72m -->
+  <xacro:property name="visual_manual_y_offset" value="0.2" />
+  <!-- 6. LIDAR POSITIONING (Invisible Sensor) -->
+  <xacro:property name="lidar_x" value="0.25" />
+  <xacro:property name="lidar_y" value="0.0" />
+  <xacro:property name="lidar_z" value="0.4" />
+  <xacro:property name="lidar_r" value="0.0" />
+  <xacro:property name="lidar_p" value="0.0" />
+  <xacro:property name="lidar_yaw" value="0.0" />
+  <!-- 7. PHYSICS PROPERTIES (Mass in Kg) -->
+  <xacro:property name="chassis_mass" value="400.0" /> <!-- Estimate: 100kg tractor body -->
+  <xacro:property name="wheel_mass"   value="8" />  <!-- : 8kg per heavy fully inflated tire -->  <!-- ======================================================================== -->
+  <!-- ======================================================================== -->
 
   <!-- Includes -->
   <!-- <xacro:include filename="$(find magni_description)/urdf/magni.transmission.xacro" /> -->
   <xacro:include filename="$(find magni_description)/urdf/magni.gazebo.xacro" />
-  <xacro:include filename="$(find magni_description)/urdf/inertial.xacro" />
-  <xacro:include filename="$(find magni_description)/urdf/sensors/ur50_lidar.xacro" />
+  
+  <!-- Inertial Macros (formerly from inertial.xacro) -->
+  <xacro:macro name="cylinder_inertial_with_origin" params="radius length mass *origin">
+    <inertial>
+      <mass value="${mass}" />
+      <xacro:insert_block name="origin" />
+      <inertia ixx="${0.0833333 * mass * (3 * radius * radius + length * length)}" ixy="0.0" ixz="0.0"
+               iyy="${0.0833333 * mass * (3 * radius * radius + length * length)}" iyz="0.0"
+               izz="${0.5 * mass * radius * radius}" />
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="box_inertial_with_origin" params="x y z mass *origin">
+    <inertial>
+      <mass value="${mass}" />
+      <xacro:insert_block name="origin" />
+      <inertia ixx="${0.0833333 * mass * (y*y + z*z)}" ixy="0.0" ixz="0.0"
+               iyy="${0.0833333 * mass * (x*x + z*z)}" iyz="0.0"
+               izz="${0.0833333 * mass * (x*x + y*y)}" />
+    </inertial>
+  </xacro:macro>
+
   <xacro:include filename="$(find magni_description)/urdf/sensors/raspi_camera.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/gps_antenna.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/sensors/ur_c1_lidar.xacro" />
 
   <!-- Robot base_link -->
   <link name="base_link">
     <visual>
       <origin xyz="${-wheel_xpos} 0 ${-wheel_r+0.071}" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://magni_description/meshes/gen6/chassis_microtractor.dae" />
-      </geometry>
-    </visual>
-	<visual>
-      <origin xyz="${-wheel_xpos-0.169} 0.17 ${-wheel_r+0.09}" rpy="0 0 ${pi}" />
-      <geometry>
-        <mesh filename="package://magni_description/meshes/common/caster_wheel.dae" />
-      </geometry>
-    </visual>
-	<visual>
-      <origin xyz="${-wheel_xpos-0.169} -0.17 ${-wheel_r+0.09}" rpy="0 0 ${pi}" />
-      <geometry>
-        <mesh filename="package://magni_description/meshes/common/caster_wheel.dae" />
+        <!-- Reverting to OBJ because the DAE file (127MB) is causing Gazebo to crash (Segfault). -->
+        <mesh filename="package://magni_description/meshes/gen6/chassis_microtractor.obj" scale="0.001 0.001 0.001" />
       </geometry>
     </visual>
     <collision>
-	  <origin xyz="${-wheel_xpos} 0 ${-wheel_r+0.151}" rpy="0 0 0" />
+	  <origin xyz="${-wheel_xpos} 0 ${-wheel_r+0.33}" rpy="0 0 0" />
       <geometry>
-        <box size="0.398 0.268 0.160"/>
+        <box size="1.200 0.495 0.665"/>
       </geometry>
     </collision>
-    <collision>
-      <origin xyz="${-wheel_xpos-0.026} 0 ${-wheel_r+0.248}" rpy="0 0 0" />
-      <geometry>
-        <box size="0.375 0.268 0.034"/>
-      </geometry>
-    </collision>
-    <collision>
-      <origin xyz="${-wheel_xpos-0.169} 0.169 ${-wheel_r+0.106}" rpy="0 0 0" />
-      <geometry>
-        <box size="0.1 0.07 0.07"/>
-      </geometry>
-    </collision>
-    <collision>
-      <origin xyz="${-wheel_xpos-0.169} -0.169 ${-wheel_r+0.106}" rpy="0 0 0" />
-      <geometry>
-        <box size="0.1 0.07 0.07"/>
-      </geometry>
-    </collision>
-    <xacro:box_inertial_with_origin  x="0.398" y="0.221" z="0.150" mass="10.0">
+    <xacro:box_inertial_with_origin  x="1.200" y="0.495" z="0.665" mass="${chassis_mass}">
       <origin xyz="-0.15 0 0.03" rpy="0 0 0" />
     </xacro:box_inertial_with_origin>
   </link>
@@ -73,60 +97,73 @@
     <origin xyz="0 0 ${wheel_r}" rpy="0 0 0"/>
   </joint>
 
-  <!-- Macro for defining wheels -->
-  <xacro:macro name="wheel" params="prefix reflect">
+  <!-- 
+    SYSTEMATIC WHEEL MACRO
+    
+    LOGIC EXPLANATION:
+    1. Physics (Joint & Collision): 
+       We place the joint at the desired Track Width (wheel_separation).
+       The collision box (cylinder) is centered on this joint (0,0,0).
+       This ensures the "Red Boxes" are exactly where we define the axle to be.
+       
+    2. Visuals (Mesh):
+       We use the Fusion 360 offsets to shift the calculated "Wheel Center" 
+       of the mesh to the Joint Origin (0,0,0).
+       This ensures the tire spins perfectly around the physics box without orbiting.
+  -->
+  <xacro:macro name="wheel" params="prefix reflect_x reflect_y">
     <link name="${prefix}_wheel">
       <visual>
-        <origin xyz="${-0.071*reflect} 0 0" rpy="0 ${(reflect-1)*pi/2} 0" />
+        <!-- 
+            VISUAL OFFSET (Centering + Manual Gap Compensation)
+            Corrected to purely use Fusion offsets for centering, and rely on Joint for position.
+        -->
+        <origin xyz="${-fusion_z * reflect_y} ${-(fusion_x + visual_manual_y_offset) * reflect_y} ${-fusion_y}" 
+                rpy="${pi/2} 0 ${pi/2 if reflect_y == 1 else -pi/2}" /> 
         <geometry>
-          <mesh filename="package://magni_description/meshes/common/standard_wheel.dae" />
+          <mesh filename="package://magni_description/meshes/gen6/wheel_microtractor.obj" scale="0.001 0.001 0.001" />
         </geometry>
       </visual>
+
       <collision>
-        <origin xyz="0 0 0" rpy="0 ${pi/2} 0" />
+        <!-- Collision is centered on the Joint (0,0,0) -->
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
         <geometry>
-          <cylinder radius="${wheel_r}" length="0.05"/>
+          <cylinder radius="${wheel_r}" length="0.25"/> 
         </geometry>
       </collision>
-      <collision>
-        <origin xyz="${0.033*reflect} 0 0" rpy="0 ${pi/2} 0" />
-        <geometry>
-          <cylinder radius="0.064" length="0.016"/>
-        </geometry>
-      </collision>
-      <xacro:cylinder_inertial_with_origin radius="${wheel_r}" length="0.05" mass="3.34">
-        <origin xyz="0 0 0" rpy="0 ${pi/2} 0" />
+
+      <xacro:cylinder_inertial_with_origin radius="${wheel_r}" length="0.25" mass="${wheel_mass}">
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
       </xacro:cylinder_inertial_with_origin>
     </link>
+
+    <gazebo reference="${prefix}_wheel">
+      <mu1 value="0.1"/>
+      <mu2 value="0.1"/>
+      <kp value="10000000.0" />
+      <kd value="1.0" />
+      <fdir1 value="1 0 0"/>
+    </gazebo>
+
     <joint name="${prefix}_wheel_joint" type="continuous">
-      <axis xyz="1 0 0" rpy="0 0 0" />
+      <axis xyz="0 1 0" /> 
       <parent link="base_link"/>
       <child link="${prefix}_wheel"/>
-      <origin xyz="0 ${0.163*reflect} 0" rpy="0 0 ${pi/2}"/>
+      <!-- 
+           PHYSICAL JOINT LOCATION
+           We use 'wheel_separation' to define the width. Not the mesh offset.
+           This places the Physics Box exactly at the specified Width.
+      -->
+      <origin xyz="${(wheel_wheelbase/2 * reflect_x) + (axle_stagger_x * reflect_y)} ${(wheel_separation/2) * reflect_y} -0.05" rpy="0 0 0"/>
     </joint>
   </xacro:macro>
 
-  <xacro:wheel prefix="left" reflect="1"/>
-  <xacro:wheel prefix="right" reflect="-1"/>
-
-  <!-- Macro for defining caster wheels -->
-  <xacro:macro name="caster_wheel" params="prefix reflect">
-    <link name="${prefix}_caster_wheel">
-      <collision>
-        <origin xyz="${-wheel_xpos-0.19} ${reflect*0.169} ${-wheel_r+0.04}" rpy="0 0 0" />
-        <geometry>
-          <sphere radius="0.04"/>
-        </geometry>
-      </collision>
-    </link>
-    <joint name="${prefix}_caster_wheel_joint" type="fixed">
-      <parent link="base_link"/>
-      <child link="${prefix}_caster_wheel"/>
-    </joint>
-  </xacro:macro>
-
-  <xacro:caster_wheel prefix="left" reflect="1"/>
-  <xacro:caster_wheel prefix="right" reflect="-1"/>
+  <!-- INSTANTIATE WHEELS USING SYSTEMATIC MACRO -->
+  <xacro:wheel prefix="front_left"  reflect_x="1"  reflect_y="1" />
+  <xacro:wheel prefix="front_right" reflect_x="1"  reflect_y="-1" />
+  <xacro:wheel prefix="rear_left"   reflect_x="-1" reflect_y="1" />
+  <xacro:wheel prefix="rear_right"  reflect_x="-1" reflect_y="-1" />
 
  <!-- ROS 2 Control block -->
   <ros2_control name="MagniSystem" type="system">
@@ -139,14 +176,28 @@
       </xacro:unless>
     </hardware>
 
-    <joint name="left_wheel_joint">
+    <joint name="front_left_wheel_joint">
       <command_interface name="velocity"/>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
       <state_interface name="effort"/>
     </joint>
 
-    <joint name="right_wheel_joint">
+    <joint name="front_right_wheel_joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+
+    <joint name="rear_left_wheel_joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+
+    <joint name="rear_right_wheel_joint">
       <command_interface name="velocity"/>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
@@ -154,10 +205,7 @@
     </joint>
   </ros2_control>
 
-  <!-- Lidar (High Lidar) -->
-  <xacro:ur50_lidar name="laser" connected_to="base_link">
-     <origin xyz="-0.092 -0.066 0.23" rpy="0 0 0"/>
-  </xacro:ur50_lidar>
+
 
   <!-- Camera (Forward) -->
   <xacro:raspi_camera name="raspicam" connected_to="base_link">
@@ -168,5 +216,11 @@
   <xacro:gps_antenna name="gps" parent="base_link">
      <origin xyz="-0.10 0.0 0.25" rpy="0 0 0"/>
   </xacro:gps_antenna>
+
+  <!-- Lidar (Ubiquity Robotics C1) -->
+  <!-- Using visualize_mesh="false" because the lidar is integrated into the chassis mesh -->
+  <xacro:ur_c1_lidar name="laser" connected_to="base_link" visualize_mesh="false">
+    <origin xyz="${lidar_x} ${lidar_y} ${lidar_z}" rpy="${lidar_r} ${lidar_p} ${lidar_yaw}"/>
+  </xacro:ur_c1_lidar>
 
 </robot>
