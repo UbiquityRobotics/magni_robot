@@ -213,8 +213,8 @@
   </xacro:raspi_camera>
   
   <!-- GPS (Top/Back) -->
-  <xacro:gps_antenna name="gps" parent="base_link">
-     <origin xyz="-0.10 0.0 0.25" rpy="0 0 0"/>
+  <xacro:gps_antenna name="gps" parent="base_link" simulate="true">
+     <origin xyz="-0.10 0.0 0.45" rpy="0 0 0"/>
   </xacro:gps_antenna>
 
   <!-- Lidar (Ubiquity Robotics C1) -->

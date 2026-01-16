@@ -18,7 +18,19 @@
   gz_type_name: "gz.msgs.CameraInfo"
   direction: "GZ_TO_ROS"
 
+# GPS
+- ros_topic_name: "gnss/fix"
+  gz_topic_name: "gnss/fix"
+  ros_type_name: "sensor_msgs/msg/NavSatFix"
+  gz_type_name: "gz.msgs.NavSat"
+  direction: "GZ_TO_ROS"
 
+# GNSS IMU
+- ros_topic_name: "gnss/imu"
+  gz_topic_name: "gnss/imu"
+  ros_type_name: "sensor_msgs/msg/Imu"
+  gz_type_name: "gz.msgs.IMU"
+  direction: "GZ_TO_ROS"
 
 # # gz topic subscribed to by DiffDrive plugin
 # - ros_topic_name: "diff_cont/cmd_vel_unstamped"

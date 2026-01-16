@@ -40,6 +40,16 @@
       <direction>-0.5 0.1 -0.9</direction>
     </light>
 
+    <!-- Geographic Origin for GPS Simulation -->
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <world_frame_orientation>ENU</world_frame_orientation>
+      <latitude_deg>46.0490298606</latitude_deg>
+      <longitude_deg>14.4607896409</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+
     <model name="ground_plane">
       <static>true</static>
       <link name="link">

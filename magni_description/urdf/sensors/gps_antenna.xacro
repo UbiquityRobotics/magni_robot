@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
-  <xacro:macro name="gps_antenna" params="name parent *origin">
+  <xacro:macro name="gps_antenna" params="name parent simulate:=false *origin">
     <joint name="${name}_joint" type="fixed">
       <xacro:insert_block name="origin" />
       <parent link="${parent}"/>
@@ -21,5 +21,81 @@
         </geometry>
       </collision>
     </link>
+
+    <xacro:if value="${simulate}">
+      <gazebo reference="${name}_link">
+          <sensor name="${name}_sensor" type="navsat">
+              <always_on>1</always_on>
+              <update_rate>5.0</update_rate>
+              <topic>gnss/fix</topic>
+              <gz_frame_id>${name}_link</gz_frame_id>
+              <navsat>
+                  <position_sensing>
+                      <horizontal>
+                          <noise type="gaussian">
+                              <mean>0.0</mean>
+                              <stddev>0.1</stddev>
+                          </noise>
+                      </horizontal>
+                      <vertical>
+                          <noise type="gaussian">
+                              <mean>0.0</mean>
+                              <stddev>0.1</stddev>
+                          </noise>
+                      </vertical>
+                  </position_sensing>
+              </navsat>
+          </sensor>
+          <sensor name="${name}_imu" type="imu">
+              <always_on>1</always_on>
+              <update_rate>20.0</update_rate>
+              <topic>gnss/imu</topic>
+              <gz_frame_id>${name}_link</gz_frame_id>
+              <pose>0 0 0 0 0 3.14159265</pose>
+              <imu>
+                <angular_velocity>
+                  <x>
+                    <noise type="gaussian">
+                      <mean>0.0</mean>
+                      <stddev>2e-4</stddev>
+                    </noise>
+                  </x>
+                  <y>
+                    <noise type="gaussian">
+                      <mean>0.0</mean>
+                      <stddev>2e-4</stddev>
+                    </noise>
+                  </y>
+                  <z>
+                    <noise type="gaussian">
+                      <mean>0.0</mean>
+                      <stddev>2e-4</stddev>
+                    </noise>
+                  </z>
+                </angular_velocity>
+                <linear_acceleration>
+                  <x>
+                    <noise type="gaussian">
+                      <mean>0.0</mean>
+                      <stddev>1.7e-2</stddev>
+                    </noise>
+                  </x>
+                  <y>
+                    <noise type="gaussian">
+                      <mean>0.0</mean>
+                      <stddev>1.7e-2</stddev>
+                    </noise>
+                  </y>
+                  <z>
+                    <noise type="gaussian">
+                      <mean>0.0</mean>
+                      <stddev>1.7e-2</stddev>
+                    </noise>
+                  </z>
+                </linear_acceleration>
+              </imu>
+          </sensor>
+      </gazebo>
+    </xacro:if>
   </xacro:macro>
 </robot>
