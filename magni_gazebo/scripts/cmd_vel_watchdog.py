@@ -7,7 +7,7 @@ class CmdVelWatchdog(Node):
     def __init__(self):
         super().__init__('cmd_vel_watchdog')
 
-        self.timeout = 0.2  # seconds
+        self.timeout = 0.5  # seconds
         self.last_cmd_time = self.get_clock().now()
         self.active = False  # Start inactive
 

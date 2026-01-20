@@ -42,8 +42,15 @@
 
   <!-- Includes -->
   <!-- <xacro:include filename="$(find magni_description)/urdf/magni.transmission.xacro" /> -->
-  <xacro:include filename="$(find magni_description)/urdf/magni.gazebo.xacro" />
+  <!-- <xacro:include filename="$(find magni_description)/urdf/magni.gazebo.xacro" /> -->
   
+  <!-- Gazebo Sim Control Plugin (Specific for Microtractor) -->
+  <gazebo>
+      <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+          <parameters>$(find magni_gazebo)/config/diff_drive_controller_microtractor.yaml</parameters>
+      </plugin>
+  </gazebo>
+
   <!-- Inertial Macros (formerly from inertial.xacro) -->
   <xacro:macro name="cylinder_inertial_with_origin" params="radius length mass *origin">
     <inertial>
