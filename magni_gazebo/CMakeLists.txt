@@ -22,9 +22,9 @@ find_package(ament_cmake REQUIRED)
 # find_package(<dependency> REQUIRED)
 
 #for navigation and localization
-find_package(navigation2 REQUIRED)
-find_package(nav2_bringup REQUIRED)
-find_package(slam_toolbox REQUIRED)
+# find_package(navigation2 REQUIRED)
+# find_package(nav2_bringup REQUIRED)
+# find_package(slam_toolbox REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

@@ -1,4 +1,4 @@
-# ROS2_humble
+# ROS2_jazzy
 various nodes as converted to colcon build
 
 for the magni_description, I copied it into a ros2_ws/src, edited CMake.txt and package.xml, and then 
