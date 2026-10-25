@@ -36,6 +36,10 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time')
     gui = LaunchConfiguration('gui')
     world_file = LaunchConfiguration('world')
+    resolved_world_file = PythonExpression([
+        "'", world_file, "' if '/' in '", world_file, "' else '",
+        os.path.join(pkg_magni_gazebo, "worlds"), "/' + '", world_file, "'"
+    ])
     x, y, z = LaunchConfiguration('x'), LaunchConfiguration('y'), LaunchConfiguration('z')
     roll, pitch, yaw = LaunchConfiguration('R'), LaunchConfiguration('P'), LaunchConfiguration('Y')
 
@@ -56,7 +60,7 @@ def generate_launch_description():
     )
     gazebo_launch = IncludeLaunchDescription(
         gazebo_pkg_launch,
-        launch_arguments={'gz_args': ['-r -v4 ', world_file], 'on_exit_shutdown': 'true'}.items()
+        launch_arguments={'gz_args': ['-r -v4 ', resolved_world_file], 'on_exit_shutdown': 'true'}.items()
     )
 
     # Spawn Model
