@@ -30,7 +30,7 @@ parts:
 
 apps:
   description-launch:
-    command: opt/ros/jazzy/bin/ros2 launch magni_description description.launch.py
+    command: opt/ros/jazzy/bin/ros2 launch magni_description robot_description.launch.py
     plugs: [network, network-bind, hardware-observe, joystick, home]
     environment:
       ROS_DOMAIN_ID: '0'

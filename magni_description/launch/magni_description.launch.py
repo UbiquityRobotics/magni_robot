@@ -47,10 +47,6 @@ def generate_launch_description():
                     value_type=str,
                 )
             },
-        ],
-        remappings=[
-            ('/tf', 'tf'),
-            ('/tf_static', 'tf_static')
         ]
     )
 

@@ -3,7 +3,7 @@
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, LogInfo, ExecuteProcess, RegisterEventHandler, TimerAction
-from launch.substitutions import Command, PathJoinSubstitution, LaunchConfiguration
+from launch.substitutions import Command, PathJoinSubstitution, LaunchConfiguration, PythonExpression
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -124,8 +124,12 @@ def generate_launch_description():
     # Controllers
     # No standalone controller_manager_node here, assuming Gazebo plugin starts it.
     
+    diff_drive_config_file = PythonExpression([
+        "'diff_drive_controller_microtractor.yaml' if '", robot_type, "' == 'gen_6_microtractor' else 'diff_drive_controller.yaml'"
+    ])
+
     robot_controllers = PathJoinSubstitution(
-        [FindPackageShare("magni_gazebo"), "config", "diff_drive_controller.yaml"]
+        [FindPackageShare("magni_gazebo"), "config", diff_drive_config_file]
     )
 
     joint_state_broadcaster_spawner = TimerAction(

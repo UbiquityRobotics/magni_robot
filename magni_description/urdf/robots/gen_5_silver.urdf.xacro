@@ -13,7 +13,7 @@
   <xacro:arg name="camera_extrinsics_file" default=""/>
   <xacro:property name="camera_extrinsics_file" value="$(arg camera_extrinsics_file)"/>
 
-  <xacro:arg name="lidar_extrinsics_file" default=""/>
+  <xacro:arg name="lidar_extrinsics_file" default="$(find magni_description)/urdf/extrinsics/lidar_extrinsics_top_plate.yaml"/>
   <xacro:property name="lidar_extrinsics_file" value="$(arg lidar_extrinsics_file)"/>
   
   <xacro:property name="wheel_r" value="0.1" />
