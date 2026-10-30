@@ -1,0 +1,118 @@
+name: Release Magni Description Debian Package
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Release Tag Name (e.g. v0.6.1 or latest)'
+        required: false
+        default: 'latest'
+
+permissions:
+  contents: write
+
+jobs:
+  version:
+    name: Resolve Release Version
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.vars.outputs.tag }}
+      clean_version: ${{ steps.vars.outputs.clean_version }}
+    steps:
+      - name: Compute Clean Version
+        id: vars
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && -n "${{ inputs.tag_name }}" ]]; then
+            RAW_VERSION="${{ inputs.tag_name }}"
+          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            RAW_VERSION="${GITHUB_REF#refs/tags/}"
+          else
+            RAW_VERSION="${GITHUB_REF_NAME}"
+          fi
+
+          CLEAN_VERSION=$(echo "${RAW_VERSION}" | sed -E 's/^[^0-9]*//')
+          [[ -z "${CLEAN_VERSION}" || "${RAW_VERSION}" == "latest" ]] && CLEAN_VERSION="0.6.1-latest"
+
+          echo "tag=${RAW_VERSION}" >> $GITHUB_OUTPUT
+          echo "clean_version=${CLEAN_VERSION}" >> $GITHUB_OUTPUT
+
+  build-description:
+    name: Package magni_description (all)
+    needs: version
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup ROS 2 Jazzy
+        uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: jazzy
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          rosdep update
+          rosdep install --from-paths magni_description --ignore-src -r -y --rosdistro jazzy
+
+      - name: Build and Merge Install
+        run: |
+          source /opt/ros/jazzy/setup.bash
+          mkdir -p /tmp/pkg-root/opt/ros/jazzy
+          colcon build \
+            --merge-install \
+            --install-base /tmp/pkg-root/opt/ros/jazzy \
+            --packages-select magni_description
+
+      - name: Assemble Debian Package
+        env:
+          CLEAN_VERSION: ${{ needs.version.outputs.clean_version }}
+        run: |
+          # 1. Clean colcon workspace scripts to avoid conflicts
+          rm -f /tmp/pkg-root/opt/ros/jazzy/setup.* \
+                /tmp/pkg-root/opt/ros/jazzy/local_setup.* \
+                /tmp/pkg-root/opt/ros/jazzy/_local_setup_util* \
+                /tmp/pkg-root/opt/ros/jazzy/COLCON_IGNORE \
+                /tmp/pkg-root/opt/ros/jazzy/.colcon_install_layout
+          rm -rf /tmp/pkg-root/opt/ros/jazzy/share/colcon-core
+
+          # 2. Stage DEBIAN directory and permissions
+          mkdir -p /tmp/pkg-root/DEBIAN
+          find /tmp/pkg-root -type d -exec chmod 755 {} +
+
+          # 3. Create control file (Architecture: all because it is pure Xacro/URDF and Meshes)
+          cat << EOF > /tmp/pkg-root/DEBIAN/control
+          Package: ros-jazzy-magni-description
+          Version: ${CLEAN_VERSION}
+          Section: misc
+          Priority: optional
+          Architecture: all
+          Maintainer: Ubiquity Robotics <support@ubiquityrobotics.com>
+          Depends: ros-jazzy-ros-base, ros-jazzy-robot-state-publisher, ros-jazzy-joint-state-publisher, ros-jazzy-xacro, ros-jazzy-urdf
+          Homepage: https://github.com/UbiquityRobotics/magni_robot
+          Description: Ubiquity Robotics Magni description, URDF, and mesh models
+           Single source of truth for the physical geometry, TF tree, and 3D mesh assets
+           for Magni Silver, Gen 6 Mini, Midi, and MicroTractor platforms.
+          EOF
+
+          # 4. Build .deb package
+          PKG_NAME="ros-jazzy-magni-description_${CLEAN_VERSION}_all.deb"
+          dpkg-deb --build --root-owner-group /tmp/pkg-root "${PKG_NAME}"
+          sha256sum "${PKG_NAME}" > "${PKG_NAME}.sha256"
+
+          echo "=== Package Metadata ==="
+          dpkg-deb -I "${PKG_NAME}"
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.version.outputs.tag }}
+          name: ${{ needs.version.outputs.tag == 'latest' && 'Magni Description Latest Rolling Release' || needs.version.outputs.tag }}
+          prerelease: ${{ contains(needs.version.outputs.tag, 'beta') || contains(needs.version.outputs.tag, 'alpha') || contains(needs.version.outputs.tag, 'rc') }}
+          files: |
+            ros-jazzy-magni-description_*.deb
+            ros-jazzy-magni-description_*.deb.sha256
+          generate_release_notes: true

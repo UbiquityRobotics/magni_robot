@@ -11,3 +11,6 @@ ezmap_pro/
 #vims, code, nvims
 .vscode/
 *.swp
+*.deb
+*.sha256
+
