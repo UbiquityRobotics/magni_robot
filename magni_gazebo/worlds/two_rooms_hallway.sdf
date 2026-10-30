@@ -1,0 +1,157 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <world name="two_rooms_hallway">
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"></plugin>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"></plugin>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"></plugin>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+        <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <!-- Sun Light -->
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <!-- Ground Plane -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry><plane><normal>0 0 1</normal><size>100 100</size></plane></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><plane><normal>0 0 1</normal><size>100 100</size></plane></geometry>
+          <material><ambient>0.8 0.8 0.8 1</ambient><diffuse>0.8 0.8 0.8 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- WALL DEFINITIONS (0.1m thick, 2m high) -->
+
+    <!-- ROOM 1 (5x5m, Centered at 0,0) -->
+    <!-- West Wall -->
+    <model name="r1_wall_west">
+      <static>true</static>
+      <pose>-2.55 0 1 0 0 0</pose>
+      <link name="link">
+        <visual name="v"><geometry><box><size>0.1 5.2 2</size></box></geometry></visual>
+        <collision name="c"><geometry><box><size>0.1 5.2 2</size></box></geometry></collision>
+      </link>
+    </model>
+    <!-- North Wall -->
+    <model name="r1_wall_north">
+      <static>true</static>
+      <pose>0 2.55 1 0 0 0</pose>
+      <link name="link">
+        <visual name="v"><geometry><box><size>5.2 0.1 2</size></box></geometry></visual>
+        <collision name="c"><geometry><box><size>5.2 0.1 2</size></box></geometry></collision>
+      </link>
+    </model>
+    <!-- South Wall -->
+    <model name="r1_wall_south">
+      <static>true</static>
+      <pose>0 -2.55 1 0 0 0</pose>
+      <link name="link">
+        <visual name="v"><geometry><box><size>5.2 0.1 2</size></box></geometry></visual>
+        <collision name="c"><geometry><box><size>5.2 0.1 2</size></box></geometry></collision>
+      </link>
+    </model>
+    <!-- East Wall (Partial for Hallway connection - two segments) -->
+    <!-- Top Segment -->
+    <model name="r1_wall_east_top">
+      <static>true</static>
+      <pose>2.55 1.75 1 0 0 0</pose> <!-- 2.5 + 0.05 (half thickness), Y at (1.0 + 1.5/2) -->
+      <link name="link">
+        <visual name="v"><geometry><box><size>0.1 1.6 2</size></box></geometry></visual> <!-- (2.5-1) * 2 - 0.1 = 1.5 for the hole -->
+        <collision name="c"><geometry><box><size>0.1 1.6 2</size></box></geometry></collision>
+      </link>
+    </model>
+    <!-- Bottom Segment -->
+    <model name="r1_wall_east_bottom">
+      <static>true</static>
+      <pose>2.55 -1.75 1 0 0 0</pose> <!-- Same logic -->
+      <link name="link">
+        <visual name="v"><geometry><box><size>0.1 1.6 2</size></box></geometry></visual>
+        <collision name="c"><geometry><box><size>0.1 1.6 2</size></box></geometry></collision>
+      </link>
+    </model>
+
+    <!-- HALLWAY (2m long x 1.5m wide, along X-axis, centered at 3.5,0) -->
+    <!-- North Wall -->
+    <model name="hall_wall_north">
+      <static>true</static>
+      <pose>3.5 0.8 1 0 0 0</pose> <!-- Y = 0.75 + 0.05 (half thickness) -->
+      <link name="link">
+        <visual name="v"><geometry><box><size>2.1 0.1 2</size></box></geometry></visual>
+        <collision name="c"><geometry><box><size>2.1 0.1 2</size></box></geometry></collision>
+      </link>
+    </model>
+    <!-- South Wall -->
+    <model name="hall_wall_south">
+      <static>true</static>
+      <pose>3.5 -0.8 1 0 0 0</pose>
+      <link name="link">
+        <visual name="v"><geometry><box><size>2.1 0.1 2</size></box></geometry></visual>
+        <collision name="c"><geometry><box><size>2.1 0.1 2</size></box></geometry></collision>
+      </link>
+    </model>
+
+    <!-- ROOM 2 (5x5m, Centered at 7,0) -->
+    <!-- West Wall (Partial for Hallway connection - two segments) -->
+    <!-- Top Segment -->
+    <model name="r2_wall_west_top">
+      <static>true</static>
+      <pose>4.45 1.75 1 0 0 0</pose> <!-- X = 4.5 - 0.05 -->
+      <link name="link">
+        <visual name="v"><geometry><box><size>0.1 1.6 2</size></box></geometry></visual>
+        <collision name="c"><geometry><box><size>0.1 1.6 2</size></box></geometry></collision>
+      </link>
+    </model>
+    <!-- Bottom Segment -->
+    <model name="r2_wall_west_bottom">
+      <static>true</static>
+      <pose>4.45 -1.75 1 0 0 0</pose>
+      <link name="link">
+        <visual name="v"><geometry><box><size>0.1 1.6 2</size></box></geometry></visual>
+        <collision name="c"><geometry><box><size>0.1 1.6 2</size></box></geometry></collision>
+      </link>
+    </model>
+    <!-- East Wall -->
+    <model name="r2_wall_east">
+      <static>true</static>
+      <pose>9.55 0 1 0 0 0</pose>
+      <link name="link">
+        <visual name="v"><geometry><box><size>0.1 5.2 2</size></box></geometry></visual>
+        <collision name="c"><geometry><box><size>0.1 5.2 2</size></box></geometry></collision>
+      </link>
+    </model>
+    <!-- North Wall -->
+    <model name="r2_wall_north">
+      <static>true</static>
+      <pose>7 2.55 1 0 0 0</pose>
+      <link name="link">
+        <visual name="v"><geometry><box><size>5.2 0.1 2</size></box></geometry></visual>
+        <collision name="c"><geometry><box><size>5.2 0.1 2</size></box></geometry></collision>
+      </link>
+    </model>
+    <!-- South Wall -->
+    <model name="r2_wall_south">
+      <static>true</static>
+      <pose>7 -2.55 1 0 0 0</pose>
+      <link name="link">
+        <visual name="v"><geometry><box><size>5.2 0.1 2</size></box></geometry></visual>
+        <collision name="c"><geometry><box><size>5.2 0.1 2</size></box></geometry></collision>
+      </link>
+    </model>
+
+  </world>
+</sdf>

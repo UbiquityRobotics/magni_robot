@@ -1,37 +1,37 @@
 from ament_index_python.packages import get_package_share_directory
-
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import Command, PathJoinSubstitution
-from launch.substitutions.launch_configuration import LaunchConfiguration
-
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.substitutions import Command, PathJoinSubstitution, LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
-
-import os
-
-ARGUMENTS = [
-
-        DeclareLaunchArgument('use_sim_time', default_value='false',
-                          choices=['true', 'false'], description='sim time'),
-        DeclareLaunchArgument('tower_installed', default_value='false',
-                          choices=['true', 'false'], description='Tower'),
-        DeclareLaunchArgument('shell_installed', default_value='false',
-                          choices=['true', 'false'],  description='shell'),
-        DeclareLaunchArgument('sonars_installed', default_value='true', 
-                          choices=['true', 'false'], description='sonars'),
-        DeclareLaunchArgument('camera_extrinsics_file', default_value='extrinsics/camera_extrinsics_forward.yaml', 
-                        #   choices=['extrinsics/camera_extrinsics_forward.yaml'], 
-                          description='Path to camera extrinsics file'),
-        DeclareLaunchArgument('lidar_extrinsics_file', default_value='extrinsics/lidar_extrinsics_top_plate_center.yaml', 
-                        #   choices=['extrinsics/lidar_extrinsics_top_plate_center.yaml'],
-                          description='Path to lidar extrinsics file'),
-                                     ]
+from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
     pkg_magni_description = get_package_share_directory('magni_description')
-    xacro_file = PathJoinSubstitution([pkg_magni_description,
-                                       'urdf',
-                                       'magni.urdf.xacro'])
+
+    arg_robot_type = DeclareLaunchArgument(
+        'robot_type',
+        default_value='gen_6_mini',
+        choices=['gen_5_silver', 'gen_6_mini', 'gen_6_midi', 'gen_6_microtractor'],
+        description='Robot variant to launch'
+    )
+    
+    arg_use_sim_time = DeclareLaunchArgument(
+        'use_sim_time', default_value='true',
+        choices=['true', 'false'], description='sim time'
+    )
+
+    robot_type = LaunchConfiguration('robot_type')
+    use_sim_time = LaunchConfiguration('use_sim_time')
+    
+    # Construct filename: robot_type + ".urdf.xacro"
+    filename_sub = PythonExpression(["'", robot_type, ".urdf.xacro'"])
+    
+    xacro_file = PathJoinSubstitution([
+        pkg_magni_description,
+        'urdf',
+        'robots',
+        filename_sub
+    ])
 
     robot_state_publisher = Node(
         package='robot_state_publisher',
@@ -39,38 +39,19 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[
-            {'use_sim_time': LaunchConfiguration('use_sim_time')},
-            {'robot_description': Command([
-                    'xacro',  ' ', xacro_file, ' ',
-
-                    ' tower_installed:=', LaunchConfiguration('tower_installed'),
-                    ' shell_installed:=', LaunchConfiguration('shell_installed'),
-                    ' sonars_installed:=', LaunchConfiguration('sonars_installed'),
-                    ' lidar_extrinsics_file:=', LaunchConfiguration('lidar_extrinsics_file'),
-                    ' camera_extrinsics_file:=', LaunchConfiguration('camera_extrinsics_file')
-                    ])},
-        ],
-        remappings=[
-            ('/tf', 'tf'),
-            ('/tf_static', 'tf_static')
+            {'use_sim_time': use_sim_time},
+            {
+                # Force xacro output to be treated as a plain string (not YAML) and ensure spacing
+                'robot_description': ParameterValue(
+                    Command(['xacro', ' ', xacro_file, ' ', 'use_sim:=', use_sim_time]),
+                    value_type=str,
+                )
+            },
         ]
     )
 
-    joint_state_publisher = Node(
-        package='joint_state_publisher',
-        executable='joint_state_publisher',
-        name='joint_state_publisher',
-        output='screen',
-        parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
-        remappings=[
-            ('/tf', 'tf'),
-            ('/tf_static', 'tf_static')
-        ]
-    )
-
-    # Define LaunchDescription variable
-    ld = LaunchDescription(ARGUMENTS)
-    # Add nodes to LaunchDescription
-    ld.add_action(robot_state_publisher)
-    ld.add_action(joint_state_publisher)
-    return ld
+    return LaunchDescription([
+        arg_robot_type,
+        arg_use_sim_time,
+        robot_state_publisher
+    ])

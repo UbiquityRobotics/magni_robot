@@ -1,6 +1,6 @@
 import rclpy
 from rclpy.node import Node
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import TwistStamped
 from rclpy.duration import Duration
 
 class CmdVelWatchdog(Node):
@@ -12,19 +12,19 @@ class CmdVelWatchdog(Node):
         self.active = False  # Start inactive
 
         self.cmd_sub = self.create_subscription(
-            Twist,
+            TwistStamped,
             '/cmd_vel',
             self.cmd_callback,
             10
         )
 
-        self.cmd_pub = self.create_publisher(Twist, '/cmd_vel', 10)
+        self.cmd_pub = self.create_publisher(TwistStamped, '/cmd_vel', 10)
 
         self.timer = self.create_timer(0.1, self.watchdog_callback)
 
-        self.get_logger().info('CmdVel Watchdog initialized, waiting for first cmd_vel...')
+        self.get_logger().info('CmdVel Watchdog initialized, waiting for first cmd_vel (TwistStamped)...')
 
-    def cmd_callback(self, msg: Twist):
+    def cmd_callback(self, msg: TwistStamped):
         self.last_cmd_time = self.get_clock().now()
         if not self.active:
             self.active = True
@@ -38,12 +38,12 @@ class CmdVelWatchdog(Node):
 
         if time_since_last_cmd > Duration(seconds=self.timeout):
             # Publish zero TwistStamped
-            twist = Twist()
-            # stamped_twist.header.stamp = self.get_clock().now().to_msg()
-            # stamped_twist.header.frame_id = 'base_link'
-            twist.linear.x = 0.0
-            twist.angular.z = 0.0
-            self.cmd_pub.publish(twist)
+            twist_stamped = TwistStamped()
+            twist_stamped.header.stamp = self.get_clock().now().to_msg()
+            twist_stamped.header.frame_id = 'base_link'
+            twist_stamped.twist.linear.x = 0.0
+            twist_stamped.twist.angular.z = 0.0
+            self.cmd_pub.publish(twist_stamped)
             self.get_logger().info('Timeout! Zero velocity sent.')
 
 def main(args=None):

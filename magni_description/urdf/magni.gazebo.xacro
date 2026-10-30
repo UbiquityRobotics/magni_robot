@@ -2,8 +2,8 @@
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
     <gazebo>
-        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-            <legacyModeNS>true</legacyModeNS>
+        <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+            <parameters>$(find magni_gazebo)/config/diff_drive_controller.yaml</parameters>
         </plugin>
     </gazebo>
 
@@ -20,14 +20,14 @@
     <gazebo reference="left_wheel">
         <mu1>1.0</mu1>
         <mu2>1.0</mu2>
-        <fdir1>0 0 1</fdir1>
+        <fdir1>1 0 0</fdir1>
         <minDepth>0.005</minDepth>
         <kp>1e8</kp>
     </gazebo>
     <gazebo reference="right_wheel">
         <mu1>1.0</mu1>
         <mu2>1.0</mu2>
-        <fdir1>0 0 1</fdir1>
+        <fdir1>1 0 0</fdir1>
         <minDepth>0.005</minDepth>
         <kp>1e8</kp>
     </gazebo>
