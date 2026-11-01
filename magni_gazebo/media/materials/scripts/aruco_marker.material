@@ -1,0 +1,955 @@
+material ArucoVisualMarker0/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-0.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker1/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-1.png
+			}
+		}
+	}
+}
+
+
+material ArucoVisualMarker2/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-2.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker3/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-3.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker4/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-4.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker5/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-5.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker6/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-6.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker7/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-7.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker8/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-8.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker9/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-9.png
+			}
+		}
+	}
+}
+
+
+material ArucoVisualMarker10/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-10.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker11/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-11.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker12/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-12.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker13/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-13.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker14/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-14.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker15/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-15.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker16/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-16.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker17/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-17.png
+			}
+		}
+	}
+}
+
+
+material ArucoVisualMarker18/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-18.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker19/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-19.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker20/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-20.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker21/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-21.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker22/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-22.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker23/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-23.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker24/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-24.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker25/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-25.png
+			}
+		}
+	}
+}
+
+
+material ArucoVisualMarker26/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-26.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker27/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-27.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker28/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-28.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker29/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-29.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker30/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-30.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker31/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-31.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker32/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-32.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker33/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-33.png
+			}
+		}
+	}
+}
+
+
+material ArucoVisualMarker34/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-34.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker35/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-35.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker36/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-36.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker37/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-37.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker38/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-38.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker39/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-39.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker40/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-40.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker41/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-41.png
+			}
+		}
+	}
+}
+
+
+material ArucoVisualMarker42/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-42.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker43/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-43.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker44/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-44.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker45/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-45.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker46/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-46.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker47/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-47.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker48/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-48.png
+			}
+		}
+	}
+}
+
+material ArucoVisualMarker49/Marker
+{
+	technique
+	{
+		pass
+		{
+            ambient 1 1 1 1.0
+            diffuse 1 1 1 1.0
+            specular 0.03 0.03 0.03 1.0
+            emissive 1.0 1.0 1.0 0.1
+
+			texture_unit
+			{
+				texture aruco-49.png
+			}
+		}
+	}
+}
