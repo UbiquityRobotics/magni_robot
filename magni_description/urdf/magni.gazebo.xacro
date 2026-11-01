@@ -1,20 +1,24 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-    <gazebo>
-        <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
-            <parameters>$(find magni_gazebo)/config/diff_drive_controller.yaml</parameters>
-        </plugin>
-    </gazebo>
+    <xacro:arg name="use_sim" default="false"/>
 
-    <gazebo>
-        <plugin name="gazebo_ros_p3d" filename="libgazebo_ros_p3d.so">
-            <updateRate>100</updateRate>
-            <bodyName>base_footprint</bodyName>
-            <topicName>exact_pose</topicName>
-            <frameName>map</frameName>
-        </plugin>
-    </gazebo>
+    <xacro:if value="$(arg use_sim)">
+        <gazebo>
+            <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+                <parameters>$(find magni_gazebo)/config/diff_drive_controller.yaml</parameters>
+            </plugin>
+        </gazebo>
+
+        <gazebo>
+            <plugin name="gazebo_ros_p3d" filename="libgazebo_ros_p3d.so">
+                <updateRate>100</updateRate>
+                <bodyName>base_footprint</bodyName>
+                <topicName>exact_pose</topicName>
+                <frameName>map</frameName>
+            </plugin>
+        </gazebo>
+    </xacro:if>
 
 
     <gazebo reference="left_wheel">
