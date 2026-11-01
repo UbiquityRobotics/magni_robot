@@ -2,9 +2,9 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>magni_bringup</name>
-  <version>0.0.1</version>
+  <version>0.6.2</version>
   <description>Bringup package for Magni Robot</description>
-  <maintainer email="micha@example.com">micha</maintainer>
+  <maintainer email="support@ubiquityrobotics.com">Ubiquity Robotics</maintainer>
   <license>BSD</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>

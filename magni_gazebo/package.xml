@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="3">
   <name>magni_gazebo</name>
-  <version>0.6.1</version>
+  <version>0.6.2</version>
   <description>The ros2  magni_gazebo package</description>
 
   <maintainer email="alan.federman@gmail.com">Alan Federman</maintainer>
