@@ -3,6 +3,14 @@
 
   <!-- Arguments -->
   <xacro:arg name="use_sim" default="false"/>
+  <xacro:arg name="lidar_extrinsics_file" default=""/>
+  <xacro:arg name="camera_extrinsics_file" default=""/>
+  <xacro:arg name="gps_extrinsics_file" default=""/>
+  <xacro:arg name="camera_installed" default="true"/>
+  <xacro:arg name="gps_installed" default="true"/>
+  <xacro:property name="camera_installed" value="$(arg camera_installed)"/>
+  <xacro:property name="gps_installed" value="$(arg gps_installed)"/>
+  <xacro:property name="gps_extrinsics_file" value="$(arg gps_extrinsics_file)"/>
 
   <!-- ======================================================================== -->
   <!--                             TUNING DASHBOARD                             -->
@@ -77,6 +85,7 @@
   <xacro:include filename="$(find magni_description)/urdf/sensors/raspi_camera.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/gps_antenna.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/ur_c1_lidar.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/extrinsics/extrinsics_helpers.xacro" />
 
   <!-- Robot base_link -->
   <link name="base_link">
@@ -216,20 +225,32 @@
 
 
 
-  <!-- Camera (Forward) -->
-  <xacro:raspi_camera name="raspicam" connected_to="base_link">
-    <origin xyz="0.10 0.0 0.20" rpy="0 0 0"/>
-  </xacro:raspi_camera>
+  <!-- Camera (Forward, REP-103 camera_link -> camera_optical_frame -> raspicam_sensor) -->
+  <xacro:if value="${str(camera_installed).lower() in ['true', '1', 'yes']}">
+    <xacro:magni_camera_with_extrinsics
+      name="camera_link"
+      extrinsics_file="$(arg camera_extrinsics_file)"
+      default_xyz="0.10 0.0 0.20"
+      default_rpy="0 0 0"/>
+  </xacro:if>
   
   <!-- GPS (Top/Back) -->
-  <xacro:gps_antenna name="gps" parent="base_link" simulate="true">
-     <origin xyz="-0.10 0.0 0.45" rpy="0 0 0"/>
-  </xacro:gps_antenna>
+  <xacro:if value="${str(gps_installed).lower() not in ['none', 'false', ''] or gps_extrinsics_file != ''}">
+    <xacro:gps_antenna_with_extrinsics
+      name="gps"
+      parent="base_link"
+      extrinsics_file="${gps_extrinsics_file}"
+      default_xyz="-0.10 0.0 0.45"
+      default_rpy="0 0 0"
+      simulate="true"/>
+  </xacro:if>
 
-  <!-- Lidar (Ubiquity Robotics C1) -->
+  <!-- Lidar (Ubiquity Robotics C1; respects lidar_extrinsics_file when set) -->
   <!-- Using visualize_mesh="false" because the lidar is integrated into the chassis mesh -->
-  <xacro:ur_c1_lidar name="laser" connected_to="base_link" visualize_mesh="false">
-    <origin xyz="${lidar_x} ${lidar_y} ${lidar_z}" rpy="${lidar_r} ${lidar_p} ${lidar_yaw}"/>
-  </xacro:ur_c1_lidar>
+  <xacro:ur_c1_lidar_with_extrinsics
+    extrinsics_file="$(arg lidar_extrinsics_file)"
+    default_xyz="${lidar_x} ${lidar_y} ${lidar_z}"
+    default_rpy="${lidar_r} ${lidar_p} ${lidar_yaw}"
+    visualize_mesh="false"/>
 
 </robot>

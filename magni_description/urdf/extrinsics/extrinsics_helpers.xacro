@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <!--
+    Shared extrinsics helper macros for Magni robot URDF variants.
+    URDF + robot_state_publisher own all physical chassis and sensor transforms:
+    each sensor always stays present in the URDF (so RViz RobotModel and /tf_static
+    agree cleanly) and reads optional calibrated YAML overrides when supplied.
+  -->
+
+  <xacro:macro name="ur_c1_lidar_with_extrinsics"
+               params="extrinsics_file:='' default_xyz:='0 0 0' default_rpy:='0 0 0' visualize_mesh:=true">
+    <xacro:if value="${extrinsics_file != ''}">
+      <xacro:property name="lidar_ext" value="${xacro.load_yaml(extrinsics_file)}"/>
+      <xacro:ur_c1_lidar name="laser" connected_to="base_link" visualize_mesh="${visualize_mesh}">
+        <origin xyz="${lidar_ext['x']} ${lidar_ext['y']} ${lidar_ext['z']}"
+                rpy="${lidar_ext['roll']} ${lidar_ext['pitch']} ${lidar_ext['yaw']}"/>
+      </xacro:ur_c1_lidar>
+    </xacro:if>
+    <xacro:unless value="${extrinsics_file != ''}">
+      <xacro:ur_c1_lidar name="laser" connected_to="base_link" visualize_mesh="${visualize_mesh}">
+        <origin xyz="${default_xyz}" rpy="${default_rpy}"/>
+      </xacro:ur_c1_lidar>
+    </xacro:unless>
+  </xacro:macro>
+
+  <xacro:macro name="magni_camera_with_extrinsics"
+               params="name:='camera_link' connected_to:='base_link' extrinsics_file:='' default_xyz:='0.20 0.0 0.35' default_rpy:='0.0 0.26 0.0' add_optical_frame:=true">
+    <xacro:if value="${extrinsics_file != ''}">
+      <xacro:property name="cam_ext" value="${xacro.load_yaml(extrinsics_file)}"/>
+      <xacro:raspi_camera name="${name}" connected_to="${connected_to}">
+        <origin xyz="${cam_ext['x']} ${cam_ext['y']} ${cam_ext['z']}"
+                rpy="${cam_ext['roll']} ${cam_ext['pitch']} ${cam_ext['yaw']}"/>
+      </xacro:raspi_camera>
+    </xacro:if>
+    <xacro:unless value="${extrinsics_file != ''}">
+      <xacro:raspi_camera name="${name}" connected_to="${connected_to}">
+        <origin xyz="${default_xyz}" rpy="${default_rpy}"/>
+      </xacro:raspi_camera>
+    </xacro:unless>
+
+    <xacro:if value="${add_optical_frame}">
+      <!-- Gen 6 REP-103 optical convention: +Z lens, +X right, +Y down relative to housing link -->
+      <link name="camera_optical_frame"/>
+      <joint name="camera_optical_joint" type="fixed">
+        <parent link="${name}"/>
+        <child link="camera_optical_frame"/>
+        <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+      </joint>
+      <!-- Bridge camera_optical_frame -> raspicam_sensor for legacy fiducial consumers -->
+      <link name="raspicam_sensor"/>
+      <joint name="raspicam_sensor_bridge_joint" type="fixed">
+        <parent link="camera_optical_frame"/>
+        <child link="raspicam_sensor"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </joint>
+    </xacro:if>
+  </xacro:macro>
+
+  <xacro:macro name="gps_antenna_with_extrinsics"
+               params="name:='gps' parent:='base_link' extrinsics_file:='' default_xyz:='-0.10 0.0 0.40' default_rpy:='0 0 0' simulate:=false">
+    <xacro:if value="${extrinsics_file != ''}">
+      <xacro:property name="gps_ext" value="${xacro.load_yaml(extrinsics_file)}"/>
+      <xacro:gps_antenna name="${name}" parent="${parent}" simulate="${simulate}">
+        <origin xyz="${gps_ext['x']} ${gps_ext['y']} ${gps_ext['z']}"
+                rpy="${gps_ext['roll']} ${gps_ext['pitch']} ${gps_ext['yaw']}"/>
+      </xacro:gps_antenna>
+    </xacro:if>
+    <xacro:unless value="${extrinsics_file != ''}">
+      <xacro:gps_antenna name="${name}" parent="${parent}" simulate="${simulate}">
+        <origin xyz="${default_xyz}" rpy="${default_rpy}"/>
+      </xacro:gps_antenna>
+    </xacro:unless>
+  </xacro:macro>
+</robot>

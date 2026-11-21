@@ -33,6 +33,15 @@ def generate_launch_description():
         filename_sub
     ])
 
+    sonars_installed = LaunchConfiguration('sonars_installed', default='true')
+    shell_installed = LaunchConfiguration('shell_installed', default='false')
+    tower_installed = LaunchConfiguration('tower_installed', default='false')
+    lidar_extrinsics_file = LaunchConfiguration('lidar_extrinsics_file', default='')
+    camera_extrinsics_file = LaunchConfiguration('camera_extrinsics_file', default='')
+    gps_extrinsics_file = LaunchConfiguration('gps_extrinsics_file', default='')
+    camera_installed = LaunchConfiguration('camera_installed', default='true')
+    gps_installed = LaunchConfiguration('gps_installed', default='none')
+
     robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -43,7 +52,18 @@ def generate_launch_description():
             {
                 # Force xacro output to be treated as a plain string (not YAML) and ensure spacing
                 'robot_description': ParameterValue(
-                    Command(['xacro', ' ', xacro_file, ' ', 'use_sim:=', use_sim_time]),
+                    Command([
+                        'xacro', ' ', xacro_file,
+                        ' ', 'use_sim:=', use_sim_time,
+                        ' ', 'sonars_installed:=', sonars_installed,
+                        ' ', 'shell_installed:=', shell_installed,
+                        ' ', 'tower_installed:=', tower_installed,
+                        ' ', 'lidar_extrinsics_file:=', lidar_extrinsics_file,
+                        ' ', 'camera_extrinsics_file:=', camera_extrinsics_file,
+                        ' ', 'gps_extrinsics_file:=', gps_extrinsics_file,
+                        ' ', 'camera_installed:=', camera_installed,
+                        ' ', 'gps_installed:=', gps_installed,
+                    ]),
                     value_type=str,
                 )
             },

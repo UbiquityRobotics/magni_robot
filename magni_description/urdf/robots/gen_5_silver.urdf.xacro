@@ -15,6 +15,12 @@
 
   <xacro:arg name="lidar_extrinsics_file" default="$(find magni_description)/urdf/extrinsics/lidar_extrinsics_top_plate.yaml"/>
   <xacro:property name="lidar_extrinsics_file" value="$(arg lidar_extrinsics_file)"/>
+
+  <xacro:arg name="gps_extrinsics_file" default=""/>
+  <xacro:property name="gps_extrinsics_file" value="$(arg gps_extrinsics_file)"/>
+
+  <xacro:arg name="gps_installed" default="none"/>
+  <xacro:property name="gps_installed" value="$(arg gps_installed)"/>
   
   <xacro:property name="wheel_r" value="0.1" />
   <xacro:property name="wheel_xpos" value="0.11" />
@@ -24,7 +30,9 @@
   <xacro:include filename="$(find magni_description)/urdf/inertial.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/sonar_hc-sr04.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/raspi_camera.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/sensors/gps_antenna.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/ur_c1_lidar.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/extrinsics/extrinsics_helpers.xacro" />
 
 
 
@@ -226,20 +234,25 @@
 
   <!-- Define camera --> 
   <xacro:if value="${camera_extrinsics_file != ''}">
-    <xacro:property name="cam_extrinsics" value="${xacro.load_yaml(camera_extrinsics_file)}"/>
-    <xacro:raspi_camera name="raspicam" connected_to="base_link">
-      <origin xyz="${cam_extrinsics['x']} ${cam_extrinsics['y']} ${cam_extrinsics['z']}"
-        rpy="${cam_extrinsics['roll']} ${cam_extrinsics['pitch']} ${cam_extrinsics['yaw']}"/>
-    </xacro:raspi_camera>
+    <xacro:magni_camera_with_extrinsics
+      name="raspicam"
+      extrinsics_file="${camera_extrinsics_file}"
+      add_optical_frame="false"/>
+  </xacro:if>
+
+  <!-- Optional GNSS Antenna -->
+  <xacro:if value="${str(gps_installed).lower() not in ['none', 'false', ''] or gps_extrinsics_file != ''}">
+    <xacro:gps_antenna_with_extrinsics
+      name="gps"
+      parent="base_link"
+      extrinsics_file="${gps_extrinsics_file}"
+      default_xyz="-0.10 0.0 0.40"
+      default_rpy="0 0 0"/>
   </xacro:if>
  
   <!-- Define Lidar -->
   <xacro:if value="${lidar_extrinsics_file != ''}">
-    <xacro:property name="lidar_extrinsics" value="${xacro.load_yaml(lidar_extrinsics_file)}"/>
-    <xacro:ur_c1_lidar name="laser" connected_to="base_link">
-      <origin xyz="${lidar_extrinsics['x']} ${lidar_extrinsics['y']} ${lidar_extrinsics['z']}"
-        rpy="${lidar_extrinsics['roll']} ${lidar_extrinsics['pitch']} ${lidar_extrinsics['yaw']}"/>
-    </xacro:ur_c1_lidar>
+    <xacro:ur_c1_lidar_with_extrinsics extrinsics_file="${lidar_extrinsics_file}"/>
   </xacro:if>
 
  <!-- ROS 2 Control block -->

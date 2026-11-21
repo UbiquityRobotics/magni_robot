@@ -3,6 +3,14 @@
 
   <!-- Arguments -->
   <xacro:arg name="use_sim" default="false"/>
+  <xacro:arg name="lidar_extrinsics_file" default=""/>
+  <xacro:arg name="camera_extrinsics_file" default=""/>
+  <xacro:arg name="gps_extrinsics_file" default=""/>
+  <xacro:arg name="camera_installed" default="true"/>
+  <xacro:arg name="gps_installed" default="none"/>
+  <xacro:property name="camera_installed" value="$(arg camera_installed)"/>
+  <xacro:property name="gps_installed" value="$(arg gps_installed)"/>
+  <xacro:property name="gps_extrinsics_file" value="$(arg gps_extrinsics_file)"/>
 
   <!-- Properties -->
   <xacro:property name="wheel_r" value="0.1" />
@@ -14,6 +22,9 @@
   <xacro:include filename="$(find magni_description)/urdf/inertial.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/ur_c1_lidar.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/sonar_hc-sr04.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/sensors/raspi_camera.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/sensors/gps_antenna.xacro" />
+  <xacro:include filename="$(find magni_description)/urdf/extrinsics/extrinsics_helpers.xacro" />
 
   <!-- Robot base_link -->
   <link name="base_link">
@@ -153,10 +164,31 @@
     </joint>
   </ros2_control>
 
-  <!-- Lidar Configuration for Midi (Top Plate) -->
-  <xacro:ur_c1_lidar name="laser" connected_to="base_link">
-    <origin xyz="-0.092 -0.066 0.23" rpy="0 0 0"/>
-  </xacro:ur_c1_lidar>
+  <!-- Lidar Configuration for Midi (Top Plate; overridden by lidar_extrinsics_file when set) -->
+  <xacro:ur_c1_lidar_with_extrinsics
+    extrinsics_file="$(arg lidar_extrinsics_file)"
+    default_xyz="-0.092 -0.066 0.23"
+    default_rpy="0 0 0"/>
+
+  <!-- Camera Configuration for Midi -->
+  <xacro:if value="${str(camera_installed).lower() in ['true', '1', 'yes']}">
+    <xacro:magni_camera_with_extrinsics
+      name="camera_link"
+      extrinsics_file="$(arg camera_extrinsics_file)"
+      default_xyz="0.20 0.0 0.35"
+      default_rpy="0.0 0.26 0.0"/>
+  </xacro:if>
+
+  <!-- Optional GNSS Antenna -->
+  <xacro:if value="${str(gps_installed).lower() not in ['none', 'false', ''] or gps_extrinsics_file != ''}">
+    <xacro:gps_antenna_with_extrinsics
+      name="gps"
+      parent="base_link"
+      extrinsics_file="${gps_extrinsics_file}"
+      default_xyz="-0.10 0.0 0.40"
+      default_rpy="0 0 0"
+      simulate="$(arg use_sim)"/>
+  </xacro:if>
 
   <!-- Sonars -->
   <xacro:sonar_hc-sr04 name="sonar_0" connected_to="base_link">
