@@ -1,0 +1,18 @@
+
+material MagniWorld/White
+{
+  technique
+  {
+    pass ambient
+    {
+      ambient 1 1 1 1
+    }
+
+    pass light
+    {
+      diffuse 1 1 1 1
+      specular 0.1 0.1 0.1 1
+      emissive 1.0 1.0 1.0 0.1
+    }
+  }
+}

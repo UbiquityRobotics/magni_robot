@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:macro name="ur_c1_lidar" params="name:='' connected_to:='' *origin">
+  <xacro:macro name="ur_c1_lidar" params="name:='' connected_to:='' visualize_mesh:=true *origin">
 
   <xacro:unless value="${connected_to == ''}">
     <joint name="${name}_joint" type="fixed">
@@ -12,12 +12,14 @@
   </xacro:unless>
 
   <link name="${name}">
-    <visual>
-      <origin xyz="0 0 -0.03" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="package://magni_description/meshes/sensors/ur_c1_lidar.dae" />
-      </geometry>
-    </visual>
+    <xacro:if value="${visualize_mesh}">
+      <visual>
+        <origin xyz="0 0 -0.03" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://magni_description/meshes/sensors/ur_c1_lidar.dae" />
+        </geometry>
+      </visual>
+    </xacro:if>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
@@ -28,8 +30,9 @@
 
 
   <gazebo reference="${name}">
-    <!--<sensor type="gpu_ray" name="${name}_sensor>-->
-    <sensor type="ray" name="${name}_sensor">
+    <sensor type="gpu_lidar" name="${name}_sensor">
+      <topic>scan</topic>
+      <gz_frame_id>${name}</gz_frame_id>
       <pose>0 0 0 0 0 0</pose>
       <visualize>false</visualize>
       <update_rate>20</update_rate>
@@ -57,11 +60,6 @@
           <stddev>0.01</stddev>
         </noise>
       </ray>
-      <!--<plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_gpu_laser.so">-->
-      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
-        <topicName>/scan</topicName>
-        <frameName>${name}</frameName>
-      </plugin>
     </sensor>
   </gazebo>
 

@@ -20,7 +20,7 @@ def generate_launch_description():
         executable='twist_stamper',
         parameters=[{'use_sim_time': use_sim_time}],
         remappings=[('/cmd_vel_in', '/cmd_vel_keyboard'),
-                    ('/cmd_vel_out', '/diff_cont/cmd_vel')]
+                    ('/cmd_vel_out', '/cmd_vel')]
     )
 
     return LaunchDescription([
