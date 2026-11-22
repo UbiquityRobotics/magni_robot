@@ -4,6 +4,9 @@ on:
   push:
     tags:
       - 'v*'
+      - 'beta*'
+    branches:
+      - jazzy-devel
   workflow_dispatch:
     inputs:
       tag_name:
@@ -22,6 +25,11 @@ jobs:
       tag: ${{ steps.vars.outputs.tag }}
       clean_version: ${{ steps.vars.outputs.clean_version }}
     steps:
+      - name: Checkout (tags give the next version for dev builds)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Compute Clean Version
         id: vars
         run: |
@@ -33,8 +41,20 @@ jobs:
             RAW_VERSION="${GITHUB_REF_NAME}"
           fi
 
-          CLEAN_VERSION=$(echo "${RAW_VERSION}" | sed -E 's/^[^0-9]*//')
-          [[ -z "${CLEAN_VERSION}" || "${RAW_VERSION}" == "latest" ]] && CLEAN_VERSION="0.6.1-latest"
+          NUM="" REST=""
+          if [[ "${RAW_VERSION}" =~ ^[^0-9]*([0-9]+(\.[0-9]+)*)(.*)$ && "${RAW_VERSION}" != latest ]]; then
+            NUM="${BASH_REMATCH[1]}" REST="${BASH_REMATCH[3]}"
+          fi
+          if [[ -n "${NUM}" && "${RAW_VERSION}" == *beta* ]]; then
+            B=""; [[ "${REST}" =~ ([0-9]+)$ ]] && B="${BASH_REMATCH[1]}"
+            CLEAN_VERSION="${NUM}~beta${B}-1"
+          elif [[ -n "${NUM}" && -z "${REST}" ]]; then
+            CLEAN_VERSION="${NUM}-1"
+          else
+            LAST=$(git -c safe.directory='*' tag -l | grep -vi beta | sed -nE 's/^v?([0-9]+(\.[0-9]+)+)$/\1/p' | sort -V | tail -n1)
+            LAST="${LAST:-0.0.0}"
+            CLEAN_VERSION="${LAST%.*}.$(( ${LAST##*.} + 1 ))~~dev$(date -u +%Y%m%d).${GITHUB_RUN_NUMBER:-0}-1"
+          fi
 
           echo "tag=${RAW_VERSION}" >> $GITHUB_OUTPUT
           echo "clean_version=${CLEAN_VERSION}" >> $GITHUB_OUTPUT
@@ -106,7 +126,17 @@ jobs:
           echo "=== Package Metadata ==="
           dpkg-deb -I "${PKG_NAME}"
 
+      - name: Upload Package Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ros-jazzy-magni-description-all
+          path: |
+            ros-jazzy-magni-description_*.deb
+            ros-jazzy-magni-description_*.deb.sha256
+          retention-days: 14
+
       - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/') || (github.event_name == 'workflow_dispatch' && inputs.tag_name != '' && inputs.tag_name != 'latest')
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.version.outputs.tag }}
@@ -116,3 +146,23 @@ jobs:
             ros-jazzy-magni-description_*.deb
             ros-jazzy-magni-description_*.deb.sha256
           generate_release_notes: true
+
+  publish-apt:
+    name: Publish to the apt repository (testing)
+    needs: [version, build-description]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ask UbiquityRobotics/ubiquity_apt to publish this run's packages
+        env:
+          GH_TOKEN: ${{ secrets.APT_REPO_DISPATCH_TOKEN }}
+        run: |
+          if [ -z "${GH_TOKEN}" ]; then
+            echo "::notice::APT_REPO_DISPATCH_TOKEN is not set, so the packages are not published to apt"
+            exit 0
+          fi
+          gh api repos/UbiquityRobotics/ubiquity_apt/dispatches \
+            -f event_type=publish \
+            -f "client_payload[repo]=${GITHUB_REPOSITORY}" \
+            -f "client_payload[run_id]=${GITHUB_RUN_ID}" \
+            -f "client_payload[distro]=jazzy"
+          echo "Requested publish of run ${GITHUB_RUN_ID}: https://github.com/UbiquityRobotics/ubiquity_apt/actions/workflows/publish.yml" >> "${GITHUB_STEP_SUMMARY}"
